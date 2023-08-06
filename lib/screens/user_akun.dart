@@ -58,6 +58,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
         company = getUser.company!;
         start_year = getUser.start_year!;
         print(getUser.id);
+        print(company);
       });
     });
     // _db.getToken().then((value) {
@@ -203,10 +204,12 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            EditProfile(name: fullname),),);
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditProfile(name: fullname),
+                                  ),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
@@ -709,6 +712,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                               ),
                               Expanded(
                                   child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     company,
@@ -733,6 +737,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                               ),
                               Expanded(
                                   child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     address,

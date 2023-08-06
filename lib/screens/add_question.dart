@@ -5,6 +5,9 @@ import 'package:powershare/screens/audiens_post.dart';
 import 'package:powershare/screens/ubah_sandi-2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../model/database.dart';
+import '../model/dbhelper.dart';
+
 class TambahPertanyaan extends StatefulWidget {
   final int initialIndex;
   const TambahPertanyaan({super.key, required this.initialIndex});
@@ -14,6 +17,8 @@ class TambahPertanyaan extends StatefulWidget {
 }
 
 class _TambahPertanyaanState extends State<TambahPertanyaan> {
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
   final List<Widget> _tabs = [
     const Tab(text: 'Tambahkan Pertanyaan'),
     const Tab(text: 'Buat kiriman Informasi'),
@@ -27,9 +32,9 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
     super.initState();
     tabIndex = widget.initialIndex;
     setState(() {
-      if(widget.initialIndex==0){
+      if (widget.initialIndex == 0) {
         isChecked = false;
-      }else{
+      } else {
         isChecked = true;
       }
     });
@@ -135,7 +140,12 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final _db = DBhelper();
+                  var data = await _db.getToken();
+                  print(data[0].token);
+                  Postings.share(title.text, description.text, data[0].token);
+                },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -154,6 +164,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
               children: [
                 SingleChildScrollView(
                     child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       decoration: const BoxDecoration(
@@ -288,22 +299,86 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 0),
-                        child: Column(
-                          children: [
-                            TextField(
-                              maxLines: null,
-                              decoration: InputDecoration(
-                                hintText:
-                                    'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                              ),
+                      margin: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 0,
+                        bottom: 0,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Judul Topik",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 15, right: 15, top: 0, bottom: 0),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: title,
+                            decoration: InputDecoration(
+                              hintText:
+                                  'Inputkan topik atau judul dari pertanyaan anda',
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 0,
+                        bottom: 0,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Deskripsi / Pertanyaan",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 15, right: 15, top: 0, bottom: 0),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: description,
+                            maxLines: null,
+                            decoration: InputDecoration(
+                              hintText:
+                                  'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )),
                 Container(

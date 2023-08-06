@@ -67,7 +67,17 @@ class AddCredential {
 }
 
 class GetUser {
-  String? id, username, email, fullname, nickname, level, gender,address_house,company,job_position,start_year;
+  String? id,
+      username,
+      email,
+      fullname,
+      nickname,
+      level,
+      gender,
+      address_house,
+      company,
+      job_position,
+      start_year;
   GetUser({
     this.id,
     this.username,
@@ -115,6 +125,45 @@ class GetUser {
     } else {
       print(response.statusCode);
       throw {print("gagal post")};
+    }
+  }
+}
+
+//POSTING
+class Postings {
+  String? token, title, description;
+  Postings({this.token, this.title, this.description});
+  // factory Postings.fromJson(Map<String, dynamic> json) {
+  //   return Postings(
+  //     title: json['title'].toString(),
+  //     description: json['description'].toString(),
+  //   );
+  // }
+  static Future<Postings?> share(
+      String title, String description, String token) async {
+    final baseUrl = 'http://direkrut.ptumdi.com/api/posting/store';
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+      body: {
+        "title": title,
+        "description": description,
+      },
+    );
+    if (response.statusCode == 200) {
+      // var body = json.decode(response.body);
+      // var status = response.statusCode;
+      print("berhasil");
+
+    } else {
+      // return null;
+      print(response.statusCode);
+
+      throw {print("Gagal posting")};
     }
   }
 }
