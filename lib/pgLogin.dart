@@ -237,7 +237,6 @@ class _LoginState extends State<Login> {
                           Container(
                             height: 10,
                           ),
-
                           Container(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -371,8 +370,10 @@ class _LoginState extends State<Login> {
                                 String plaintext2 = password_.text;
                                 String password = passwordController.text;
                                 String iterations = iterationenController.text;
+                                //username
                                 String output = aesCbcIterPbkdf2EncryptToBase64(
                                     password, iterations, plaintext);
+                                //password
                                 String output2 =
                                     aesCbcIterPbkdf2EncryptToBase64(
                                         password, iterations, plaintext2);

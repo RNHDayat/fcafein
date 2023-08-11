@@ -14,7 +14,8 @@ class LoginAuth {
     );
   }
   static Future<LoginAuth?> login(String username, String password) async {
-    final baseUrl = 'http://direkrut.ptumdi.com/api/login';
+    // final baseUrl = 'http://direkrut.ptumdi.com/api/login';
+    final baseUrl = 'http://10.0.2.2:8000/api/login';
     final response = await http.post(
       Uri.parse(baseUrl),
       body: {"username": username, "password": password, "login_type": "0"},
@@ -25,6 +26,53 @@ class LoginAuth {
     } else {
       // return null;
       throw {print("Login Eror")};
+    }
+  }
+}
+
+class CreateAccount {
+  String username, email, fullname, nickname, datebirth, phone, gender;
+  CreateAccount({
+    required this.username,
+    required this.email,
+    required this.fullname,
+    required this.nickname,
+    required this.datebirth,
+    required this.phone,
+    required this.gender,
+  });
+  factory CreateAccount.fromJson(Map<String, dynamic> json) {
+    return CreateAccount(
+      username: json['username'].toString(),
+      email: json['email'].toString(),
+      fullname: json['fullname'].toString(),
+      nickname: json['nickname'].toString(),
+      datebirth: json['datebirth'].toString(),
+      phone: json['phone'].toString(),
+      gender: json['gender'].toString(),
+    );
+  }
+  static Future<CreateAccount?> create(String username, email, fullname, nickname, datebirth, phone, gender) async {
+    final baseUrl = 'http://10.0.2.2/api/createAccount';
+    final response = await http.post(Uri.parse(baseUrl),
+        body: jsonEncode(
+          {
+            "username": username,
+            "email": email,
+            "fullname": fullname,
+            "nickname": nickname,
+            "datebirth": datebirth,
+            "phone": phone,
+            "gender": gender,
+          },
+        ));
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      print(body);
+      return CreateAccount.fromJson(body);
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
     }
   }
 }
@@ -158,7 +206,6 @@ class Postings {
       // var body = json.decode(response.body);
       // var status = response.statusCode;
       print("berhasil");
-
     } else {
       // return null;
       print(response.statusCode);
