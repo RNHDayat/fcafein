@@ -24,6 +24,8 @@ class LoginAuth {
       var body = json.decode(response.body);
       return LoginAuth.fromJson(body["data"]);
     } else {
+      var body = json.decode(response.body);
+      print(body);
       // return null;
       throw {print("Login Eror")};
     }
@@ -52,10 +54,11 @@ class CreateAccount {
       gender: json['gender'].toString(),
     );
   }
+
   static Future<CreateAccount?> create(String username, email, fullname, nickname, datebirth, phone, gender) async {
-    final baseUrl = 'http://10.0.2.2/api/createAccount';
+    final baseUrl = 'http://10.0.2.2:8000/api/createAccount';
     final response = await http.post(Uri.parse(baseUrl),
-        body: jsonEncode(
+        body:
           {
             "username": username,
             "email": email,
@@ -65,12 +68,14 @@ class CreateAccount {
             "phone": phone,
             "gender": gender,
           },
-        ));
+        );
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
       print(body);
       return CreateAccount.fromJson(body);
     } else {
+      var body = json.decode(response.body);
+      print(body);
       print(response.statusCode);
       throw {print("gagal post")};
     }
