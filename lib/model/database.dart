@@ -162,7 +162,7 @@ class GetUser {
   }
 
   static Future<GetUser> getUser(String token) async {
-    Uri url = Uri.parse("http://direkrut.ptumdi.com/api/profile");
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/profile");
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -194,7 +194,7 @@ class Postings {
   // }
   static Future<Postings?> share(
       String title, String description, String token) async {
-    final baseUrl = 'http://direkrut.ptumdi.com/api/posting/store';
+    final baseUrl = 'http://10.0.2.2:8000/api/posting/store';
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {
