@@ -259,13 +259,10 @@ class _ScreenRuangState extends State<ScreenRuang> {
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              child: const Text(
-                                "Ruang yang mungkin Anda suka",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16),
-                              ),
+                            Text(
+                              "Ruang yang mungkin Anda suka",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 16),
                             ),
                             const Spacer(),
                             TextButton(

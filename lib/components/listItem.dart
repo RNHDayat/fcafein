@@ -13,7 +13,7 @@ class listItem extends StatelessWidget {
     {
       "name": "Merakit Komputer",
       "description":
-          "Membahas seputar ilmu hobi, dan komponen-komponen dalam merakit sebuah PC dan Laptop",
+          "Membahas seputar ilmu hobi, dan komponen-komponen dalam merakit sebuah PC",
       "image": "https://via.placeholder.com/150"
     },
     {
