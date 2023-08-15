@@ -76,7 +76,8 @@ class _FollowingState extends State<Following> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => TambahPertanyaan(initialIndex: 0),
+                                builder: (context) =>
+                                    TambahPertanyaan(initialIndex: 0),
                               ),
                             );
                           },
@@ -111,7 +112,8 @@ class _FollowingState extends State<Following> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TambahPertanyaan(initialIndex: 0),
+                            builder: (context) =>
+                                TambahPertanyaan(initialIndex: 0),
                           ));
                         },
                         child: Container(
@@ -153,7 +155,8 @@ class _FollowingState extends State<Following> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TambahPertanyaan(initialIndex: 1),
+                            builder: (context) =>
+                                TambahPertanyaan(initialIndex: 1),
                           ));
                         },
                         child: Container(
@@ -469,7 +472,7 @@ class _FollowingState extends State<Following> {
                                                   decoration: BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
-                                                          width: 0.5,
+                                                          width: 0.2,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
@@ -490,7 +493,7 @@ class _FollowingState extends State<Following> {
                                                   decoration: BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
-                                                          width: 0.5,
+                                                          width: 0.2,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
@@ -510,7 +513,7 @@ class _FollowingState extends State<Following> {
                                                   decoration: BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
-                                                          width: 0.5,
+                                                          width: 0.7,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
@@ -530,7 +533,7 @@ class _FollowingState extends State<Following> {
                                                   decoration: BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
-                                                          width: 0.5,
+                                                          width: 1,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
