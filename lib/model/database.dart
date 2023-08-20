@@ -55,20 +55,21 @@ class CreateAccount {
     );
   }
 
-  static Future<CreateAccount?> create(String username, email, fullname, nickname, datebirth, phone, gender) async {
+  static Future<CreateAccount?> create(String username, email, fullname,
+      nickname, datebirth, phone, gender) async {
     final baseUrl = 'http://10.0.2.2:8000/api/createAccount';
-    final response = await http.post(Uri.parse(baseUrl),
-        body:
-          {
-            "username": username,
-            "email": email,
-            "fullname": fullname,
-            "nickname": nickname,
-            "datebirth": datebirth,
-            "phone": phone,
-            "gender": gender,
-          },
-        );
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      body: {
+        "username": username,
+        "email": email,
+        "fullname": fullname,
+        "nickname": nickname,
+        "datebirth": datebirth,
+        "phone": phone,
+        "gender": gender,
+      },
+    );
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
       print(body);
@@ -216,6 +217,100 @@ class Postings {
       print(response.statusCode);
 
       throw {print("Gagal posting")};
+    }
+  }
+}
+
+class Following {
+  String? following_id, follow_status;
+
+  Following({
+    this.following_id,
+    this.follow_status,
+  });
+
+  factory Following.FollowingResult(Map<String, dynamic> data) {
+    return Following(
+      following_id: data["following_id"].toString(),
+      follow_status: data["follow_status"].toString(),
+    );
+  }
+
+  static Future<Following> follow(
+      String token, String following_id, String follow_status) async {
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/follow");
+    var response = await http.post(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+      body: {
+        "following_id": following_id,
+        "follow_status": follow_status,
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      // return AddCredential.fromJson(body);
+      print(jsonData);
+      return Following.FollowingResult(jsonData["data"]);
+      // return body;
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
+    }
+  }
+}
+
+class Comment {
+  final id;
+  final id_user;
+  final nickname;
+  final title;
+  final description;
+  final company;
+  final image;
+
+  Comment({
+    this.id,
+    this.id_user,
+    this.nickname,
+    this.title,
+    this.description,
+    this.company,
+    this.image,
+  });
+
+  factory Comment.CommentResult(Map<String, dynamic> data) {
+    return Comment(
+      id: data['id'],
+      id_user: data['id_user'],
+      nickname: data['nickname'],
+      title: data['title'],
+      description: data['description'],
+      company: data['company'],
+      image: data['image'],
+    );
+  }
+
+  static Future<Comment> commentNested(String token) async {
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/home");
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      print(jsonData);
+      return jsonData['data'];
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
     }
   }
 }

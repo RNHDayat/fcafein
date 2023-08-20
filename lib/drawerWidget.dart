@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:powershare/comment.dart';
 import 'package:powershare/pgNewPassword.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
 import 'package:powershare/screens/user_akun.dart';
@@ -21,7 +22,13 @@ class DrawerWidget extends StatelessWidget {
               ListTile(
                 title: Text('Pesan'),
                 leading: Icon(Icons.chat),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CNested(),
+                      ));
+                },
               ),
               ListTile(
                 title: Text('Konten & Statistik Anda'),

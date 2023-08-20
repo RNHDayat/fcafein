@@ -7,6 +7,7 @@ import 'package:powershare/screens/add_question.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import 'model/database.dart';
 import 'model/dbhelper.dart';
 
 class Home extends StatefulWidget {
@@ -17,12 +18,30 @@ class Home extends StatefulWidget {
 }
 
 class Post {
-  final String title;
-  final String description;
-  Post(this.title, this.description);
+  final id;
+  final id_user;
+  final nickname;
+  final title;
+  final description;
+  final company;
+  final image;
+  final repliedData;
+  bool isFollow = false;
+  Post(
+    this.id,
+    this.id_user,
+    this.nickname,
+    this.title,
+    this.description,
+    this.company,
+    this.image,
+    this.repliedData,
+  );
 }
 
 class _HomeState extends State<Home> {
+  bool follow = false;
+  int following = 0;
   ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
   bool isExpanded = false;
@@ -36,6 +55,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    user();
     _scrollController.addListener(_scrollListener);
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -43,12 +63,12 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollController.dispose();
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   void _scrollListener() {
     if (_scrollController.offset >= 200) {
@@ -62,11 +82,30 @@ class _HomeState extends State<Home> {
     }
   }
 
+  GetUser getUser = GetUser();
+  // late int id;
+  String token = '';
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    setState(() {
+      token = data[0].token;
+    });
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     // id = getUser.id as int;
+    //     token = data[0].token;
+    //   });
+    // });
+  }
+
   Future<void> _fetchPage(int pageKey) async {
     try {
       final _db = DBhelper();
       var data = await _db.getToken();
-      print(data[0].token);
+      // print(data[0].token);
       final response = await get(
         Uri.parse(
             "http://10.0.2.2:8000/api/home?_page=$pageKey&_limit=$_numberOfPostsPerRequest"),
@@ -86,7 +125,6 @@ class _HomeState extends State<Home> {
       // Mendecode JSON menjadi List<Map<String, dynamic>>
       // List<Map<String, dynamic>> responses =
       //     List<Map<String, dynamic>>.from(responseList["data"]);
-
       // Mencetak hasil
       // responses.forEach((item) {
       //   print(
@@ -94,10 +132,19 @@ class _HomeState extends State<Home> {
       // });
       // print(responseList.length);
       List<Post> postList = result
-          .map((data) =>
-              Post(data['title'], data['description']))
+          .map((data) => Post(
+                data['id'],
+                data['id_user'],
+                data['nickname'],
+                data['title'],
+                data['description'],
+                data['company'],
+                data['image'],
+                data['repliedData'],
+              ))
           .toList();
       print(postList.length);
+      // print(id);
       final isLastPage = postList.length < _numberOfPostsPerRequest;
       if (isLastPage) {
         _pagingController.appendLastPage(postList);
@@ -109,6 +156,37 @@ class _HomeState extends State<Home> {
       print("error --> $e");
       _pagingController.error = e;
     }
+  }
+
+  final Map<int, bool> followStatus = {};
+  late int following_id;
+
+  void toggleFollow(int userId) {
+    setState(() {
+      followStatus[userId] = !(followStatus[userId] ?? false);
+      if (followStatus[userId] == true) {
+        following_id = 1;
+      } else {
+        following_id = 3;
+      }
+      print(followStatus);
+    });
+  }
+
+  final Map<int, bool> comment = {};
+  final commentVisible = <int, bool>{};
+  // late int following_id;
+
+  void toggleComment(int userId) {
+    setState(() {
+      comment[userId] = !(comment[userId] ?? false);
+      // if (followStatus[userId] == true) {
+      //   following_id = 1;
+      // } else {
+      //   following_id = 3;
+      // }
+      print(comment);
+    });
   }
 
   @override
@@ -301,9 +379,44 @@ class _HomeState extends State<Home> {
                                       Expanded(
                                         flex: 3,
                                         child: ListTile(
-                                          title: Text("Nur Rojabiyah"),
+                                          title: Row(
+                                            children: [
+                                              Text(item.nickname),
+                                              FollowButton(
+                                                  isFollowing: followStatus[
+                                                          item.id_user] ??
+                                                      false,
+                                                  onPressed: () {
+                                                    toggleFollow(item.id_user);
+                                                    Following.follow(
+                                                        token,
+                                                        item.id_user.toString(),
+                                                        following_id
+                                                            .toString());
+                                                  }),
+                                              // TextButton(
+                                              //   onPressed: () {
+                                              //     setState(() {
+                                              //       item.isFollow =
+                                              //           !item.isFollow;
+                                              //       print(index);
+                                              //       toggleFollow(item.id);
+                                              //     });
+                                              //   },
+                                              //   child: Text(
+                                              //     item.isFollow
+                                              //         ? 'mengikuti'
+                                              //         : 'ikuti',
+                                              //     style: TextStyle(
+                                              //         color: followStatus
+                                              //             ? Colors.grey
+                                              //             : Colors.blue),
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
                                           subtitle: Text(
-                                            "S1 di Teknik Fisika, Institut Teknologi Sepuluh Surabaya",
+                                            item.company,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -353,7 +466,7 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    item.title,
+                                    item.title == null ? "" : item.title,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -361,7 +474,9 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   ExpandableText(
-                                    item.description,
+                                    item.description == null
+                                        ? ""
+                                        : item.description,
                                     expandText: 'show more',
                                     collapseText: 'show less',
                                     maxLines: 3,
@@ -370,16 +485,17 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  //<-- SEE HERE
-                                  width: 5,
-                                ),
-                              ),
-                              child: Image.asset("assets/logo/logo.png"),
-                            ),
+                            // Container(
+                            //   width: double.infinity,
+                            //   // decoration: BoxDecoration(
+                            //   //   border: Border.all(
+                            //   //     //<-- SEE HERE
+                            //   //     width: 5,
+                            //   //   ),
+                            //   // ),
+                            //   child: Image.network("${item.image}",
+                            //       fit: BoxFit.cover),
+                            // ),
                             Container(
                               width: double.infinity,
                               // color: Colors.red,
@@ -418,16 +534,26 @@ class _HomeState extends State<Home> {
                                               ],
                                             ),
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.all(10),
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.chat_bubble),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text("345"),
-                                              ],
+                                          GestureDetector(
+                                            onTap: () {
+                                              print(item.id);
+                                              commentVisible[item.id] =
+                                                  !(commentVisible[item.id] ??
+                                                      true);
+                                              print('lohe:' +
+                                                  commentVisible.toString());
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.chat_bubble),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text("345"),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           Container(
@@ -655,11 +781,90 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         height: 3,
                       ),
+                      if (item.repliedData != null)
+                        for (var reply in item.repliedData)
+                          Visibility(
+                            visible: commentVisible[item.id] ?? true,
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                              color: Colors.grey[300],
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.grey[100],
+                                    ),
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 28,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Text(reply['description']),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                     ],
                   ),
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FollowButton extends StatelessWidget {
+  final bool isFollowing;
+  final VoidCallback onPressed;
+
+  FollowButton({required this.isFollowing, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        isFollowing ? 'mengikuti' : 'ikuti',
+        style: TextStyle(color: isFollowing ? Colors.grey : Colors.blue),
+      ),
+    );
+  }
+}
+
+class CommentButton extends StatelessWidget {
+  final bool isComment;
+  final VoidCallback onPressed;
+
+  CommentButton({required this.isComment, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Icon(Icons.chat_bubble),
+            SizedBox(
+              width: 5,
+            ),
+            Text("345"),
           ],
         ),
       ),
