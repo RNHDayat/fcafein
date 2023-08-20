@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/comment.dart';
 import 'package:powershare/pgNewPassword.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
+import 'package:powershare/screens/setting_akun.dart';
+import 'package:powershare/screens/setting_screen.dart';
 import 'package:powershare/screens/user_akun.dart';
 import 'package:powershare/splashScreen.dart';
 
@@ -66,9 +68,21 @@ class DrawerWidget extends StatelessWidget {
                           Container(
                             child: Row(
                               children: [
-                                Icon(Icons.settings),
-                                SizedBox(width: 5),
-                                Text("Setelan"),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => SettingScreen(),
+                                    ));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.settings),
+                                      SizedBox(width: 5),
+                                      Text("Setelan"),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
