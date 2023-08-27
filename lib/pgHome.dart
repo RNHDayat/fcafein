@@ -6,6 +6,7 @@ import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/screens/add_question.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'model/database.dart';
 import 'model/dbhelper.dart';
@@ -556,18 +557,39 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.all(10),
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.share),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text("120"),
-                                              ],
+                                          GestureDetector(
+                                            onTap: () async {
+                                              final urlPreview =
+                                                  'https://docs.google.com/spreadsheets/d/1FsG3d2vkTGiFbNP3LkjdAmBh66CcL40B3s-pupd1GQU/edit#gid=2068281591';
+
+                                              await Share.share(
+                                                  'Check out this great video\n\n$urlPreview');
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.share),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text("120"),
+                                                ],
+                                              ),
                                             ),
                                           ),
+                                          // Container(
+                                          //   padding: EdgeInsets.all(10),
+                                          //   child: Row(
+                                          //     children: [
+                                          //       Icon(Icons.share),
+                                          //       SizedBox(
+                                          //         width: 5,
+                                          //       ),
+                                          //       Text("120"),
+                                          //     ],
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),

@@ -15,7 +15,8 @@ class LoginAuth {
   }
   static Future<LoginAuth?> login(String username, String password) async {
     // final baseUrl = 'http://direkrut.ptumdi.com/api/login';
-    final baseUrl = 'http://10.0.2.2:8000/api/login';
+    // final baseUrl = 'http://10.0.2.2:8000/api/login';
+    final baseUrl = 'http://192.168.1.1:8000/api/login';
     final response = await http.post(
       Uri.parse(baseUrl),
       body: {"username": username, "password": password, "login_type": "0"},
