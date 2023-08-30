@@ -297,20 +297,193 @@ class Comment {
   }
 
   static Future<Comment> commentNested(String token) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/home");
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/store");
+    var response = await http.get(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      print('YESS');
+      return jsonData['data'];
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
+    }
+  }
+
+  static Future<Comment> postComment(String token, String id_postings,
+      String title, String description) async {
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/reply/store");
+    var response = await http.post(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+      body: {
+        "id_postings": id_postings,
+        "title": title,
+        "description": description,
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      print('YESS');
+      return jsonData['data'];
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
+    }
+  }
+}
+
+class Vote {
+  final id;
+  final userId;
+  final postingsId;
+  final voteStatus;
+
+  Vote({
+    required this.id,
+    required this.userId,
+    required this.postingsId,
+    required this.voteStatus,
+  });
+
+  factory Vote.fromJson(Map<String, dynamic> json) {
+    return Vote(
+      id: json['id'],
+      userId: json['id_user'],
+      postingsId: json['id_postings'],
+      voteStatus: json['vote_status'],
+    );
+  }
+  static Future<Vote> voting(
+      String token, int postingsId, int voteStatus) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/vote/store"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "id_postings": postingsId.toString(),
+      "vote_status": voteStatus.toString(),
+    });
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      return Vote.fromJson(jsonData['data']);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class Ilmu {
+  final id;
+  final codeIlmu;
+  final name;
+  final id_user_propose;
+
+  Ilmu({
+    required this.id,
+    required this.codeIlmu,
+    required this.name,
+    required this.id_user_propose,
+  });
+
+  factory Ilmu.fromJson(Map<String, dynamic> json) {
+    return Ilmu(
+      id: json['id'],
+      codeIlmu: json['codeIlmu'],
+      name: json['name'],
+      id_user_propose: json['id_user_propose'],
+    );
+  }
+  static Future<Ilmu> add(String token, String codeIlmu, String name) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/knowField/store"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "codeIlmu": codeIlmu,
+      "name": name,
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      print(response.statusCode);
+      print('L:');
+      print(jsonData);
+      return Ilmu.fromJson(jsonData['data']);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class PageIlmu {
+  final id;
+  final codeIlmu;
+  final name;
+  final id_user_propose;
+  final id_user_validator;
+  final created_at;
+  final updated_at;
+
+  PageIlmu({
+    required this.id,
+    required this.codeIlmu,
+    required this.name,
+    required this.id_user_propose,
+    required this.id_user_validator,
+    required this.created_at,
+    required this.updated_at,
+  });
+
+  factory PageIlmu.fromJson(Map<String, dynamic> json) {
+    return PageIlmu(
+      id: json['id'],
+      codeIlmu: json['codeIlmu'],
+      name: json['name'],
+      id_user_propose: json['id_user_propose'],
+      id_user_validator: json['id_user_validator'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
+  }
+  static Future<PageIlmu> get(
+      String token) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/knowField"); // Ganti dengan endpoint yang sesuai
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
       "login-type": "0",
     });
-    // print(jsonData["data"]["token"]);
-    if (response.statusCode == 200) {
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonData = json.decode(response.body);
+      print(response.statusCode);
+      print('niced');
       print(jsonData);
-      return jsonData['data'];
+      return PageIlmu.fromJson(jsonData['data']);
     } else {
       print(response.statusCode);
-      throw {print("gagal post")};
+      throw Exception('Failed to update or create vote');
     }
   }
 }

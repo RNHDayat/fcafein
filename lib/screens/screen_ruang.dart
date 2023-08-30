@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:powershare/Answer/pgUserSpace.dart';
+import 'package:powershare/add_ilmu.dart';
 import 'package:powershare/components/listItem.dart';
 import 'package:powershare/components/searchdelegate.dart';
+import 'package:powershare/model/database.dart';
+import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +16,21 @@ class ScreenRuang extends StatefulWidget {
 }
 
 class _ScreenRuangState extends State<ScreenRuang> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getIlmu();
+  }
+
+  getIlmu() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    PageIlmu.get(data[0].token).then((value) {
+      print(value);
+    });
+  }
+
   final scrollTemukan = GlobalKey();
   Future scrollToIndex() async {
     final context = scrollTemukan.currentContext!;
@@ -171,7 +189,8 @@ class _ScreenRuangState extends State<ScreenRuang> {
                 child: Row(
                   children: [
                     OutlinedButton.icon(
-                      onPressed: () => {},
+                      onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Add_ilmu())),
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.blue),
                         shape: RoundedRectangleBorder(

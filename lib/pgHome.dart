@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:powershare/bottomNavBar.dart';
+import 'package:powershare/pgDetailPosting.dart';
 import 'package:powershare/screens/add_question.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -20,6 +21,7 @@ class Home extends StatefulWidget {
 class Post {
   final id;
   final id_user;
+  final id_postings;
   final nickname;
   final title;
   final description;
@@ -30,6 +32,7 @@ class Post {
   Post(
     this.id,
     this.id_user,
+    this.id_postings,
     this.nickname,
     this.title,
     this.description,
@@ -121,20 +124,11 @@ class _HomeState extends State<Home> {
       // print(mapEntries[1][0]);
       List result = mapEntries.firstWhere((entry) => entry.key == 'data').value;
       print(result);
-      // print(responseList);
-      // Mendecode JSON menjadi List<Map<String, dynamic>>
-      // List<Map<String, dynamic>> responses =
-      //     List<Map<String, dynamic>>.from(responseList["data"]);
-      // Mencetak hasil
-      // responses.forEach((item) {
-      //   print(
-      //       'title: ${item['title']}, description: ${item['description']}');
-      // });
-      // print(responseList.length);
       List<Post> postList = result
           .map((data) => Post(
                 data['id'],
                 data['id_user'],
+                data['id_postings'],
                 data['nickname'],
                 data['title'],
                 data['description'],
@@ -187,6 +181,26 @@ class _HomeState extends State<Home> {
       // }
       print(comment);
     });
+  }
+
+  int selectedVote = 0;
+  int selectedIndex = 0;
+  updateVote(int id_posting, int vote) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    setState(() {
+      selectedVote = vote;
+    });
+
+    try {
+      Vote.voting(
+          data[0].token, id_posting, vote); // Ganti dengan data yang sesuai
+    } catch (error) {
+      setState(() {
+        selectedVote = 0; // Reset selectedVote jika ada kesalahan
+      });
+      print('Error: $error');
+    }
   }
 
   @override
@@ -455,34 +469,58 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(
-                                15 * fem,
-                                10 * fem,
-                                15 * fem,
-                                15 * fem,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.title == null ? "" : item.title,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPosting(
+                                          id: item.id_postings,
+                                          title: item.title == null
+                                              ? ""
+                                              : item.title,
+                                          nickname: item.nickname,
+                                          company: item.company,
+                                          description: item.description == null
+                                              ? ''
+                                              : item.description,
+                                          image: item.image == null
+                                              ? ""
+                                              : item.image),
+                                    ));
+                                print(item.id);
+                                print(item.id_user);
+                                print(item.id_postings);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                  15 * fem,
+                                  10 * fem,
+                                  15 * fem,
+                                  15 * fem,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title == null ? "" : item.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  ExpandableText(
-                                    item.description == null
-                                        ? ""
-                                        : item.description,
-                                    expandText: 'show more',
-                                    collapseText: 'show less',
-                                    maxLines: 3,
-                                    linkColor: Colors.blue,
-                                  ),
-                                ],
+                                    ExpandableText(
+                                      item.description == null
+                                          ? ""
+                                          : item.description,
+                                      expandText: 'show more',
+                                      collapseText: 'show less',
+                                      maxLines: 3,
+                                      linkColor: Colors.blue,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             // Container(
@@ -518,7 +556,33 @@ class _HomeState extends State<Home> {
                                             ),
                                             child: Row(
                                               children: [
-                                                Icon(Icons.thumb_up),
+                                                InkWell(
+                                                  child: Icon(
+                                                    Icons.thumb_up,
+                                                    color: selectedIndex ==
+                                                                index &&
+                                                            selectedVote == 1
+                                                        ? Colors.blue
+                                                        : Colors.grey,
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (selectedVote == 1) {
+                                                        selectedVote = 0;
+                                                        updateVote(
+                                                            item.id_postings,
+                                                            selectedVote);
+                                                      } else {
+                                                        selectedVote = 1;
+                                                        print(item.id_postings
+                                                            .runtimeType);
+                                                        updateVote(
+                                                            item.id_postings,
+                                                            selectedVote);
+                                                      }
+                                                    });
+                                                  },
+                                                ),
                                                 SizedBox(
                                                   width: 5,
                                                 ),
@@ -530,7 +594,31 @@ class _HomeState extends State<Home> {
                                                     thickness: 1,
                                                   ),
                                                 ),
-                                                Icon(Icons.thumb_down),
+                                                InkWell(
+                                                  child: Icon(
+                                                    Icons.thumb_down,
+                                                    color: selectedIndex ==
+                                                                index &&
+                                                            selectedVote == 2
+                                                        ? Colors.blue
+                                                        : Colors.grey,
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (selectedVote == 2) {
+                                                        selectedVote = 0;
+                                                        updateVote(
+                                                            item.id_postings,
+                                                            selectedVote);
+                                                      } else {
+                                                        selectedVote = 2;
+                                                        updateVote(
+                                                            item.id_postings,
+                                                            selectedVote);
+                                                      }
+                                                    });
+                                                  },
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -809,7 +897,7 @@ class _HomeState extends State<Home> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(25),
                                       ),
-                                      child: Text(reply['description']),
+                                      child: Text(reply['title']),
                                     ),
                                   ),
                                 ],
