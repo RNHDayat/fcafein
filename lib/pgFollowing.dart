@@ -3,6 +3,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:powershare/Answer/pgMessage.dart';
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/screens/add_question.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Following extends StatefulWidget {
   const Following({super.key});
@@ -405,8 +406,11 @@ class _FollowingState extends State<Following> {
                                         ),
                                       ),
                                       GestureDetector(
-                                        onTap: () {
-                                          showDataAlert();
+                                        onTap: () async {
+                                          final urlPreview = 'www.flutter.dev';
+
+                                          await Share.share(
+                                              'Check out this great video\n\n$urlPreview');
                                         },
                                         child: Container(
                                           child: Icon(Icons.share),
