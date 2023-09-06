@@ -17,7 +17,7 @@ class _AudiensRuangState extends State<AudiensRuang> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -46,11 +46,11 @@ class _AudiensRuangState extends State<AudiensRuang> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2, // Width of the bottom border
-                    color: const Color.fromRGBO(217, 217, 217,
+                    color: Color.fromRGBO(217, 217, 217,
                         100), // Color of the bottom border for active tab
                   ),
                 ),
@@ -65,7 +65,7 @@ class _AudiensRuangState extends State<AudiensRuang> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
                         hintText: 'pilih suatu ruang',
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 7, horizontal: 15),
@@ -76,11 +76,11 @@ class _AudiensRuangState extends State<AudiensRuang> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2, // Width of the bottom border
-                    color: const Color.fromRGBO(217, 217, 217,
+                    color: Color.fromRGBO(217, 217, 217,
                         100), // Color of the bottom border for active tab
                   ),
                 ),
@@ -99,7 +99,7 @@ class _AudiensRuangState extends State<AudiensRuang> {
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.blur_circular_outlined,
                           color: Colors.blue,
                         ),
@@ -128,11 +128,11 @@ class _AudiensRuangState extends State<AudiensRuang> {
               ),
             ),
             Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       width: 2, // Width of the bottom border
-                      color: const Color.fromRGBO(217, 217, 217,
+                      color: Color.fromRGBO(217, 217, 217,
                           100), // Color of the bottom border for active tab
                     ),
                   ),
@@ -154,11 +154,11 @@ class _AudiensRuangState extends State<AudiensRuang> {
                   ),
                 )),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2, // Width of the bottom border
-                    color: const Color.fromRGBO(217, 217, 217,
+                    color: Color.fromRGBO(217, 217, 217,
                         100), // Color of the bottom border for active tab
                   ),
                 ),
@@ -177,7 +177,7 @@ class _AudiensRuangState extends State<AudiensRuang> {
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.account_circle,
                           color: Colors.grey,
                         ),

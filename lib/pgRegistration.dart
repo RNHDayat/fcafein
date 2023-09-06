@@ -60,7 +60,7 @@ class _RegistrationState extends State<Registration> {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 100),
+              margin: const EdgeInsets.only(top: 100),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Image.asset("assets/logo/logo.png",
@@ -74,7 +74,7 @@ class _RegistrationState extends State<Registration> {
                 maxChildSize: 0.8,
                 builder: (BuildContext c, s) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -84,7 +84,7 @@ class _RegistrationState extends State<Registration> {
                         ),
                       ],
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(40.0),
                         topLeft: Radius.circular(25),
                       ),
@@ -93,16 +93,16 @@ class _RegistrationState extends State<Registration> {
                     child: Form(
                       key: _formKey,
                       child: ListView(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         controller: s,
                         children: [
                           // Center(child: Image.asset("storage/icon_minimize.png")),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Text(
+                            child: const Text(
                               "Buat Akun",
                               style: TextStyle(
                                   fontSize: 24,
@@ -113,19 +113,19 @@ class _RegistrationState extends State<Registration> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Text(
+                            child: const Text(
                               "Silahkan masukkan identitas anda",
                               style: TextStyle(fontSize: 20),
                               textAlign: TextAlign.start,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller: username,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Username",
                               labelText: "Username",
                               labelStyle: TextStyle(color: Colors.black),
@@ -140,13 +140,13 @@ class _RegistrationState extends State<Registration> {
                               // ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller: email,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Alamat Email",
                               labelText: "Alamat Email",
                               labelStyle: TextStyle(color: Colors.black),
@@ -161,13 +161,13 @@ class _RegistrationState extends State<Registration> {
                               // ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller: fullname,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Nama Lengkap",
                               labelText: "Nama Lengkap",
                               labelStyle: TextStyle(color: Colors.black),
@@ -182,13 +182,13 @@ class _RegistrationState extends State<Registration> {
                               // ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller: nickname,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Nama Panggilan",
                               labelText: "Nama Panggilan",
                               labelStyle: TextStyle(color: Colors.black),
@@ -203,13 +203,13 @@ class _RegistrationState extends State<Registration> {
                               // ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller:
                                 datebirth, //editing controller of this TextFormField
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 suffixIcon: Icon(
                                     Icons.calendar_today), //icon of text field
                                 labelText: "Tanggal Lahir" //label text of field
@@ -242,14 +242,14 @@ class _RegistrationState extends State<Registration> {
                               }
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             keyboardType: TextInputType.phone,
                             controller: phone,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Nomor Telepon",
                               labelText: "Nomor Telepon",
                               labelStyle: TextStyle(color: Colors.black),
@@ -264,11 +264,11 @@ class _RegistrationState extends State<Registration> {
                               // ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Jenis Kelamin',
                             ),
                             value: selectedGender,
@@ -292,7 +292,7 @@ class _RegistrationState extends State<Registration> {
                               });
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           // TextFormField(
@@ -379,7 +379,7 @@ class _RegistrationState extends State<Registration> {
                           //   ),
                           // ),
                           //
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextButton(
@@ -405,21 +405,21 @@ class _RegistrationState extends State<Registration> {
                               }
                             },
                             child: Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               // width: MediaQuery.of(context).size.width,
                               // height: MediaQuery.of(context).size.height * 0.05,
                               decoration: BoxDecoration(
-                                color: Color(0xffd9d9d9),
+                                color: const Color(0xffd9d9d9),
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
-                                  BoxShadow(
+                                  const BoxShadow(
                                     color: Color(0x3f000000),
                                     blurRadius: 3,
                                     offset: Offset(0, 3), // Shadow position
                                   ),
                                 ],
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text("Buat",
                                     style: TextStyle(
                                       fontSize: 18,
@@ -429,13 +429,13 @@ class _RegistrationState extends State<Registration> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Sudah memiliki akun? ",
                               ),
                               InkWell(
@@ -443,9 +443,9 @@ class _RegistrationState extends State<Registration> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (BuildContext) => Login()));
+                                          builder: (BuildContext) => const Login()));
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Masuk Disini',
                                   style: TextStyle(
                                     color: Colors.black,

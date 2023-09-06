@@ -96,13 +96,7 @@ class _HomeState extends State<Home> {
     setState(() {
       token = data[0].token;
     });
-    // GetUser.getUser(data[0].token).then((value) {
-    //   setState(() {
-    //     getUser = value;
-    //     // id = getUser.id as int;
-    //     token = data[0].token;
-    //   });
-    // });
+
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -220,7 +214,7 @@ class _HomeState extends State<Home> {
               padding:
                   EdgeInsets.fromLTRB(15 * fem, 10 * fem, 15 * fem, 15 * fem),
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xffffffff),
               ),
               // padding: EdgeInsets.all(10),
@@ -231,17 +225,17 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          borderRadius: const BorderRadius.all(Radius.circular(25)),
                           color: Colors.grey[200],
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.person,
                           size: 24,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -250,7 +244,7 @@ class _HomeState extends State<Home> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  TambahPertanyaan(initialIndex: 0),
+                                  const TambahPertanyaan(initialIndex: 0),
                             ));
                           },
                           style: ElevatedButton.styleFrom(
@@ -263,7 +257,7 @@ class _HomeState extends State<Home> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.all(5.0),
-                            child: Text(
+                            child: const Text(
                               'Apa yang ingin Anda tanyakan atau bagikan?',
                               style: TextStyle(
                                 fontSize: 12,
@@ -275,7 +269,7 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -285,16 +279,16 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                TambahPertanyaan(initialIndex: 0),
+                                const TambahPertanyaan(initialIndex: 0),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               // ignore: prefer_const_constructors
                               Icon(Icons.question_mark_rounded),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text(
                                   "Tanya",
                                 ),
@@ -307,15 +301,15 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
-                            builder: (context) => BottomNavBar(currentIndex: 2),
+                            builder: (context) => const BottomNavBar(currentIndex: 2),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.question_answer),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text(
                                   "Jawab",
                                 ),
@@ -328,15 +322,15 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                TambahPertanyaan(initialIndex: 1),
+                                const TambahPertanyaan(initialIndex: 1),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.edit),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text("Kiriman"),
                               ),
                             ],
@@ -348,22 +342,23 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             RefreshIndicator(
               onRefresh: () => Future.sync(() => _pagingController.refresh()),
               child: PagedListView<int, Post>(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 pagingController: _pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Post>(
                   itemBuilder: (context, item, index) => Column(
                     children: [
+                      
                       Container(
                         color: Colors.white,
                         width: double.infinity,
-                        padding: EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -380,13 +375,13 @@ class _HomeState extends State<Home> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(8)),
                                           color: Colors.grey[200],
                                         ),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.person,
                                           size: 28,
                                         ),
@@ -436,7 +431,7 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                       ),
-                                      Expanded(
+                                      const Expanded(
                                         // height: MediaQuery.of(context).size.height / 25,
                                         // height:43 * fem,
                                         // color: Colors.blue,
@@ -459,7 +454,7 @@ class _HomeState extends State<Home> {
                             ),
                             Container(
                               color: Colors.white,
-                              child: Row(
+                              child: const Row(
                                 children: <Widget>[
                                   Expanded(
                                     child: Divider(
@@ -505,7 +500,7 @@ class _HomeState extends State<Home> {
                                   children: [
                                     Text(
                                       item.title == null ? "" : item.title,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
@@ -538,7 +533,7 @@ class _HomeState extends State<Home> {
                             Container(
                               width: double.infinity,
                               // color: Colors.red,
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: IntrinsicHeight(
                                 child: Row(
                                   mainAxisAlignment:
@@ -548,10 +543,10 @@ class _HomeState extends State<Home> {
                                       child: Row(
                                         children: [
                                           Container(
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                               color: Colors.grey[300],
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius: const BorderRadius.all(
                                                 Radius.circular(50),
                                               ),
                                             ),
@@ -584,13 +579,13 @@ class _HomeState extends State<Home> {
                                                     });
                                                   },
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 5,
                                                 ),
-                                                Text("12,5rb"),
+                                                const Text("12,5rb"),
                                                 Container(
                                                   height: 20,
-                                                  child: VerticalDivider(
+                                                  child: const VerticalDivider(
                                                     color: Colors.black,
                                                     thickness: 1,
                                                   ),
@@ -633,8 +628,8 @@ class _HomeState extends State<Home> {
                                                   commentVisible.toString());
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              child: Row(
+                                              padding: const EdgeInsets.all(10),
+                                              child: const Row(
                                                 children: [
                                                   Icon(Icons.chat_bubble),
                                                   SizedBox(
@@ -647,15 +642,15 @@ class _HomeState extends State<Home> {
                                           ),
                                           GestureDetector(
                                             onTap: () async {
-                                              final urlPreview =
+                                              const urlPreview =
                                                   'https://docs.google.com/spreadsheets/d/1FsG3d2vkTGiFbNP3LkjdAmBh66CcL40B3s-pupd1GQU/edit#gid=2068281591';
 
                                               await Share.share(
                                                   'Check out this great video\n\n$urlPreview');
                                             },
                                             child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              child: Row(
+                                              padding: const EdgeInsets.all(10),
+                                              child: const Row(
                                                 children: [
                                                   Icon(Icons.share),
                                                   SizedBox(
@@ -715,7 +710,7 @@ class _HomeState extends State<Home> {
                                                               color: Colors
                                                                   .red[900]),
                                                         ),
-                                                        Row(
+                                                        const Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
@@ -742,7 +737,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -750,7 +745,7 @@ class _HomeState extends State<Home> {
                                                                   Colors.grey),
                                                         ),
                                                       ),
-                                                      child: Center(
+                                                      child: const Center(
                                                         child: Text(
                                                             "Bagikan melalui.."),
                                                       ),
@@ -766,7 +761,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -774,7 +769,7 @@ class _HomeState extends State<Home> {
                                                                   Colors.grey),
                                                         ),
                                                       ),
-                                                      child: Center(
+                                                      child: const Center(
                                                         child: Text(
                                                             "Tidak tertarik dengan ini"),
                                                       ),
@@ -790,7 +785,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -798,7 +793,7 @@ class _HomeState extends State<Home> {
                                                                   Colors.grey),
                                                         ),
                                                       ),
-                                                      child: Center(
+                                                      child: const Center(
                                                           child:
                                                               Text("Simpan")),
                                                     ),
@@ -813,7 +808,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -821,7 +816,7 @@ class _HomeState extends State<Home> {
                                                                   Colors.grey),
                                                         ),
                                                       ),
-                                                      child: Center(
+                                                      child: const Center(
                                                           child: Text(
                                                               "Dorong turun pertamyaan")),
                                                     ),
@@ -836,7 +831,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -844,7 +839,7 @@ class _HomeState extends State<Home> {
                                                                   Colors.grey),
                                                         ),
                                                       ),
-                                                      child: Center(
+                                                      child: const Center(
                                                           child: Text("Log")),
                                                     ),
                                                   ),
@@ -858,7 +853,7 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -879,7 +874,7 @@ class _HomeState extends State<Home> {
                                               );
                                             });
                                       },
-                                      child: Icon(Icons.more_horiz),
+                                      child: const Icon(Icons.more_horiz),
                                     ),
                                   ],
                                 ),
@@ -888,7 +883,7 @@ class _HomeState extends State<Home> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       if (item.repliedData != null)
@@ -896,25 +891,25 @@ class _HomeState extends State<Home> {
                           Visibility(
                             visible: commentVisible[item.id] ?? true,
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                               color: Colors.grey[300],
                               child: Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.grey[100],
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.person,
                                       size: 28,
                                     ),
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(25),
@@ -967,8 +962,8 @@ class CommentButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
+        padding: const EdgeInsets.all(10),
+        child: const Row(
           children: [
             Icon(Icons.chat_bubble),
             SizedBox(

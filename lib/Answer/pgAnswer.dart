@@ -39,10 +39,10 @@ class _AnswerState extends State<Answer> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Container(
-                    child: TabBar(
+                    child: const TabBar(
                       labelColor: Colors.red,
                       unselectedLabelColor: Colors.black,
-                      indicator: const CustomTabIndicator(color: Colors.red),
+                      indicator: CustomTabIndicator(color: Colors.red),
                       tabs: [
                         Tab(text: 'Untuk Anda'),
                         Tab(text: 'Permintaan'),
@@ -52,7 +52,7 @@ class _AnswerState extends State<Answer> {
                   ),
                   Container(
                     height: 400, //height of TabBarView
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         top: BorderSide(color: Colors.grey, width: 0.5),
                       ),
@@ -64,8 +64,8 @@ class _AnswerState extends State<Answer> {
                             children: [
                               Container(
                                 // color: Colors.amber,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
@@ -76,29 +76,29 @@ class _AnswerState extends State<Answer> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5)),
                                         color: Color.fromARGB(255, 182, 12, 0),
                                       ),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.star,
                                         size: 20,
                                         color: Colors.white,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
-                                    Text("Pertanyaan untuk anda"),
+                                    const Text("Pertanyaan untuk anda"),
                                   ],
                                 ),
                               ),
                               Container(
                                 // color: Colors.amber,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
@@ -119,10 +119,10 @@ class _AnswerState extends State<Answer> {
                                               Navigator.of(context)
                                                   .push(MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Question(),
+                                                    const Question(),
                                               ));
                                             },
-                                            child: Text(
+                                            child: const Text(
                                               "Apa arti kebahagiaan dan kesuksesan bagimu?",
                                               style: TextStyle(
                                                 fontSize: 16,
@@ -131,7 +131,7 @@ class _AnswerState extends State<Answer> {
                                             ),
                                           ),
                                         ),
-                                        Column(
+                                        const Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
@@ -149,7 +149,7 @@ class _AnswerState extends State<Answer> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     IntrinsicHeight(
@@ -164,7 +164,7 @@ class _AnswerState extends State<Answer> {
                                               fontSize: 10,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           Container(
@@ -175,7 +175,7 @@ class _AnswerState extends State<Answer> {
                                               color: Colors.grey[400],
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           Text(
@@ -207,21 +207,21 @@ class _AnswerState extends State<Answer> {
                                                           .push(
                                                               MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Question(),
+                                                            const Question(),
                                                       ));
                                                     },
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.all(5),
+                                                          const EdgeInsets.all(5),
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color: Colors.grey),
                                                         borderRadius:
-                                                            BorderRadius.all(
+                                                            const BorderRadius.all(
                                                           Radius.circular(50),
                                                         ),
                                                       ),
-                                                      child: Row(
+                                                      child: const Row(
                                                         children: [
                                                           Icon(Icons.draw),
                                                           SizedBox(
@@ -240,7 +240,7 @@ class _AnswerState extends State<Answer> {
                                                     },
                                                     child: Container(
                                                       padding:
-                                                          EdgeInsets.all(10),
+                                                          const EdgeInsets.all(10),
                                                       child: Row(
                                                         children: [
                                                           Icon(
@@ -249,7 +249,7 @@ class _AnswerState extends State<Answer> {
                                                                 ? Colors.blue
                                                                 : Colors.grey,
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 5,
                                                           ),
                                                           Text(
@@ -260,7 +260,7 @@ class _AnswerState extends State<Answer> {
                                                                   : Colors.grey,
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 3,
                                                           ),
                                                           Container(
@@ -269,14 +269,14 @@ class _AnswerState extends State<Answer> {
                                                                         .all(
                                                                     1.0), //I used some padding without fixed width and height
                                                             decoration:
-                                                                new BoxDecoration(
+                                                                const BoxDecoration(
                                                               shape: BoxShape
                                                                   .circle,
                                                               color:
                                                                   Colors.black,
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             width: 3,
                                                           ),
                                                           Text(
@@ -296,8 +296,8 @@ class _AnswerState extends State<Answer> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Row(
+                                                    padding: const EdgeInsets.all(10),
+                                                    child: const Row(
                                                       children: [
                                                         Icon(Icons.edit_off),
                                                         SizedBox(
@@ -349,7 +349,7 @@ class _AnswerState extends State<Answer> {
                                                                         color: Colors
                                                                             .red[900]),
                                                                   ),
-                                                                  Row(
+                                                                  const Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .center,
@@ -379,7 +379,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -389,7 +389,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                   child: Text(
                                                                       "Tambahkan komentar"),
                                                                 ),
@@ -406,7 +406,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -416,7 +416,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                   child: Text(
                                                                       "Bagikan"),
                                                                 ),
@@ -433,7 +433,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -443,7 +443,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                     child: Text(
                                                                         "Jawab nanti")),
                                                               ),
@@ -459,7 +459,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -469,7 +469,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                     child: Text(
                                                                         "Beritahu saya tentang editan")),
                                                               ),
@@ -485,7 +485,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -495,7 +495,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                     child: Text(
                                                                         "Dorong turun pertamyaan")),
                                                               ),
@@ -511,7 +511,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -521,7 +521,7 @@ class _AnswerState extends State<Answer> {
                                                                             .grey),
                                                                   ),
                                                                 ),
-                                                                child: Center(
+                                                                child: const Center(
                                                                     child: Text(
                                                                         "Lihat rincian pertanyaan")),
                                                               ),
@@ -537,7 +537,7 @@ class _AnswerState extends State<Answer> {
                                                                     .size
                                                                     .width,
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   border:
                                                                       Border(
                                                                     top: BorderSide(
@@ -562,7 +562,7 @@ class _AnswerState extends State<Answer> {
                                                         );
                                                       });
                                                 },
-                                                child: Icon(Icons.more_horiz)),
+                                                child: const Icon(Icons.more_horiz)),
                                           ],
                                         ),
                                       ),
@@ -572,8 +572,8 @@ class _AnswerState extends State<Answer> {
                               ),
                               Container(
                                 // color: Colors.amber,
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Colors.grey,
@@ -583,7 +583,7 @@ class _AnswerState extends State<Answer> {
                                 ),
                                 child: Column(
                                   children: [
-                                    Row(
+                                    const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
@@ -615,7 +615,7 @@ class _AnswerState extends State<Answer> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     IntrinsicHeight(
@@ -630,7 +630,7 @@ class _AnswerState extends State<Answer> {
                                               fontSize: 10,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           Container(
@@ -641,7 +641,7 @@ class _AnswerState extends State<Answer> {
                                               color: Colors.grey[400],
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
                                           Text(
@@ -668,17 +668,17 @@ class _AnswerState extends State<Answer> {
                                               child: Row(
                                                 children: [
                                                   Container(
-                                                    padding: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets.all(5),
                                                     decoration: BoxDecoration(
                                                       // color: Colors.grey[400],
                                                       border: Border.all(
                                                           color: Colors.grey),
                                                       borderRadius:
-                                                          BorderRadius.all(
+                                                          const BorderRadius.all(
                                                         Radius.circular(50),
                                                       ),
                                                     ),
-                                                    child: Row(
+                                                    child: const Row(
                                                       children: [
                                                         Icon(Icons.draw),
                                                         SizedBox(
@@ -689,15 +689,15 @@ class _AnswerState extends State<Answer> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding: const EdgeInsets.all(10),
                                                     child: Row(
                                                       children: [
-                                                        Icon(Icons.rss_feed),
-                                                        SizedBox(
+                                                        const Icon(Icons.rss_feed),
+                                                        const SizedBox(
                                                           width: 5,
                                                         ),
-                                                        Text("Ikuti"),
-                                                        SizedBox(
+                                                        const Text("Ikuti"),
+                                                        const SizedBox(
                                                           width: 3,
                                                         ),
                                                         Container(
@@ -705,22 +705,22 @@ class _AnswerState extends State<Answer> {
                                                                   .all(
                                                               1.0), //I used some padding without fixed width and height
                                                           decoration:
-                                                              new BoxDecoration(
+                                                              const BoxDecoration(
                                                             shape:
                                                                 BoxShape.circle,
                                                             color: Colors.black,
                                                           ),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           width: 3,
                                                         ),
-                                                        Text("1"),
+                                                        const Text("1"),
                                                       ],
                                                     ),
                                                   ),
                                                   Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Row(
+                                                    padding: const EdgeInsets.all(10),
+                                                    child: const Row(
                                                       children: [
                                                         Icon(Icons.edit_off),
                                                         SizedBox(
@@ -733,7 +733,7 @@ class _AnswerState extends State<Answer> {
                                                 ],
                                               ),
                                             ),
-                                            Icon(Icons.more_horiz),
+                                            const Icon(Icons.more_horiz),
                                           ],
                                         ),
                                       ),
@@ -747,27 +747,27 @@ class _AnswerState extends State<Answer> {
 
                         //Draf
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Container(
                                 child: Image.asset("assets/draft.png"),
                               ),
-                              Text(
+                              const Text(
                                 "Permintaan Jawaban",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
-                              Text(
+                              const Text(
                                 "Minta jawaban dari pengguna lain dengan mengklik Mintajawaban di pertanyaan. Permintaan yang Anda terima akan ditampilkan disini.",
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               GestureDetector(
@@ -775,19 +775,19 @@ class _AnswerState extends State<Answer> {
                                   Navigator.of(context)
                                       .pushReplacement(MaterialPageRoute(
                                     builder: (context) =>
-                                        BottomNavBar(currentIndex: 2),
+                                        const BottomNavBar(currentIndex: 2),
                                   ));
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(50),
                                     ),
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       "Lihat pertanyaan untuk anda",
                                       style: TextStyle(color: Colors.white),
@@ -800,27 +800,27 @@ class _AnswerState extends State<Answer> {
                         ),
                         //Permintaan
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Container(
                                 child: Image.asset("assets/draft.png"),
                               ),
-                              Text(
+                              const Text(
                                 "Tidak ada draf jawaban",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
-                              Text(
+                              const Text(
                                 "Mulailah menuliskan jawaban dengan mencari pertanyaan untuk dijawab pada bagian Pertanyaan untuk Anda.",
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               GestureDetector(
@@ -828,19 +828,19 @@ class _AnswerState extends State<Answer> {
                                   Navigator.of(context)
                                       .pushReplacement(MaterialPageRoute(
                                     builder: (context) =>
-                                        BottomNavBar(currentIndex: 2),
+                                        const BottomNavBar(currentIndex: 2),
                                   ));
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(50),
                                     ),
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       "Lihat pertanyaan untuk anda",
                                       style: TextStyle(color: Colors.white),

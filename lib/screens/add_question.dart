@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:powershare/add_ilmu.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/audiens.dart';
 import 'package:powershare/screens/audiens_post.dart';
@@ -19,25 +22,57 @@ class TambahPertanyaan extends StatefulWidget {
 class _TambahPertanyaanState extends State<TambahPertanyaan> {
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController tag = TextEditingController();
   final List<Widget> _tabs = [
     const Tab(text: 'Tambahkan Pertanyaan'),
     const Tab(text: 'Buat kiriman Informasi'),
   ];
 
   bool isChecked = true;
+  bool hastag = false;
   int? tabIndex;
+
+  List<PageIlmu> listIlmu = [];
+  List<PageIlmu> _searchTag = [];
+  List<PageIlmu> viewSelected = [];
+  List selected = [];
+  PageIlmu pageIlmu = PageIlmu();
+
+  getIlmu() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    listIlmu = await pageIlmu.get(data[0].token);
+    setState(() {});
+  }
+
+  onSearch(String text) async {
+    _searchTag.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+    listIlmu.forEach((element) {
+      if (element.name.toLowerCase().contains(text.toLowerCase())) {
+        _searchTag.add(element);
+      }
+    });
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tabIndex = widget.initialIndex;
     setState(() {
+      // hastag = false;
       if (widget.initialIndex == 0) {
         isChecked = false;
       } else {
         isChecked = true;
       }
     });
+    getIlmu();
   }
 
   @override
@@ -48,7 +83,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
       child: Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.grey,
               size: 20,
@@ -143,15 +178,19 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                 onPressed: () async {
                   final _db = DBhelper();
                   var data = await _db.getToken();
-                  print(data[0].token);
-                  Postings.share(title.text, description.text, data[0].token);
+                  // print(data[0].token);
+                  // for (var i = 0; i < selected.length; i++) {
+                  //   print(jsonEncode(selected));
+                  // }
+                  Postings.share(title.text, description.text, data[0].token,
+                      jsonEncode(selected));
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     )),
-                child: Text("Simpan"),
+                child: const Text("Simpan"),
               ),
             )
           ],
@@ -163,224 +202,419 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
             TabBarView(
               children: [
                 SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        width: 1,
-                        color: Color.fromRGBO(217, 217, 217, 100),
-                      ))),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(15.0),
-                      width: double.infinity,
-                      color: const Color.fromRGBO(217, 217, 217, 100),
-                      child: Column(
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 15, bottom: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Kiat untuk mendapatkan jawaban yang baik dengan cepat",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 0, bottom: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  " · Pastikan pertanyaan Anda belum pernah diajukan sebelumnya",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400)),
-                                ),
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 0, bottom: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  " · Pastikan pertanyaan Anda singkat padat, dan lugas",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400)),
-                                ),
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 0, bottom: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  " · Perikas kembali tata bahasa dan ejaan yang ada",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400)),
-                                ),
-                              )),
-                        ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                          width: 1,
+                          color: Color.fromRGBO(217, 217, 217, 100),
+                        ))),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, top: 0, bottom: 0),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.account_circle_rounded,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Icon(
-                            Icons.arrow_right_outlined,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Audiens()));
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.groups_rounded,
-                                    color: Colors.grey,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Publik',
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        width: double.infinity,
+                        color: const Color.fromRGBO(217, 217, 217, 100),
+                        child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 15, bottom: 15),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Kiat untuk mendapatkan jawaban yang baik dengan cepat",
                                     style: GoogleFonts.poppins(
                                         textStyle: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey)),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500)),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 0, bottom: 15),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    " · Pastikan pertanyaan Anda belum pernah diajukan sebelumnya",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400)),
                                   ),
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: Colors.grey,
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 0, bottom: 15),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    " · Pastikan pertanyaan Anda singkat padat, dan lugas",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400)),
                                   ),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 0, bottom: 15),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    " · Perikas kembali tata bahasa dan ejaan yang ada",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400)),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 0, bottom: 0),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.account_circle_rounded,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Icon(
+                              Icons.arrow_right_outlined,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  alignment: Alignment.centerLeft,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Audiens()));
+                                },
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.groups_rounded,
+                                      color: Colors.grey,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Publik',
+                                      style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey)),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Icon(
+                                      Icons.keyboard_arrow_down_outlined,
+                                      color: Colors.grey,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 0,
+                        ),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Judul Topik",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 0, bottom: 0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: title,
+                              decoration: const InputDecoration(
+                                hintText:
+                                    'Inputkan topik atau judul dari pertanyaan anda',
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 0,
+                        ),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Deskripsi / Pertanyaan",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 0, bottom: 0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: description,
+                              maxLines: null,
+                              decoration: const InputDecoration(
+                                hintText:
+                                    'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  hastag = value.contains('#');
+                                  var x = value;
+                                  // print(x.split('#')[1]);
+                                  hastag
+                                      ? onSearch(x.split('#')[1])
+                                      : onSearch('');
+                                  // print(_searchTag);
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: 'Tag',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: '(Optional)',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  )
                                 ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 0,
-                        bottom: 0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Judul Topik",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, top: 0, bottom: 0),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: title,
-                            decoration: InputDecoration(
-                              hintText:
-                                  'Inputkan topik atau judul dari pertanyaan anda',
-                              border: InputBorder.none,
-                              enabledBorder: InputBorder.none,
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 0, bottom: 0),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: tag,
+                              maxLines: null,
+                              decoration: InputDecoration(
+                                hintText: 'Tag ilmu sesuai postingan anda',
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                prefixIcon: selected.length < 1
+                                    ? null
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: Wrap(
+                                            spacing: 5,
+                                            runSpacing: 5,
+                                            children: viewSelected.map((s) {
+                                              return Chip(
+                                                  backgroundColor:
+                                                      Colors.blue[100],
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7),
+                                                  ),
+                                                  label: Text(s.name,
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .blue[900])),
+                                                  onDeleted: () {
+                                                    setState(() {
+                                                      selected.remove(s);
+                                                    });
+                                                  });
+                                            }).toList()),
+                                      ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  hastag = value.contains('#');
+                                  var x = value;
+                                  // print(x.split('#')[1]);
+                                  hastag
+                                      ? onSearch(x.split('#')[1])
+                                      : onSearch('');
+                                  // print(_searchTag);
+                                });
+                              },
                             ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: hastag,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            // border: Border(
+                            //   top: BorderSide(
+                            //     color: Colors.grey,
+                            //     width: 0.5,
+                            //   ),
+                            // ),
                           ),
-                        ],
+                          // height: 500,
+                          // color: Colors.red,
+                          child: _searchTag.length != 0
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _searchTag.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      padding: const EdgeInsets.all(5),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      // color: Colors.blue,
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            // print(description.text);
+                                            // var x = description.text.split('#');
+                                            // // print(x[0] + '#');
+                                            // description.text = x[0] +
+                                            //     '#' +
+                                            //     _searchTag[index].name;
+                                            // print(description.text);
+
+                                            if (!selected
+                                                .contains(_searchTag[index])) {
+                                              selected.add(
+                                                  _searchTag[index].codeIlmu);
+                                              viewSelected
+                                                  .add(_searchTag[index]);
+                                              // print(jsonEncode(selected));
+
+                                              tag.clear();
+                                              hastag = false;
+                                            }
+                                          });
+                                        },
+                                        child: Text(
+                                          '#' + _searchTag[index].name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Cari',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        const Text('Atau'),
+                                        const SizedBox(height: 10),
+                                        ElevatedButton(
+                                          onPressed: () => Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Add_ilmu(),
+                                          )),
+                                          child: const Text(
+                                            'Tambahkan',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 0,
-                        bottom: 0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Deskripsi / Pertanyaan",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 15, right: 15, top: 0, bottom: 0),
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: description,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              hintText:
-                                  'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
-                              border: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                ),
                 Container(
                   child: Column(
                     children: [
@@ -407,7 +641,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                                 fontWeight: FontWeight.w600,
                               )),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -437,20 +671,20 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                                   //     size: 24,
                                   //   ),
                                   // ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Expanded(
                                     // width: MediaQuery.of(context).size.width * 2,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(25)),
                                         color: Colors.grey[200],
                                       ),
                                       alignment: Alignment.centerLeft,
                                       padding: const EdgeInsets.all(10),
-                                      child: Text(
+                                      child: const Text(
                                         'Belajar di Universital 17 Agustus 1945 Surabaya',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -467,7 +701,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                       ),
                       Container(
                           margin: const EdgeInsets.all(15),
-                          child: Column(
+                          child: const Column(
                             children: [
                               TextField(
                                 maxLines: null,

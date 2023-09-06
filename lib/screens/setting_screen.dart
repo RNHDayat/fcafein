@@ -25,7 +25,7 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -159,7 +159,7 @@ class _SettingScreenState extends State<SettingScreen> {
               //Tampilan
               Padding(
                 padding:
-                    EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
+                    const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
                 child: Container(
                   width: double.infinity,
                   height: 40,
@@ -185,13 +185,13 @@ class _SettingScreenState extends State<SettingScreen> {
               //Border
               Container(
                 height: 2,
-                color: Color.fromRGBO(217, 217, 217, 100),
+                color: const Color.fromRGBO(217, 217, 217, 100),
               ),
 
               //Slider
               Container(
                 padding:
-                    EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                    const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                 child: Column(
                   children: [
                     Align(
@@ -244,7 +244,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               Text(
                                 "Aa",
                                 style: GoogleFonts.poppins(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
                                 )),
@@ -259,7 +259,7 @@ class _SettingScreenState extends State<SettingScreen> {
               //Border
               Container(
                 height: 2,
-                color: Color.fromRGBO(217, 217, 217, 100),
+                color: const Color.fromRGBO(217, 217, 217, 100),
               ),
 
               //Dark Mode
@@ -287,7 +287,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                       fontSize: 2.5 * _value,
                                       fontWeight: FontWeight.w400)),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
                                 onPressed: () {
                                   setState(() {

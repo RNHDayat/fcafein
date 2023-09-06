@@ -20,21 +20,22 @@ class _ScreenRuangState extends State<ScreenRuang> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getIlmu();
+    // getIlmu();
   }
 
-  getIlmu() async {
-    final _db = DBhelper();
-    var data = await _db.getToken();
-    PageIlmu.get(data[0].token).then((value) {
-      print(value);
-    });
-  }
+  // getIlmu() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   PageIlmu.get(data[0].token).then((value) {
+  //     print(value.runtimeType);
+  //   });
+  // }
 
   final scrollTemukan = GlobalKey();
   Future scrollToIndex() async {
     final context = scrollTemukan.currentContext!;
-    await Scrollable.ensureVisible(context, duration: Duration(seconds: 2));
+    await Scrollable.ensureVisible(context,
+        duration: const Duration(seconds: 2));
   }
 
   @override
@@ -124,13 +125,13 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                     child: Container(
                                       padding: const EdgeInsets.all(15),
                                       width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         border: Border(
                                           top: BorderSide(
                                               width: 0.5, color: Colors.grey),
                                         ),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text("Alfabetis"),
                                       ),
                                     ),
@@ -140,13 +141,13 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                     child: Container(
                                       padding: const EdgeInsets.all(15),
                                       width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         border: Border(
                                           top: BorderSide(
                                               width: 0.5, color: Colors.grey),
                                         ),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                           child: Text("Berdasarkan peran")),
                                     ),
                                   ),
@@ -155,13 +156,13 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                     child: Container(
                                       padding: const EdgeInsets.all(15),
                                       width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         border: Border(
                                           top: BorderSide(
                                               width: 0.5, color: Colors.grey),
                                         ),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                           child:
                                               Text("Baru-baru ini dikunjungi")),
                                     ),
@@ -171,9 +172,9 @@ class _ScreenRuangState extends State<ScreenRuang> {
                             });
                       },
                       child: Container(
-                        child: Row(
+                        child: const Row(
                           children: [
-                            const Text("Baru-baru dikunjungi",
+                            Text("Baru-baru dikunjungi",
                                 style: TextStyle(color: Colors.grey)),
                             Icon(Icons.keyboard_arrow_down, color: Colors.grey),
                           ],
@@ -189,8 +190,10 @@ class _ScreenRuangState extends State<ScreenRuang> {
                 child: Row(
                   children: [
                     OutlinedButton.icon(
-                      onPressed: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Add_ilmu())),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Add_ilmu())),
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.blue),
                         shape: RoundedRectangleBorder(
@@ -235,11 +238,11 @@ class _ScreenRuangState extends State<ScreenRuang> {
                       elevation: 0,
                     ),
                     onPressed: () => {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UserSpace(),
-                      ))
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => UserSpace(),
+                      // ))
                     },
-                    label: Row(
+                    label: const Row(
                       children: [
                         Text(
                           "Ngomongin IT",
@@ -259,7 +262,7 @@ class _ScreenRuangState extends State<ScreenRuang> {
               ),
               Container(
                 key: scrollTemukan,
-                color: Color(0x30726D6D),
+                color: const Color(0x30726D6D),
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 15, right: 15, top: 15, bottom: 4),
@@ -273,12 +276,12 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                 fontWeight: FontWeight.bold, fontSize: 22),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "Ruang yang mungkin Anda suka",
                               style: TextStyle(
                                   fontWeight: FontWeight.normal, fontSize: 16),
@@ -290,42 +293,42 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                     style: TextStyle(color: Colors.grey)))
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         listItem(),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              "3D",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        listItem(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Grafik",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        listItem(),
+                        // const Row(
+                        //   children: [
+                        //     Text(
+                        //       "3D",
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.normal, fontSize: 16),
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // listItem(),
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
+                        // const Row(
+                        //   children: [
+                        //     Text(
+                        //       "Grafik",
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.normal, fontSize: 16),
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // listItem(),
                       ]),
                 ),
               ),

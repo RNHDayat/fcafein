@@ -15,7 +15,7 @@ class _TahuTentangState extends State<TahuTentang> {
       appBar: AppBar(
         // toolbarHeight: 55,
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -77,7 +77,7 @@ class _TahuTentangState extends State<TahuTentang> {
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
                             color: Color.fromRGBO(217, 217, 217, 100),
@@ -97,7 +97,7 @@ class _TahuTentangState extends State<TahuTentang> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           Expanded(
@@ -113,7 +113,7 @@ class _TahuTentangState extends State<TahuTentang> {
                           ),
                           IconButton(
                               onPressed: () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.cancel_outlined,
                                 color: Colors.grey,
                               ))
@@ -123,7 +123,7 @@ class _TahuTentangState extends State<TahuTentang> {
                 GestureDetector(
                   onTap: () {},
                   child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
                             color: Color.fromRGBO(217, 217, 217, 100),
@@ -143,7 +143,7 @@ class _TahuTentangState extends State<TahuTentang> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 15,
                           ),
                           Expanded(
@@ -157,10 +157,10 @@ class _TahuTentangState extends State<TahuTentang> {
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
                               onPressed: () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.cancel_outlined,
                                 color: Colors.grey,
                               ))

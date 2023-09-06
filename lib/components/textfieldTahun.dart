@@ -20,7 +20,7 @@ class _YearPickerTextFieldState extends State<YearPickerTextField> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.blue, // Header background color
             ),
             textButtonTheme: TextButtonThemeData(

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../components/radio.dart';
 
 class UserSpace extends StatefulWidget {
-  const UserSpace({super.key});
+  final String codeIlmu;
+  const UserSpace({super.key, required this.codeIlmu});
 
   @override
   State<UserSpace> createState() => _UserSpaceState();
@@ -18,13 +19,14 @@ class _UserSpaceState extends State<UserSpace> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.codeIlmu);
   }
 
   bool about = true;
   bool post = false;
   bool question = false;
-bool dorong = false;  
-bool surel = false;  
+  bool dorong = false;
+  bool surel = false;
   String? _groupValue;
 
   ValueChanged<String?> _valueChangedHandler(String? value) {
@@ -74,7 +76,7 @@ bool surel = false;
                                 child:
                                     Icon(Icons.close, color: Colors.red[900]),
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
@@ -93,12 +95,12 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text("Bagikan"),
                             ),
                           ),
@@ -108,12 +110,12 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text("Undang"),
                             ),
                           ),
@@ -123,12 +125,13 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
                             ),
-                            child: Center(child: Text("Edit kredensial anda")),
+                            child: const Center(
+                                child: Text("Edit kredensial anda")),
                           ),
                         ),
                         GestureDetector(
@@ -136,7 +139,7 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
@@ -153,12 +156,12 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                                 child: Text("Senyapkan Level up Coding")),
                           ),
                         ),
@@ -167,12 +170,12 @@ bool surel = false;
                           child: Container(
                             padding: const EdgeInsets.all(15),
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(width: 0.5, color: Colors.grey),
                               ),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "Laporkan",
                               ),
@@ -256,7 +259,7 @@ bool surel = false;
                                                             color: Colors
                                                                 .red[900]),
                                                       ),
-                                                      Row(
+                                                      const Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
@@ -283,14 +286,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                       child: Text("Bagikan"),
                                                     ),
                                                   ),
@@ -305,14 +309,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                       child: Text("Undang"),
                                                     ),
                                                   ),
@@ -327,14 +332,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                         child: Text(
                                                             "Edit kredensial anda")),
                                                   ),
@@ -349,7 +355,8 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
@@ -375,14 +382,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                         child: Text(
                                                             "Senyapkan Level up Coding")),
                                                   ),
@@ -397,14 +405,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                       child: Text(
                                                         "Laporkan",
                                                       ),
@@ -461,7 +470,7 @@ bool surel = false;
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  child: Text(
+                                                  child: const Text(
                                                     "Pengetahuan Notifikasi Ruang",
                                                     style: TextStyle(
                                                       fontWeight:
@@ -475,7 +484,8 @@ bool surel = false;
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
@@ -487,14 +497,14 @@ bool surel = false;
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         "Notifikasi apa yang Anda terima",
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                      SizedBox(height: 5),
+                                                      const SizedBox(height: 5),
                                                       MyRadioOption<String>(
                                                         value: 'A',
                                                         groupValue: _groupValue,
@@ -508,7 +518,7 @@ bool surel = false;
                                                         text:
                                                             'Semua kiriman informasi',
                                                       ),
-                                                      SizedBox(height: 5),
+                                                      const SizedBox(height: 5),
                                                       MyRadioOption<String>(
                                                         value: 'B',
                                                         groupValue: _groupValue,
@@ -521,7 +531,8 @@ bool surel = false;
                                                         },
                                                         text: 'Nonaktifkan',
                                                       ),
-                                                      SizedBox(height: 10),
+                                                      const SizedBox(
+                                                          height: 10),
                                                     ],
                                                   ),
                                                 ),
@@ -531,14 +542,15 @@ bool surel = false;
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Text(
+                                                  child: const Text(
                                                     "Tempat anda menerima notifikasi",
                                                     style: TextStyle(
                                                       fontWeight:
@@ -552,14 +564,15 @@ bool surel = false;
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Text(
+                                                  child: const Text(
                                                     "Tempat anda menerima notifikasi",
                                                     style: TextStyle(
                                                       fontWeight:
@@ -621,14 +634,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                       child: Text(
                                                         "Ajukan diri untuk berkontribusi",
                                                       ),
@@ -645,14 +659,15 @@ bool surel = false;
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
+                                                    decoration:
+                                                        const BoxDecoration(
                                                       border: Border(
                                                         top: BorderSide(
                                                             width: 0.5,
                                                             color: Colors.grey),
                                                       ),
                                                     ),
-                                                    child: Center(
+                                                    child: const Center(
                                                         child: Text(
                                                       "Stop ikuti Level up Coding",
                                                       style: TextStyle(
@@ -677,8 +692,8 @@ bool surel = false;
                                     child: Container(
                                       alignment: Alignment.centerLeft,
                                       // padding: const EdgeInsets.all(5.0),
-                                      child: Row(
-                                        children: const <Widget>[
+                                      child: const Row(
+                                        children: <Widget>[
                                           Icon(
                                             Icons.calendar_month,
                                             color: Colors.white,
@@ -770,7 +785,7 @@ bool surel = false;
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
@@ -787,7 +802,7 @@ bool surel = false;
                           },
                           child: Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Tentang Kami",
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
@@ -817,7 +832,7 @@ bool surel = false;
                           },
                           child: Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Kiriman",
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
@@ -847,7 +862,7 @@ bool surel = false;
                           },
                           child: Column(
                             children: [
-                              Text(
+                              const Text(
                                 "Pertanyaan",
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
@@ -873,29 +888,29 @@ bool surel = false;
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: Text(
                               "Space edukasi dan sharing tentang teknologi yang berkembang dari masa ke masa"),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: Text(
                             "Teknologi | Phython | IT | Programming",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(10),
-                          color: Color.fromARGB(255, 202, 202, 202),
-                          child: Text(
+                          padding: const EdgeInsets.all(10),
+                          color: const Color.fromARGB(255, 202, 202, 202),
+                          child: const Text(
                             "Orang",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -903,33 +918,33 @@ bool surel = false;
                         GestureDetector(
                           onTap: () {},
                           child: Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  child: Row(
+                                  child: const Row(
                                     children: [
                                       Icon(Icons.search),
                                       Text("Cari orang di Ngomongin IT"),
                                     ],
                                   ),
                                 ),
-                                Icon(Icons.keyboard_arrow_down),
+                                const Icon(Icons.keyboard_arrow_down),
                               ],
                             ),
                           ),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
                             border: Border(
                               top: BorderSide(color: Colors.grey),
                               bottom: BorderSide(color: Colors.grey),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             "Admin",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -946,13 +961,13 @@ bool surel = false;
                           title: Expanded(
                             child: RichText(
                               maxLines: 2,
-                              text: TextSpan(
+                              text: const TextSpan(
                                 text: 'Angga Aditya',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
-                                children: const <TextSpan>[
+                                children: <TextSpan>[
                                   TextSpan(
                                     text:
                                         ' belajar Sistem Informasi di Istitut Teknologi Tangerang Selatan',
@@ -979,13 +994,13 @@ bool surel = false;
                           title: Expanded(
                             child: RichText(
                               maxLines: 2,
-                              text: TextSpan(
+                              text: const TextSpan(
                                 text: 'Angga Aditya',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
-                                children: const <TextSpan>[
+                                children: <TextSpan>[
                                   TextSpan(
                                     text:
                                         ' belajar Sistem Informasi di Istitut Teknologi Tangerang Selatan',
@@ -1014,8 +1029,8 @@ bool surel = false;
                         Container(
                           color: Colors.grey.shade400,
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(10),
-                          child: Row(
+                          padding: const EdgeInsets.all(10),
+                          child: const Row(
                             children: [
                               Icon(Icons.north_east),
                               SizedBox(width: 10),
@@ -1038,8 +1053,8 @@ bool surel = false;
                         Container(
                           color: Colors.grey.shade400,
                           width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(10),
-                          child: Row(
+                          padding: const EdgeInsets.all(10),
+                          child: const Row(
                             children: [
                               Icon(Icons.north_east),
                               SizedBox(width: 10),
@@ -1067,7 +1082,7 @@ bool surel = false;
 
   Widget _buildItem(String textnya) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Container(
         width: MediaQuery.of(context).size.width / 1.5,
         child: Row(
@@ -1080,7 +1095,7 @@ bool surel = false;
               ),
               child: const Icon(Icons.person),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -1088,7 +1103,7 @@ bool surel = false;
                 maxLines: 2,
                 text: TextSpan(
                   text: 'Angga Aditya $textnya',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                   children: const <TextSpan>[
                     TextSpan(
                       text:

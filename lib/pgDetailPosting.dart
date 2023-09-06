@@ -71,25 +71,25 @@ class _DetailPostingState extends State<DetailPosting> {
       Row(
         children: [
           Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.grey[100],
             ),
-            child: Icon(
+            child: const Icon(
               Icons.person,
               size: 28,
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: Text('komen'),
+              child: const Text('komen'),
             ),
           ),
         ],
@@ -113,20 +113,20 @@ class _DetailPostingState extends State<DetailPosting> {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.grey[100],
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   size: 28,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25),
@@ -157,7 +157,7 @@ class _DetailPostingState extends State<DetailPosting> {
         child: Container(
           color: Colors.white,
           width: double.infinity,
-          padding: EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -170,7 +170,7 @@ class _DetailPostingState extends State<DetailPosting> {
                 ),
                 child: Text(
                   widget.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
@@ -189,12 +189,13 @@ class _DetailPostingState extends State<DetailPosting> {
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
                             color: Colors.grey[200],
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.person,
                             size: 28,
                           ),
@@ -213,7 +214,7 @@ class _DetailPostingState extends State<DetailPosting> {
                             ),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 1,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -232,7 +233,7 @@ class _DetailPostingState extends State<DetailPosting> {
               ),
               Container(
                 color: Colors.white,
-                child: Row(
+                child: const Row(
                   children: <Widget>[
                     Expanded(
                       child: Divider(
@@ -269,7 +270,7 @@ class _DetailPostingState extends State<DetailPosting> {
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: IntrinsicHeight(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,28 +279,28 @@ class _DetailPostingState extends State<DetailPosting> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.grey[300],
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(50),
                                 ),
                               ),
                               child: Row(
                                 children: [
-                                  Icon(Icons.thumb_up),
-                                  SizedBox(
+                                  const Icon(Icons.thumb_up),
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Text("12,5rb"),
+                                  const Text("12,5rb"),
                                   Container(
                                     height: 20,
-                                    child: VerticalDivider(
+                                    child: const VerticalDivider(
                                       color: Colors.black,
                                       thickness: 1,
                                     ),
                                   ),
-                                  Icon(Icons.thumb_down),
+                                  const Icon(Icons.thumb_down),
                                 ],
                               ),
                             ),
@@ -309,8 +310,8 @@ class _DetailPostingState extends State<DetailPosting> {
                                 print(showWidgets);
                               },
                               child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Row(
+                                padding: const EdgeInsets.all(10),
+                                child: const Row(
                                   children: [
                                     Icon(Icons.chat_bubble),
                                     SizedBox(
@@ -322,8 +323,8 @@ class _DetailPostingState extends State<DetailPosting> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(10),
-                              child: Row(
+                              padding: const EdgeInsets.all(10),
+                              child: const Row(
                                 children: [
                                   Icon(Icons.share),
                                   SizedBox(
@@ -359,7 +360,7 @@ class _DetailPostingState extends State<DetailPosting> {
                                             child: Icon(Icons.close,
                                                 color: Colors.red[900]),
                                           ),
-                                          Row(
+                                          const Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
@@ -380,13 +381,13 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
                                           ),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text("Bagikan melalui.."),
                                         ),
                                       ),
@@ -397,13 +398,13 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
                                           ),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child:
                                               Text("Tidak tertarik dengan ini"),
                                         ),
@@ -415,13 +416,14 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
                                           ),
                                         ),
-                                        child: Center(child: Text("Simpan")),
+                                        child:
+                                            const Center(child: Text("Simpan")),
                                       ),
                                     ),
                                     GestureDetector(
@@ -430,13 +432,13 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
                                           ),
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                             child: Text(
                                                 "Dorong turun pertamyaan")),
                                       ),
@@ -447,13 +449,13 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
                                           ),
                                         ),
-                                        child: Center(child: Text("Log")),
+                                        child: const Center(child: Text("Log")),
                                       ),
                                     ),
                                     GestureDetector(
@@ -462,7 +464,7 @@ class _DetailPostingState extends State<DetailPosting> {
                                         padding: const EdgeInsets.all(15),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             top: BorderSide(
                                                 width: 0.5, color: Colors.grey),
@@ -480,62 +482,62 @@ class _DetailPostingState extends State<DetailPosting> {
                                 );
                               });
                         },
-                        child: Icon(Icons.more_horiz),
+                        child: const Icon(Icons.more_horiz),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                 color: Colors.grey[300],
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey[100],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person,
                         size: 28,
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Container(
                         // padding: EdgeInsets.all(5),
                         child: TextFormField(
                           controller: commentController,
                           decoration: new InputDecoration(
-                              errorStyle: TextStyle(fontSize: 18.0),
+                              errorStyle: const TextStyle(fontSize: 18.0),
                               hintText: 'Tambahkan komentar...',
                               filled: true,
                               fillColor: Colors.white,
                               enabledBorder: new OutlineInputBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: new BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.grey,
                                 ),
                               ),
                               focusedBorder: new OutlineInputBorder(
                                   borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: new BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.blue,
                                   )),
                               border: OutlineInputBorder(
                                   borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                       color: Colors.black, width: 1.0))),
-                          style: new TextStyle(color: Colors.black),
+                          style: const TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () async {
                         final _db = DBhelper();
@@ -544,7 +546,7 @@ class _DetailPostingState extends State<DetailPosting> {
                             widget.title, commentController.text);
                       },
                       // padding: EdgeInsets.all(5),
-                      child: Icon(Icons.send),
+                      child: const Icon(Icons.send),
                     ),
                   ],
                 ),

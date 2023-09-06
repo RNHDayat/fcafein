@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 100),
+              margin: const EdgeInsets.only(top: 100),
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Image.asset("assets/logo/logo.png",
@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
                 maxChildSize: 0.8,
                 builder: (BuildContext c, s) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -130,7 +130,7 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(40.0),
                         topLeft: Radius.circular(25),
                       ),
@@ -139,16 +139,16 @@ class _LoginState extends State<Login> {
                     child: Form(
                       key: _formKey,
                       child: ListView(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         controller: s,
                         children: [
                           // Center(child: Image.asset("storage/icon_minimize.png")),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Text(
+                            child: const Text(
                               "Masuk",
                               style: TextStyle(
                                   fontSize: 24,
@@ -163,8 +163,8 @@ class _LoginState extends State<Login> {
 
                           TextFormField(
                             controller: username_,
-                            style: TextStyle(color: Colors.black),
-                            decoration: InputDecoration(
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
                               hintText: "Alamat Email",
                               labelText: "Alamat Email",
                               labelStyle: TextStyle(color: Colors.black),
@@ -191,7 +191,7 @@ class _LoginState extends State<Login> {
                           TextFormField(
                             controller: password_,
                             obscureText: !visiblePassword,
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               // errorText: this.error,
                               suffixIcon: GestureDetector(
@@ -214,10 +214,10 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               hintText: "Password",
-                              hintStyle: TextStyle(color: Colors.black),
+                              hintStyle: const TextStyle(color: Colors.black),
                               labelText: "Password",
-                              labelStyle: TextStyle(color: Colors.black),
-                              enabledBorder: UnderlineInputBorder(
+                              labelStyle: const TextStyle(color: Colors.black),
+                              enabledBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                 ),
@@ -248,7 +248,7 @@ class _LoginState extends State<Login> {
                                     Checkbox(
                                         value: rememberMe,
                                         onChanged: _onRememberMeChanged),
-                                    Text(
+                                    const Text(
                                       "Ingat Saya",
                                       style: TextStyle(
                                         color: Colors.black,
@@ -257,11 +257,11 @@ class _LoginState extends State<Login> {
                                     ),
                                   ],
                                 )),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
                                 TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     "Lupa password ?",
                                     style: TextStyle(
                                       color: Colors.black,
@@ -282,7 +282,7 @@ class _LoginState extends State<Login> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (BuildContext) =>
-                                          Registration()));
+                                          const Registration()));
                               // if (username_.text == strUsername &&
                               //     password_.text == strPassword) {
                               //   Navigator.pushReplacement(context,
@@ -300,19 +300,19 @@ class _LoginState extends State<Login> {
                             child: Container(
                               // width: MediaQuery.of(context).size.width,
                               // height: MediaQuery.of(context).size.height * 0.05,
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Color(0xffd9d9d9),
+                                color: const Color(0xffd9d9d9),
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
-                                  BoxShadow(
+                                  const BoxShadow(
                                     color: Color(0x3f000000),
                                     blurRadius: 3,
                                     offset: Offset(0, 3), // Shadow position
                                   ),
                                 ],
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text("Buat Akun",
                                     style: TextStyle(
                                       fontSize: 18,
@@ -333,14 +333,14 @@ class _LoginState extends State<Login> {
                                 // lineleftRUL (34:128)
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height: 1,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color(0xffd9d9d9),
                                 ),
                               ),
                               Container(
                                 // atau99S (34:126)
 
-                                child: Text(
+                                child: const Text(
                                   'Atau',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -353,7 +353,7 @@ class _LoginState extends State<Login> {
                                 // lineleftRUL (34:128)
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 height: 1,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color(0xffd9d9d9),
                                 ),
                               ),
@@ -410,7 +410,7 @@ class _LoginState extends State<Login> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              BottomNavBar(currentIndex: 0),
+                                              const BottomNavBar(currentIndex: 0),
                                         ));
                                   } else {
                                     print('ada salah');
@@ -422,22 +422,22 @@ class _LoginState extends State<Login> {
                               }
                             },
                             child: Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
 
                               // width: MediaQuery.of(context).size.width,
                               // height: MediaQuery.of(context).size.height * 0.05,
                               decoration: BoxDecoration(
-                                color: Color(0xffd9d9d9),
+                                color: const Color(0xffd9d9d9),
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
-                                  BoxShadow(
+                                  const BoxShadow(
                                     color: Color(0x3f000000),
                                     blurRadius: 3,
                                     offset: Offset(0, 3), // Shadow position
                                   ),
                                 ],
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text("Masuk",
                                     style: TextStyle(
                                       fontSize: 18,

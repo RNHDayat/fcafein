@@ -25,9 +25,9 @@ class PhotoZoomIconButton extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: const Icon(Icons.arrow_back),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -54,12 +54,12 @@ class PhotoZoomIconButton extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(2),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.zoom_in,
                 size: 20,
               ),

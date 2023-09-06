@@ -30,18 +30,18 @@ class _SplashScreenState extends State<SplashScreen> {
       if (value.length != 0) {
         print('ada token');
         Timer(
-          Duration(seconds: 3),
+          const Duration(seconds: 3),
           () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => BottomNavBar(currentIndex: 0),
+              builder: (context) => const BottomNavBar(currentIndex: 0),
             ),
           ),
         );
       } else {
         print('tidak ada token');
         Timer(
-          Duration(seconds: 3),
+          const Duration(seconds: 3),
           () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => OnBoard()),

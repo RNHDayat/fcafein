@@ -22,7 +22,7 @@ class _UbahSandi2State extends State<UbahSandi2> {
     return Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.grey,
               size: 20,
@@ -59,7 +59,7 @@ class _UbahSandi2State extends State<UbahSandi2> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TambahPertanyaan(initialIndex: 0,)));
+                              builder: (context) => const TambahPertanyaan(initialIndex: 0,)));
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

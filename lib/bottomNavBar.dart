@@ -67,11 +67,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   List pages = [
-    Home(),
-    Following(),
+    const Home(),
+    const Following(),
     Answer(),
-    ScreenRuang(),
-    PageNotification(),
+    const ScreenRuang(),
+    const PageNotification(),
   ];
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -87,7 +87,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         // toolbarHeight: 70,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
             color: Colors.grey[300],
@@ -104,13 +104,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
             }
           }),
           child: Padding(
-            padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 25, top: 10, bottom: 10),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.person, color: Colors.black),
+              child: const Icon(Icons.person, color: Colors.black),
             ),
           ),
         ),
@@ -128,7 +128,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     ),
                   );
                 },
-                child: Icon(Icons.search),
+                child: const Icon(Icons.search),
               ),
             ),
           ),
@@ -139,10 +139,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
               child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TambahPertanyaan(initialIndex: 0),
+                      builder: (context) => const TambahPertanyaan(initialIndex: 0),
                     ));
                   },
-                  child: Icon(Icons.add_circle_outline)),
+                  child: const Icon(Icons.add_circle_outline)),
             ),
           ),
         ],
@@ -164,13 +164,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
         showUnselectedLabels: false,
         //membuat item navigasi
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.article), label: 'Mengikuti'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
               icon: Icon(Icons.question_answer), label: 'Jawab'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Ruang'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Ruang'),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.notifications), label: 'Notifikasi'),
         ],
 

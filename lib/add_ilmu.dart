@@ -31,7 +31,7 @@ class _Add_ilmuState extends State<Add_ilmu> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +40,7 @@ class _Add_ilmuState extends State<Add_ilmu> {
                 children: [
                   InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -61,34 +61,34 @@ class _Add_ilmuState extends State<Add_ilmu> {
                         Ilmu.add(data[0].token, randomCode, nama.text);
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       'Buat',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 'Buat Ilmu',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 'Bagikan minat, kurasikan konten, selenggarakan diskusi, dan banyak lagi',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               RichText(
-                text: TextSpan(children: [
+                text: const TextSpan(children: [
                   TextSpan(
                     text: 'Nama',
                     style: TextStyle(
@@ -107,7 +107,7 @@ class _Add_ilmuState extends State<Add_ilmu> {
                   ),
                 ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Form(
@@ -120,7 +120,7 @@ class _Add_ilmuState extends State<Add_ilmu> {
                     }
                     return null;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Nama Ilmu',
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -133,7 +133,7 @@ class _Add_ilmuState extends State<Add_ilmu> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],

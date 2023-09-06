@@ -55,7 +55,7 @@ class _OnBoardState extends State<OnBoard> {
               flex: 9,
               child: PageView(
                 controller: pageController,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 onPageChanged: (int page) {
                   getChangedPageAndMoveBar(page);
                 },
@@ -81,7 +81,7 @@ class _OnBoardState extends State<OnBoard> {
                 alignment: AlignmentDirectional.topStart,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(bottom: 35),
+                    margin: const EdgeInsets.only(bottom: 35),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -103,13 +103,13 @@ class _OnBoardState extends State<OnBoard> {
                 onTap: () {
                   if (buttonText == "SKIP") {
                     pageController.nextPage(
-                        duration: Duration(milliseconds: 400),
+                        duration: const Duration(milliseconds: 400),
                         curve: Curves.easeOut);
                   } else if (buttonText == "NEXT") {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Login(),
+                          builder: (context) => const Login(),
                         ));
                   }
                   // getChangedPageAndMoveBar(1);
@@ -134,12 +134,12 @@ Widget pageIndicator(bool isActive) {
   return Container(
     height: 10,
     width: 10,
-    margin: EdgeInsets.only(left: 10, right: 10),
+    margin: const EdgeInsets.only(left: 10, right: 10),
     child: DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: isActive ? colorActive : colorInactive,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.elliptical(4, 4),
         ),
       ),
@@ -157,17 +157,17 @@ Widget mainView(image, title, subtitle) {
           image,
           fit: BoxFit.none,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Text(
@@ -175,7 +175,7 @@ Widget mainView(image, title, subtitle) {
           textAlign: TextAlign.center,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 14.0),
+          style: const TextStyle(fontSize: 14.0),
         ),
       ],
     ),

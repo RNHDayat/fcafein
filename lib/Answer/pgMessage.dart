@@ -12,7 +12,7 @@ class _MessageState extends State<Message> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Jawab",
           style: TextStyle(
             color: Colors.black,
@@ -27,16 +27,16 @@ class _MessageState extends State<Message> {
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Budget saya 20 juta dan saya akan kuliah di bidang it, apa recomendasi macbook/laptop yang cocok?",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       // color: Colors.red,
                       child: Row(
@@ -44,28 +44,28 @@ class _MessageState extends State<Message> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
+                                  const BorderRadius.all(Radius.circular(8)),
                               color: Colors.grey[200],
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.person,
                               size: 28,
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.only(left: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 IntrinsicHeight(
                                   child: Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Yanto Hendriyana",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 3,
                                       ),
                                       Container(
@@ -76,17 +76,17 @@ class _MessageState extends State<Message> {
                                           color: Colors.grey[400],
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 3,
                                       ),
-                                      Text(
+                                      const Text(
                                         "Ikuti",
                                         style: TextStyle(color: Colors.blue),
                                       ),
                                     ],
                                   ),
                                 ),
-                                IntrinsicHeight(
+                                const IntrinsicHeight(
                                   child: Row(
                                     children: [
                                       Text("3 Jam"),
@@ -99,9 +99,9 @@ class _MessageState extends State<Message> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
-                    Text(
+                    const Text(
                         "Macbook/Laptop Kuliah IT \nBudget saya 20 juta dan saya akan kuliah di bidang it, apa rekomendasi macbook/laptop yang cocok:\nMacBook Air (M1, 2020): MacBook Air dengan chipset M1 terbaru dari Apple memberikan performa yang sangat baik untuk tugas-tugas IT. Selain itu, laptop ini memiliki layar Retina yang jernih, keyboard yang nyaman dan baterai yang tahan lama.Dell XPS 13: Laptop ini adalah salah satu laptop terbaik dari Dell dengan desain yang ramping, layar yang tajam, performa yang sangat baik dan baterai yang tahan lama.Asus ZenBook UX425: Laptop dari Asus ini mempunyai performa yang baik, layar 14 inci yang tajam, keyboard yang nyaman dan baterai yang tahan lama. HP Spectre x360: Laptop dari HP ini mempunyai desain yang cantik, performa yang sangat baik, layar yang tajam dan baterai yang tahan lama.Saran terbaik untuk memilih laptop adalah dengan menyesuaikan dengan kebutuhan dan preferensi pribadi Anda, termasuk ukuran layar, bobot, portabilitas, dan spesifikasi teknis. Pastikan laptop yang Anda pilih memiliki spesifikasi yang cukup untuk menjalankan aplikasi dan program yang akan Anda gunakan selama kuliah dibidangIT."),
                     // Row(
                     //   children: [
@@ -127,8 +127,8 @@ class _MessageState extends State<Message> {
                     //         child: Text("Kiriman diterima oleh Yesaya | BTK")),
                     //   ],
                     // ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                         "108 tayangan · Lihat 1 dukungan naik · Kiriman diterima oleh Yesaya | BTK"),
                   ],
                 ),
@@ -136,7 +136,7 @@ class _MessageState extends State<Message> {
               Divider(color: Colors.grey[300]),
               Container(
                 // color: Colors.red,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 8),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
                 child: IntrinsicHeight(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,34 +145,34 @@ class _MessageState extends State<Message> {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.grey[300],
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(50),
                                 ),
                               ),
                               child: Row(
                                 children: [
-                                  Icon(Icons.thumb_up),
-                                  SizedBox(
+                                  const Icon(Icons.thumb_up),
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Text("12,5rb"),
+                                  const Text("12,5rb"),
                                   Container(
                                     height: 20,
-                                    child: VerticalDivider(
+                                    child: const VerticalDivider(
                                       color: Colors.black,
                                       thickness: 1,
                                     ),
                                   ),
-                                  Icon(Icons.thumb_down),
+                                  const Icon(Icons.thumb_down),
                                 ],
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(10),
-                              child: Row(
+                              padding: const EdgeInsets.all(10),
+                              child: const Row(
                                 children: [
                                   Icon(Icons.chat_bubble),
                                   SizedBox(
@@ -183,8 +183,8 @@ class _MessageState extends State<Message> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(10),
-                              child: Row(
+                              padding: const EdgeInsets.all(10),
+                              child: const Row(
                                 children: [
                                   Icon(Icons.share),
                                   SizedBox(
@@ -197,36 +197,36 @@ class _MessageState extends State<Message> {
                           ],
                         ),
                       ),
-                      Icon(Icons.more_horiz),
+                      const Icon(Icons.more_horiz),
                     ],
                   ),
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                 color: Colors.grey[300],
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey[200],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person,
                         size: 28,
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: Text("Tambahkan komentar ..."),
+                        child: const Text("Tambahkan komentar ..."),
                       ),
                     ),
                   ],

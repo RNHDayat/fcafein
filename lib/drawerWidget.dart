@@ -22,29 +22,29 @@ class DrawerWidget extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               ListTile(
-                title: Text('Pesan'),
-                leading: Icon(Icons.chat),
+                title: const Text('Pesan'),
+                leading: const Icon(Icons.chat),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CNested(),
+                        builder: (context) => const CNested(),
                       ));
                 },
               ),
               ListTile(
-                title: Text('Konten & Statistik Anda'),
-                leading: Icon(Icons.bar_chart),
+                title: const Text('Konten & Statistik Anda'),
+                leading: const Icon(Icons.bar_chart),
                 onTap: () {},
               ),
               ListTile(
-                title: Text('Daftar Bacaan'),
-                leading: Icon(Icons.bookmark_outline),
+                title: const Text('Daftar Bacaan'),
+                leading: const Icon(Icons.bookmark_outline),
                 onTap: () {},
               ),
               ListTile(
-                title: Text('Draf'),
-                leading: Icon(Icons.drafts_sharp),
+                title: const Text('Draf'),
+                leading: const Icon(Icons.drafts_sharp),
                 onTap: () {},
               ),
             ],
@@ -59,9 +59,9 @@ class DrawerWidget extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    Divider(),
+                    const Divider(),
                     Container(
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -72,10 +72,10 @@ class DrawerWidget extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => SettingScreen(),
+                                      builder: (context) => const SettingScreen(),
                                     ));
                                   },
-                                  child: Row(
+                                  child: const Row(
                                     children: [
                                       Icon(Icons.settings),
                                       SizedBox(width: 5),
@@ -152,7 +152,7 @@ class DrawerWidget extends StatelessWidget {
                                                   .pushReplacement(
                                                       MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SplashScreen(),
+                                                    const SplashScreen(),
                                               ));
                                             },
                                             child: Container(
@@ -197,7 +197,7 @@ class DrawerWidget extends StatelessWidget {
                                 },
                               );
                             },
-                            child: Icon(Icons.more_horiz),
+                            child: const Icon(Icons.more_horiz),
                           ),
                         ],
                       ),
@@ -213,18 +213,18 @@ class DrawerWidget extends StatelessWidget {
 
 Widget _drawerHeader(context) {
   return UserAccountsDrawerHeader(
-    decoration: BoxDecoration(color: Colors.white),
-    currentAccountPicture: ClipOval(
+    decoration: const BoxDecoration(color: Colors.white),
+    currentAccountPicture: const ClipOval(
       child:
           Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
     ),
     otherAccountsPictures: [
-      ClipOval(
+      const ClipOval(
         child:
             Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
       ),
     ],
-    accountName: Text(''),
+    accountName: const Text(''),
     accountEmail: GestureDetector(
       onTap: () {
         Navigator.push(
@@ -234,9 +234,9 @@ Widget _drawerHeader(context) {
             ));
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         // color: Colors.red,
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Andri Dwi',
@@ -255,10 +255,10 @@ Widget _drawerItem({IconData? icon, String? text, GestureTapCallback? onTap}) {
       children: <Widget>[
         Icon(icon),
         Padding(
-          padding: EdgeInsets.only(left: 25.0),
+          padding: const EdgeInsets.only(left: 25.0),
           child: Text(
             text!,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),

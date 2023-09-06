@@ -30,7 +30,7 @@ class _USState extends State<US> {
                   Container(
                     color: Colors.orange,
                     // height: 120,
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,30 +41,30 @@ class _USState extends State<US> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.more_horiz,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 5),
-                                Icon(
+                                const SizedBox(width: 5),
+                                const Icon(
                                   Icons.notifications,
                                   color: Colors.white,
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 ElevatedButton(
                                   onPressed: () {},
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
                                     backgroundColor: Colors.transparent,
                                     shape: RoundedRectangleBorder(
-                                      side: BorderSide(color: Colors.white),
+                                      side: const BorderSide(color: Colors.white),
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                   ),
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     // padding: const EdgeInsets.all(5.0),
-                                    child: Row(
+                                    child: const Row(
                                       children: [
                                         Icon(
                                           Icons.calendar_month,
@@ -88,7 +88,7 @@ class _USState extends State<US> {
                             ),
                           ),
                         ),
-                        ListTile(
+                        const ListTile(
                           title: Text(
                             "Level up Coding",
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -96,11 +96,11 @@ class _USState extends State<US> {
                           subtitle: Text(
                               "Perkembangan dunia digital tidak akan pernah terjadi tanpa adanya komunitas yang baik"),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 15.0),
                           child: Text("6 Kontributor"),
                         ),
                         Padding(
@@ -120,28 +120,28 @@ class _USState extends State<US> {
                                     children: [
                                       Container(
                                         width: double.infinity,
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: IntrinsicHeight(
                                           child: Row(
                                             children: [
                                               Container(
-                                                padding: EdgeInsets.all(5),
+                                                padding: const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Colors.grey[300],
                                                 ),
-                                                child: Icon(Icons.person),
+                                                child: const Icon(Icons.person),
                                               ),
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                               Expanded(
                                                 child: RichText(
                                                   maxLines: 2,
-                                                  text: TextSpan(
+                                                  text: const TextSpan(
                                                     text: 'Angga Aditya, ',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold),
-                                                    children: const <TextSpan>[
+                                                    children: <TextSpan>[
                                                       TextSpan(
                                                         text:
                                                             ' belajar Sistem Informasi di Istitut Teknologi Tangerang Selatan',
@@ -169,8 +169,8 @@ class _USState extends State<US> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
+                        const Padding(
+                          padding: EdgeInsets.only(
                               left: 15, right: 15, bottom: 10),
                           child: Text(
                             "12,1 rb 17 kiriman informasi dalam jangka waktu seminggu terakhir",
@@ -188,7 +188,7 @@ class _USState extends State<US> {
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
                         image: DecorationImage(
                           image: NetworkImage(urlProfile),
                           fit: BoxFit.cover,
@@ -205,14 +205,14 @@ class _USState extends State<US> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       child: DefaultTabController(
                         length: 2,
                         child: Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(5),
-                              child: TabBar(
+                              padding: const EdgeInsets.all(5),
+                              child: const TabBar(
                                 tabs: [
                                   Tab(
                                     icon: Icon(Icons.directions_bike),
@@ -248,7 +248,7 @@ class _USState extends State<US> {
                                   // second tab bar viiew widget
                                   Container(
                                     color: Colors.pink,
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         'Car',
                                       ),

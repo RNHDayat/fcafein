@@ -77,7 +77,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -825,6 +825,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                           Container(
                             height: 50,
                             decoration: const BoxDecoration(
+                              color: Colors.red,
                               border: Border(
                                 bottom: BorderSide(
                                   color: Color.fromRGBO(217, 217, 217, 100),

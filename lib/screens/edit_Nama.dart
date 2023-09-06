@@ -15,7 +15,7 @@ class _EditNamaState extends State<EditNama> {
       appBar: AppBar(
         // leadingWidth: 64,
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -62,7 +62,7 @@ class _EditNamaState extends State<EditNama> {
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        margin: EdgeInsets.all(15),
+        margin: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,7 +72,7 @@ class _EditNamaState extends State<EditNama> {
                   textStyle: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w600)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextField(

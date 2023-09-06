@@ -19,7 +19,7 @@ class _UbahSandiState extends State<UbahSandi> {
     return Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios,
               color: Colors.grey,
               size: 20,

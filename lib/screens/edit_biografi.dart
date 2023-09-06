@@ -17,7 +17,7 @@ class _EditBioState extends State<EditBio> {
       appBar: AppBar(
         // leadingWidth: 64,
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -64,7 +64,7 @@ class _EditBioState extends State<EditBio> {
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+        margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -79,7 +79,7 @@ class _EditBioState extends State<EditBio> {
                 child: TextField(
                   controller: _descriptionController,
                   maxLines: null,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'katakan sesuatu',
                   ),
@@ -87,7 +87,7 @@ class _EditBioState extends State<EditBio> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   border: Border(
                       top: BorderSide(
                 width: 1,
@@ -96,7 +96,7 @@ class _EditBioState extends State<EditBio> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.image,
                       color: Colors.grey,
                     ),

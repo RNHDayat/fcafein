@@ -17,7 +17,7 @@ class _CommentWidgetState extends State<CommentWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         if (comment['repliedData'] != null)
           for (var reply in comment['repliedData'])
             CommentWidget(comment: reply),

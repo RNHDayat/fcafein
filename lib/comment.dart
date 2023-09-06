@@ -65,7 +65,7 @@ class _CNestedState extends State<CNested> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Nested Comments')),
+      appBar: AppBar(title: const Text('Nested Comments')),
       body: CommentWidget(comment: nih), // Replace with your JSON data
     );
   }

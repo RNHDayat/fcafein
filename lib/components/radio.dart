@@ -36,7 +36,7 @@ class MyRadioOption<T> extends StatelessWidget {
         Container(
           width: 9,
           height: 9,
-          decoration: ShapeDecoration(
+          decoration: const ShapeDecoration(
             shape: CircleBorder(
               side: BorderSide(
                 color: Colors.white,

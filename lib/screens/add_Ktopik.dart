@@ -115,7 +115,7 @@ class _KredensialTopikState extends State<KredensialTopik> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Color.fromRGBO(210, 210, 210, 100), width: 1),
+                      color: const Color.fromRGBO(210, 210, 210, 100), width: 1),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: IntrinsicHeight(
@@ -123,7 +123,7 @@ class _KredensialTopikState extends State<KredensialTopik> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 15, right: 0, top: 15, bottom: 15),
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -146,7 +146,7 @@ class _KredensialTopikState extends State<KredensialTopik> {
                       child: Column(
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 15, right: 15, top: 15, bottom: 15),
                               child: Align(
                                 alignment: Alignment.centerLeft,
@@ -159,15 +159,15 @@ class _KredensialTopikState extends State<KredensialTopik> {
                                 ),
                               )),
                           Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 15, right: 15, top: 0, bottom: 15),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.check_circle_outline_outlined,
                                     color: Colors.green,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -180,15 +180,15 @@ class _KredensialTopikState extends State<KredensialTopik> {
                                 ],
                               )),
                           Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 15, right: 15, top: 0, bottom: 15),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.check_circle_outline_outlined,
                                     color: Colors.green,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
@@ -201,15 +201,15 @@ class _KredensialTopikState extends State<KredensialTopik> {
                                 ],
                               )),
                           Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 15, right: 15, top: 0, bottom: 15),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.check_circle_outline_outlined,
                                     color: Colors.green,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Expanded(

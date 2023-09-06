@@ -287,7 +287,7 @@ class _KredensialState extends State<Kredensial> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            KredensialPekerjaan()));
+                                            const KredensialPekerjaan()));
                               },
                               child: Container(
                                   decoration: const BoxDecoration(
@@ -494,7 +494,7 @@ class _KredensialState extends State<Kredensial> {
                 );
               },
               child: Container(
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
                 padding: const EdgeInsets.only(
                     left: 15, right: 15, top: 5, bottom: 5),
                 decoration: BoxDecoration(
@@ -503,7 +503,7 @@ class _KredensialState extends State<Kredensial> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.add_circle_outline,
                       color: Colors.blue,
                     ),
@@ -515,7 +515,7 @@ class _KredensialState extends State<Kredensial> {
                               fontWeight: FontWeight.w400,
                               color: Colors.blue)),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.keyboard_arrow_down_outlined,
                       color: Colors.blue,
                     )
@@ -548,7 +548,7 @@ class _KredensialState extends State<Kredensial> {
                     ),
                     Container(
                       height: 2,
-                      color: Color.fromRGBO(217, 217, 217, 100),
+                      color: const Color.fromRGBO(217, 217, 217, 100),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -564,8 +564,8 @@ class _KredensialState extends State<Kredensial> {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Icon(Icons.school),
-                              SizedBox(
+                              const Icon(Icons.school),
+                              const SizedBox(
                                 width: 5,
                               ),
                               Expanded(
@@ -606,7 +606,7 @@ class _KredensialState extends State<Kredensial> {
                     ),
                     Container(
                       height: 2,
-                      color: Color.fromRGBO(217, 217, 217, 100),
+                      color: const Color.fromRGBO(217, 217, 217, 100),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -622,8 +622,8 @@ class _KredensialState extends State<Kredensial> {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Icon(Icons.location_on),
-                              SizedBox(
+                              const Icon(Icons.location_on),
+                              const SizedBox(
                                 width: 5,
                               ),
                               Expanded(
@@ -680,7 +680,7 @@ class _KredensialState extends State<Kredensial> {
                     ),
                     Container(
                       height: 2,
-                      color: Color.fromRGBO(217, 217, 217, 100),
+                      color: const Color.fromRGBO(217, 217, 217, 100),
                     ),
                   ],
                 ),

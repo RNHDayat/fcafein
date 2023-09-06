@@ -47,7 +47,7 @@ class _FollowingState extends State<Following> {
               padding:
                   EdgeInsets.fromLTRB(15 * fem, 10 * fem, 15 * fem, 15 * fem),
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xffffffff),
               ),
               // padding: EdgeInsets.all(10),
@@ -58,17 +58,17 @@ class _FollowingState extends State<Following> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          borderRadius: const BorderRadius.all(Radius.circular(25)),
                           color: Colors.grey[200],
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.person,
                           size: 24,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -78,7 +78,7 @@ class _FollowingState extends State<Following> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    TambahPertanyaan(initialIndex: 0),
+                                    const TambahPertanyaan(initialIndex: 0),
                               ),
                             );
                           },
@@ -92,7 +92,7 @@ class _FollowingState extends State<Following> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.all(5.0),
-                            child: Text(
+                            child: const Text(
                               'Apa yang ingin Anda tanyakan atau bagikan?',
                               style: TextStyle(
                                 fontSize: 12,
@@ -104,7 +104,7 @@ class _FollowingState extends State<Following> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -114,16 +114,16 @@ class _FollowingState extends State<Following> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                TambahPertanyaan(initialIndex: 0),
+                                const TambahPertanyaan(initialIndex: 0),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               // ignore: prefer_const_constructors
                               Icon(Icons.question_mark_rounded),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text(
                                   "Tanya",
                                 ),
@@ -136,15 +136,15 @@ class _FollowingState extends State<Following> {
                         onTap: () {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
-                            builder: (context) => BottomNavBar(currentIndex: 2),
+                            builder: (context) => const BottomNavBar(currentIndex: 2),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.question_answer),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text(
                                   "Jawab",
                                 ),
@@ -157,15 +157,15 @@ class _FollowingState extends State<Following> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                TambahPertanyaan(initialIndex: 1),
+                                const TambahPertanyaan(initialIndex: 1),
                           ));
                         },
                         child: Container(
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.edit),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 5),
                                 child: Text("Kiriman"),
                               ),
                             ],
@@ -177,13 +177,13 @@ class _FollowingState extends State<Following> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             ListView.builder(
               itemCount: data.length,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
@@ -209,13 +209,13 @@ class _FollowingState extends State<Following> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
+                                          const BorderRadius.all(Radius.circular(8)),
                                       color: Colors.grey[200],
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.person,
                                       size: 28,
                                     ),
@@ -226,12 +226,12 @@ class _FollowingState extends State<Following> {
                                       title: IntrinsicHeight(
                                         child: Row(
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Ngomongin IT",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 3,
                                             ),
                                             Container(
@@ -242,21 +242,21 @@ class _FollowingState extends State<Following> {
                                                 color: Colors.grey[400],
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 3,
                                             ),
-                                            Text("Mengikuti"),
+                                            const Text("Mengikuti"),
                                           ],
                                         ),
                                       ),
                                       subtitle: IntrinsicHeight(
                                         child: Row(
                                           children: [
-                                            Text(
+                                            const Text(
                                               "Dijawab oleh Reza",
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 2,
                                             ),
                                             Container(
@@ -267,16 +267,16 @@ class _FollowingState extends State<Following> {
                                                 color: Colors.grey[400],
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 2,
                                             ),
-                                            Text("Sel"),
+                                            const Text("Sel"),
                                           ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Column(
+                                  const Column(
                                     // mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(
@@ -300,7 +300,7 @@ class _FollowingState extends State<Following> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Message(),
+                              builder: (context) => const Message(),
                             ));
                           },
                           child: Container(
@@ -310,7 +310,7 @@ class _FollowingState extends State<Following> {
                               15 * fem,
                               15 * fem,
                             ),
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -338,7 +338,7 @@ class _FollowingState extends State<Following> {
                         Container(
                           width: double.infinity,
                           // color: Colors.red,
-                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           child: IntrinsicHeight(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -347,10 +347,10 @@ class _FollowingState extends State<Following> {
                                   child: Row(
                                     children: [
                                       Container(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         decoration: BoxDecoration(
                                           color: Colors.grey[300],
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(50),
                                           ),
                                         ),
@@ -376,19 +376,19 @@ class _FollowingState extends State<Following> {
                                                     : Colors.grey,
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
                                                 data[index]['like'].toString()),
                                             Container(
                                               height: 20,
-                                              child: VerticalDivider(
+                                              child: const VerticalDivider(
                                                 color: Colors.black,
                                                 thickness: 1,
                                               ),
                                             ),
-                                            Icon(Icons.thumb_down_outlined),
+                                            const Icon(Icons.thumb_down_outlined),
                                           ],
                                         ),
                                       ),
@@ -400,20 +400,20 @@ class _FollowingState extends State<Following> {
                                           });
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(10),
                                           child:
-                                              Icon(Icons.chat_bubble_outline),
+                                              const Icon(Icons.chat_bubble_outline),
                                         ),
                                       ),
                                       GestureDetector(
                                         onTap: () async {
-                                          final urlPreview = 'www.flutter.dev';
+                                          const urlPreview = 'www.flutter.dev';
 
                                           await Share.share(
                                               'Check out this great video\n\n$urlPreview');
                                         },
                                         child: Container(
-                                          child: Icon(Icons.share),
+                                          child: const Icon(Icons.share),
                                         ),
                                       ),
                                     ],
@@ -449,7 +449,7 @@ class _FollowingState extends State<Following> {
                                                           color:
                                                               Colors.red[900]),
                                                     ),
-                                                    Row(
+                                                    const Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
@@ -473,14 +473,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.2,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Text(
                                                         "Tambahkan komentar"),
                                                   ),
@@ -494,14 +494,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.2,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Text("Bagikan"),
                                                   ),
                                                 ),
@@ -514,14 +514,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.7,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                       child:
                                                           Text("Jawab nanti")),
                                                 ),
@@ -534,14 +534,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 1,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                       child: Text(
                                                           "Beritahu saya tentang editan")),
                                                 ),
@@ -554,14 +554,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                       child: Text(
                                                           "Dorong turun pertamyaan")),
                                                 ),
@@ -574,14 +574,14 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
                                                           color: Colors.grey),
                                                     ),
                                                   ),
-                                                  child: Center(
+                                                  child: const Center(
                                                       child: Text(
                                                           "Lihat rincian pertanyaan")),
                                                 ),
@@ -594,7 +594,7 @@ class _FollowingState extends State<Following> {
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
                                                       top: BorderSide(
                                                           width: 0.5,
@@ -614,41 +614,41 @@ class _FollowingState extends State<Following> {
                                           );
                                         });
                                   },
-                                  child: Icon(Icons.more_horiz),
+                                  child: const Icon(Icons.more_horiz),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         //komentar
                         Visibility(
                           visible: data[index]['comment'],
                           child: Container(
-                            padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                             color: Colors.grey[300],
                             child: Row(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.grey[100],
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.person,
                                     size: 28,
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: Text("Tambahkan komentar ..."),
+                                    child: const Text("Tambahkan komentar ..."),
                                   ),
                                 ),
                               ],
@@ -679,13 +679,13 @@ class _FollowingState extends State<Following> {
           //     ),
           //   ),
           // ),
-          titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          contentPadding: EdgeInsets.only(
+          titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          contentPadding: const EdgeInsets.only(
             top: 10.0,
           ),
           title: Container(
             // color: Colors.blue,
-            child: Text(
+            child: const Text(
               "Bagikan Dengan",
               style: TextStyle(fontSize: 20.0),
             ),
@@ -700,7 +700,7 @@ class _FollowingState extends State<Following> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
@@ -708,20 +708,20 @@ class _FollowingState extends State<Following> {
                   child: Row(
                     children: [
                       Image.asset("assets/icon/ic_twitter.png"),
-                      SizedBox(width: 10),
-                      Text("Direct Messsage"),
+                      const SizedBox(width: 10),
+                      const Text("Direct Messsage"),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.content_copy),
                       SizedBox(width: 10),
@@ -732,7 +732,7 @@ class _FollowingState extends State<Following> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
@@ -740,15 +740,15 @@ class _FollowingState extends State<Following> {
                   child: Row(
                     children: [
                       Image.asset("assets/icon/ic_twitter.png"),
-                      SizedBox(width: 10),
-                      Text("Tweet"),
+                      const SizedBox(width: 10),
+                      const Text("Tweet"),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
@@ -756,20 +756,20 @@ class _FollowingState extends State<Following> {
                   child: Row(
                     children: [
                       Image.asset("assets/icon/ic_whatsapp.png"),
-                      SizedBox(width: 10),
-                      Text("WhatsApp"),
+                      const SizedBox(width: 10),
+                      const Text("WhatsApp"),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.mail),
                       SizedBox(width: 10),
@@ -783,7 +783,7 @@ class _FollowingState extends State<Following> {
                   },
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text("Batal",

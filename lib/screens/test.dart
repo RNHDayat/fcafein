@@ -24,14 +24,14 @@ class _FilterButtonState extends State<FilterButton>
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text('My App'),
+            title: const Text('My App'),
             pinned: true,
             floating: true,
             bottom: TabBar(
               controller: _tabController,
               tabs: [
-                Tab(text: 'Tab 1'),
-                Tab(text: 'Tab 2'),
+                const Tab(text: 'Tab 1'),
+                const Tab(text: 'Tab 2'),
               ],
             ),
           ),
@@ -40,11 +40,11 @@ class _FilterButtonState extends State<FilterButton>
               controller: _tabController,
               children: [
                 // Content for Tab 1
-                Center(
+                const Center(
                   child: Text('Tab 1 Content'),
                 ),
                 // Content for Tab 2
-                Center(
+                const Center(
                   child: Text('Tab 2 Content'),
                 ),
               ],

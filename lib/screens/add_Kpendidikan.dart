@@ -119,13 +119,13 @@ class _KredensialPendidikanState extends State<KredensialPendidikan> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: Color.fromRGBO(210, 210, 210, 100), width: 1)),
+                        color: const Color.fromRGBO(210, 210, 210, 100), width: 1)),
                 child: IntrinsicHeight(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             left: 15, right: 0, top: 15, bottom: 20),
                         child: Align(
                           alignment: Alignment.centerLeft,

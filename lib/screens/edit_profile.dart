@@ -26,7 +26,7 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -45,7 +45,7 @@ class _EditProfileState extends State<EditProfile> {
           )),
         ),
         toolbarHeight: 70,
-        backgroundColor: Color.fromRGBO(217, 217, 217, 100),
+        backgroundColor: const Color.fromRGBO(217, 217, 217, 100),
       ),
       body: Container(
         child: Column(
@@ -60,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
                                     color: Color.fromRGBO(217, 217, 217, 100),
@@ -94,7 +94,7 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             onPressed: () {},
                             child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Color.fromRGBO(217, 217, 217, 100),
@@ -129,7 +129,7 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             onPressed: () {},
                             child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Color.fromRGBO(217, 217, 217, 100),
@@ -164,7 +164,7 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             onPressed: () {},
                             child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
                                       color: Color.fromRGBO(217, 217, 217, 100),
@@ -198,7 +198,7 @@ class _EditProfileState extends State<EditProfile> {
                 );
               },
               child: Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: const EdgeInsets.only(left: 15, right: 15),
                 height: 70,
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -217,7 +217,7 @@ class _EditProfileState extends State<EditProfile> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         SizedBox(
@@ -232,8 +232,8 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                         ),
-                        Spacer(),
-                        Icon(
+                        const Spacer(),
+                        const Icon(
                           Icons.edit_outlined,
                           color: Colors.grey,
                         )
@@ -243,7 +243,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             Container(
               height: 2,
-              color: Color.fromRGBO(217, 217, 217, 100),
+              color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             SizedBox(
               height: 70,
@@ -256,7 +256,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EditNama()));
+                          MaterialPageRoute(builder: (context) => const EditNama()));
                     },
                     child: Container(
                         height: 68,
@@ -293,8 +293,8 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                               ],
                             ),
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.edit_outlined,
                               color: Colors.grey,
                             )
@@ -303,7 +303,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Container(
                     height: 2,
-                    color: Color.fromRGBO(217, 217, 217, 100),
+                    color: const Color.fromRGBO(217, 217, 217, 100),
                   )
                 ],
               ),
@@ -339,8 +339,8 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                               ),
                             ),
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.edit_outlined,
                               color: Colors.grey,
                             )
@@ -349,7 +349,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Container(
                     height: 2,
-                    color: Color.fromRGBO(217, 217, 217, 100),
+                    color: const Color.fromRGBO(217, 217, 217, 100),
                   )
                 ],
               ),
@@ -386,7 +386,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
                             const Spacer(),
-                            Icon(
+                            const Icon(
                               Icons.edit_outlined,
                               color: Colors.grey,
                             )
@@ -395,7 +395,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Container(
                     height: 2,
-                    color: Color.fromRGBO(217, 217, 217, 100),
+                    color: const Color.fromRGBO(217, 217, 217, 100),
                   )
                 ],
               ),

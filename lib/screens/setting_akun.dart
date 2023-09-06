@@ -21,7 +21,7 @@ class _SettingAkunState extends State<SettingAkun> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -67,10 +67,10 @@ class _SettingAkunState extends State<SettingAkun> {
             ),
             Container(
               height: 2,
-              color: Color.fromRGBO(217, 217, 217, 100),
+              color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15, right: 0, top: 20, bottom: 0),
+              padding: const EdgeInsets.only(left: 15, right: 0, top: 20, bottom: 0),
               child: Container(
                 width: size.width,
                 height: 60,
@@ -83,7 +83,7 @@ class _SettingAkunState extends State<SettingAkun> {
                           Text(
                             "test@gmail.co",
                             style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600)),
                           ),
                         ],
@@ -95,7 +95,7 @@ class _SettingAkunState extends State<SettingAkun> {
                           Text(
                             "Surel Utama",
                             style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400)),
@@ -136,7 +136,7 @@ class _SettingAkunState extends State<SettingAkun> {
                         ),
                         hintText: 'nama@contoh.id',
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+                            const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
                       ),
                     ),
                     const SizedBox(
@@ -164,10 +164,10 @@ class _SettingAkunState extends State<SettingAkun> {
             ),
             Container(
               height: 2,
-              color: Color.fromRGBO(217, 217, 217, 100),
+              color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
+              padding: const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
               child: Container(
                 width: double.infinity,
                 height: 30,
@@ -179,7 +179,7 @@ class _SettingAkunState extends State<SettingAkun> {
                         child: Text(
                           "Sandi",
                           style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w600)),
                         ),
                       ),
@@ -190,10 +190,10 @@ class _SettingAkunState extends State<SettingAkun> {
             ),
             Container(
               height: 2,
-              color: Color.fromRGBO(217, 217, 217, 100),
+              color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 10, right: 15, top: 0, bottom: 0),
+              padding: const EdgeInsets.only(left: 10, right: 15, top: 0, bottom: 0),
               child: Container(
                 width: size.width,
                 height: 50,
@@ -213,7 +213,7 @@ class _SettingAkunState extends State<SettingAkun> {
                             child: Text(
                               "Ubah Sandi",
                               style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400)),
                             ),
@@ -227,7 +227,7 @@ class _SettingAkunState extends State<SettingAkun> {
             ),
             Container(
               height: 2,
-              color: Color.fromRGBO(217, 217, 217, 100),
+              color: const Color.fromRGBO(217, 217, 217, 100),
             ),
           ],
         ),

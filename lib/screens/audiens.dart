@@ -17,7 +17,7 @@ class _AudiensState extends State<Audiens> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: GestureDetector(
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.grey,
             size: 20,
@@ -46,11 +46,11 @@ class _AudiensState extends State<Audiens> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2, // Width of the bottom border
-                    color: const Color.fromRGBO(217, 217, 217,
+                    color: Color.fromRGBO(217, 217, 217,
                         100), // Color of the bottom border for active tab
                   ),
                 ),
@@ -69,8 +69,8 @@ class _AudiensState extends State<Audiens> {
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.supervisor_account_outlined),
-                        SizedBox(
+                        const Icon(Icons.supervisor_account_outlined),
+                        const SizedBox(
                           width: 5,
                         ),
                         Expanded(
@@ -111,11 +111,11 @@ class _AudiensState extends State<Audiens> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2, // Width of the bottom border
-                    color: const Color.fromRGBO(217, 217, 217,
+                    color: Color.fromRGBO(217, 217, 217,
                         100), // Color of the bottom border for active tab
                   ),
                 ),
@@ -134,8 +134,8 @@ class _AudiensState extends State<Audiens> {
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.shield_outlined),
-                        SizedBox(
+                        const Icon(Icons.shield_outlined),
+                        const SizedBox(
                           width: 5,
                         ),
                         Expanded(

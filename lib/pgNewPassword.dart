@@ -12,8 +12,8 @@ class _NewPasswordState extends State<NewPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: 40),
-        padding: EdgeInsets.all(20),
+        margin: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -21,13 +21,13 @@ class _NewPasswordState extends State<NewPassword> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.close),
+                  const Icon(Icons.close),
                   Container(
                     child: Row(
                       children: [
                         TextButton(
                           onPressed: () {},
-                          child: Text("Batal"),
+                          child: const Text("Batal"),
                         ),
                         ElevatedButton(
                           onPressed: () {},
@@ -40,7 +40,7 @@ class _NewPasswordState extends State<NewPassword> {
                           child: Container(
                             // width: 20,
 
-                            child: Center(
+                            child: const Center(
                               child: Text("Selesai"),
                             ),
                           ),
@@ -51,17 +51,17 @@ class _NewPasswordState extends State<NewPassword> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Masukkan Password Baru",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
@@ -71,20 +71,20 @@ class _NewPasswordState extends State<NewPassword> {
                 color: Colors.grey[700],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
-            Text(
+            const Text(
               "Kata Sandi Baru",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -93,20 +93,20 @@ class _NewPasswordState extends State<NewPassword> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
-            Text(
+            const Text(
               "Konfirmasi Sandi Baru",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(

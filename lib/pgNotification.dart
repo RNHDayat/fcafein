@@ -14,19 +14,19 @@ class _NotificationState extends State<PageNotification> {
       // appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Semua Notifikasi Terbaca",
                       style: TextStyle(color: Colors.grey),
                     ),
                     Container(
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.tune, color: Colors.grey),
                           SizedBox(width: 10),
@@ -37,7 +37,7 @@ class _NotificationState extends State<PageNotification> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 // color: Colors.red,
                 child: IntrinsicHeight(
@@ -45,18 +45,18 @@ class _NotificationState extends State<PageNotification> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.grey[200],
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.person,
                           size: 28,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Expanded(
+                      const SizedBox(width: 10),
+                      const Expanded(
                         flex: 9,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class _NotificationState extends State<PageNotification> {
                           ],
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         flex: 1,
                         child: Icon(Icons.more_horiz),
                       ),
