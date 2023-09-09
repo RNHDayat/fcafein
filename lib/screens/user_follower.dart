@@ -22,6 +22,7 @@ class _UserFollowerState extends State<UserFollower>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     fetchFollowers();
+    fetchFollowings();
     user();
   }
 
@@ -36,7 +37,7 @@ class _UserFollowerState extends State<UserFollower>
   String companyfollowers = '';
   String jobfollowers = '';
 
-  List<Followers> followingList = [];
+  List<Followers> followerList = [];
 
   fetchFollowers() async {
     final _db = DBhelper();
@@ -44,7 +45,7 @@ class _UserFollowerState extends State<UserFollower>
     print(data[0].token);
     Followers.followers(data[0].token).then((value) {
       setState(() {
-        followingList.add(value);
+        followerList.add(value);
         getFollowers = value;
         userId = getFollowers.id_user!;
         followingId = getFollowers.following_id!;
@@ -58,6 +59,36 @@ class _UserFollowerState extends State<UserFollower>
         print(status);
         print(namefollow);
         print(nickfollow);
+      });
+    });
+  }
+
+  ShowFollowings getFollowings = ShowFollowings();
+  String useridfollowing = '';
+  String followingIduser = '';
+  String statusfollowing = '';
+  String namefollowing = '';
+  String nickfollowing = '';
+  String companyfollowing = '';
+  String jobfollowing = '';
+
+  List<ShowFollowings> followingList = [];
+
+  fetchFollowings() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    ShowFollowings.showfollowings(data[0].token).then((value) {
+      setState(() {
+        followingList.add(value);
+        getFollowings = value;
+        useridfollowing = getFollowings.id_user!;
+        followingIduser = getFollowings.following_id!;
+        statusfollowing = getFollowings.follow_status!;
+        namefollowing = getFollowings.fullname!;
+        nickfollowing = getFollowings.nickname!;
+        companyfollowing = getFollowings.company!;
+        jobfollowing = getFollowings.job_position!;
       });
     });
   }
@@ -378,7 +409,7 @@ class _UserFollowerState extends State<UserFollower>
 
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: followingList.length,
+                        itemCount: followerList.length,
                         itemBuilder: (context, index) {
                           return Container(
                             decoration: BoxDecoration(
@@ -683,103 +714,103 @@ class _UserFollowerState extends State<UserFollower>
                         ))),
                       ),
 
-                      Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: followingList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // Dapatkan data yang sesuai dari followingList
+                          ShowFollowings followings = followingList[index];
+
+                          return Container(
+                            decoration: const BoxDecoration(
+                              border: Border(
                                 bottom: BorderSide(
-                          width: 1,
-                          color: Color.fromRGBO(217, 217, 217, 100),
-                        ))),
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                              ),
-                              onPressed: () {},
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 15, bottom: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.grey,
-                                    ),
-                                    width: 35,
-                                    height: 35,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              style: GoogleFonts.poppins(
-                                                textStyle: const TextStyle(
-                                                    fontSize: 12.0,
-                                                    color: Colors.black),
-                                              ),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: 'Nur Rojabiyah, ',
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {},
-                                                ),
-                                                const TextSpan(
-                                                  text: 'S1 di Teknik Fisika, ',
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      'Institut Teknologi Sepuluh November(2023)',
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {},
-                                                ),
-                                              ],
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  "86 Pengikut",
-                                                  style: GoogleFonts.poppins(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color:
-                                                                  Colors.grey)),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const FollowButton()
-                                ],
+                                  width: 1,
+                                  color: Color.fromRGBO(217, 217, 217, 100),
+                                ),
                               ),
                             ),
-                          ],
-                        ),
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 15, bottom: 15),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.grey,
+                                        ),
+                                        width: 35,
+                                        height: 35,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Column(
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  style: GoogleFonts.poppins(
+                                                    textStyle: const TextStyle(
+                                                      fontSize: 12.0,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text:
+                                                          '${followings.fullname}, ',
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      recognizer:
+                                                          TapGestureRecognizer()
+                                                            ..onTap = () {},
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                          '${followings.job_position} di ',
+                                                    ),
+                                                    TextSpan(
+                                                      text: followings.company,
+                                                      recognizer:
+                                                          TapGestureRecognizer()
+                                                            ..onTap = () {},
+                                                    ),
+                                                  ],
+                                                ),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      FollowButton(),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
