@@ -256,8 +256,8 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                   ),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: followingId.isNotEmpty
-                                          ? '$followingId Pengikut'
+                                      text: followingList.isNotEmpty
+                                          ? '${followerList.length} Pengikut'
                                           : 'Belum Ada Pengikut',
                                       style: GoogleFonts.poppins(
                                         textStyle:
@@ -268,8 +268,9 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserFollower()),
+                                              builder: (context) =>
+                                                  const UserFollower(),
+                                            ),
                                           );
                                         },
                                     ),
@@ -280,7 +281,9 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                               color: Colors.grey)),
                                     ),
                                     TextSpan(
-                                      text: 'Mengikuti 1',
+                                      text: followingList.isNotEmpty
+                                          ? 'Mengikuti ${followingList.length}'
+                                          : 'Belum Ada Pengikut',
                                       style: GoogleFonts.poppins(
                                         textStyle:
                                             const TextStyle(color: Colors.grey),
