@@ -335,20 +335,6 @@ class Followers {
   }
 }
 
-class ChangeName {
-  final int id;
-  final String fullname;
-
-  const ChangeName({required this.id, required this.fullname});
-
-  factory ChangeName.fromJson(Map<String, dynamic> json) {
-    return ChangeName(
-      id: json['id'],
-      fullname: json['fullname'],
-    );
-  }
-}
-
 class Following {
   String? following_id, follow_status;
 
