@@ -8,15 +8,17 @@ import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/textfieldTahun.dart';
 
-class KredensialLokasi extends StatefulWidget {
-  const KredensialLokasi({super.key});
+class EditKredensialKeahlian extends StatefulWidget {
+  final keahlian, type, id, hide;
+  const EditKredensialKeahlian(
+      {super.key, this.keahlian, this.type, this.id, this.hide});
 
   @override
-  State<KredensialLokasi> createState() => _KredensialLokasiState();
+  State<EditKredensialKeahlian> createState() => _EditKredensialKeahlianState();
 }
 
-class _KredensialLokasiState extends State<KredensialLokasi> {
-  bool isChecked = false;
+class _EditKredensialKeahlianState extends State<EditKredensialKeahlian> {
+  // bool isChecked = false;
   // Color getColor(Set<MaterialState> states) {
   //   const Set<MaterialState> interactiveStates = <MaterialState>{
   //     MaterialState.pressed,
@@ -30,15 +32,16 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
   // }
   final _key = GlobalKey<FormState>();
   String token = '';
-  int type = 2;
+  int type = 0;
   String description = '';
-  TextEditingController lokasi = TextEditingController();
+  TextEditingController keahlian = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getToken();
+    keahlian.text = widget.keahlian;
   }
 
   getToken() async {
@@ -50,10 +53,14 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
     print(data);
   }
 
-  saveKredensial(String lokasi) async {
+  saveKredensial(String keahlian) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
     setState(() {
-      description = 'Tinggal di $lokasi';
-      StoreCredential.store(token, type.toString(), description);
+      description = 'Saya memiliki keahlian $keahlian';
+      UpdateCredentials.updateCredential(data[0].token, widget.id.toString(),
+          type.toString(), description, widget.hide.toString());
+      // StoreCredential.store(token, type.toString(), description);
     });
   }
 
@@ -94,7 +101,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      saveKredensial(lokasi.text);
+                      saveKredensial(keahlian.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -103,7 +110,8 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const KredensialLokasi()));
+                              builder: (context) =>
+                                  const EditKredensialKeahlian()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -178,15 +186,49 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 15, right: 0, top: 15, bottom: 20),
+                              left: 15, right: 0, top: 15, bottom: 10),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Tambahkan Kredensial Lokasi",
+                              "Tambahkan Kredensial Keahlian",
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 0, top: 0, bottom: 10),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                UpdateCredentials.destroyCredential(
+                                    token, widget.id.toString());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Kredensial()));
+                              },
+                              child: Text(
+                                'Hapus',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  side: BorderSide(width: 0.5),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -198,10 +240,10 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Lokasi",
+                                  "Keahlian",
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w500)),
                                 ),
                               ),
@@ -209,12 +251,12 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                                 height: 10,
                               ),
                               TextFormField(
-                                controller: lokasi,
+                                controller: keahlian,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  hintText: 'Masukkan alamat',
+                                  hintText: 'Masukkan keahlian',
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 7, horizontal: 15),
                                 ),

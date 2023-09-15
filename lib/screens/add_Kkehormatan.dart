@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/screens/add_Klokasi.dart';
 import 'package:powershare/screens/add_Kpekerjaan.dart';
 import 'package:powershare/screens/add_Kpendidikan.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
@@ -8,14 +9,14 @@ import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/textfieldTahun.dart';
 
-class KredensialLokasi extends StatefulWidget {
-  const KredensialLokasi({super.key});
+class KredensialKehormatan extends StatefulWidget {
+  const KredensialKehormatan({super.key});
 
   @override
-  State<KredensialLokasi> createState() => _KredensialLokasiState();
+  State<KredensialKehormatan> createState() => _KredensialKehormatanState();
 }
 
-class _KredensialLokasiState extends State<KredensialLokasi> {
+class _KredensialKehormatanState extends State<KredensialKehormatan> {
   bool isChecked = false;
   // Color getColor(Set<MaterialState> states) {
   //   const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -30,9 +31,9 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
   // }
   final _key = GlobalKey<FormState>();
   String token = '';
-  int type = 2;
+  int type = 4;
   String description = '';
-  TextEditingController lokasi = TextEditingController();
+  TextEditingController kehormatan = TextEditingController();
 
   @override
   void initState() {
@@ -50,9 +51,9 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
     print(data);
   }
 
-  saveKredensial(String lokasi) async {
+  saveKredensial(String kehormatan) async {
     setState(() {
-      description = 'Tinggal di $lokasi';
+      description = 'Memiliki gelar $kehormatan';
       StoreCredential.store(token, type.toString(), description);
     });
   }
@@ -94,7 +95,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      saveKredensial(lokasi.text);
+                      saveKredensial(kehormatan.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -103,7 +104,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const KredensialLokasi()));
+                              builder: (context) => const KredensialKehormatan()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -182,7 +183,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Tambahkan Kredensial Lokasi",
+                              "Tambahkan Kredensial Kehormatan",
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -198,7 +199,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Lokasi",
+                                  "Gelar Kehormatan",
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           fontSize: 14,
@@ -209,12 +210,12 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                                 height: 10,
                               ),
                               TextFormField(
-                                controller: lokasi,
+                                controller: kehormatan,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  hintText: 'Masukkan alamat',
+                                  hintText: 'Masukkan gelar kehormatan',
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 7, horizontal: 15),
                                 ),

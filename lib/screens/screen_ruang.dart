@@ -5,6 +5,7 @@ import 'package:powershare/components/listItem.dart';
 import 'package:powershare/components/searchdelegate.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/pgDetailIlmu.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,16 +19,30 @@ class ScreenRuang extends StatefulWidget {
 class _ScreenRuangState extends State<ScreenRuang> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // getIlmu();
+    getFollowingIlmu();
   }
 
-  // getIlmu() async {
+  List<ShowFollowIlmu> showFollowIlmu = [];
+  ShowFollowIlmu showIlmu = ShowFollowIlmu();
+
+  getFollowingIlmu() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    showFollowIlmu = await showIlmu.getFollow(data[0].token);
+    setState(() {});
+    // print(showFollowIlmu[0].name);
+  }
+
+  // ShowFollowIlmu showFollowIlmu = ShowFollowIlmu();
+  // getFollowingIlmu() async {
   //   final _db = DBhelper();
   //   var data = await _db.getToken();
-  //   PageIlmu.get(data[0].token).then((value) {
-  //     print(value.runtimeType);
+  //   ShowFollowIlmu.getFollow(data[0].token).then((value) {
+  //     setState(() {
+  //       showFollowIlmu = value;
+  //       print(showFollowIlmu.name);
+  //     });
   //   });
   // }
 
@@ -41,43 +56,6 @@ class _ScreenRuangState extends State<ScreenRuang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.push(context,
-      //           MaterialPageRoute(builder: (context) => const SettingScreen()));
-      //     },
-      //     icon: const Icon(
-      //       Icons.account_circle,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   toolbarHeight: 70,
-      //   title: Text(
-      //     "Ruang",
-      //     style: GoogleFonts.poppins(
-      //       textStyle: const TextStyle(
-      //           fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-      //     ),
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () => {
-      //               showSearch(
-      //                   context: context, delegate: CustomSearchDelegate())
-      //             },
-      //         icon: const Icon(
-      //           Icons.search,
-      //           color: Colors.white,
-      //         ))
-      //   ],
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomLeft: Radius.circular(16),
-      //       bottomRight: Radius.circular(16),
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -225,37 +203,50 @@ class _ScreenRuangState extends State<ScreenRuang> {
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      alignment: Alignment.centerLeft,
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                    ),
-                    onPressed: () => {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => UserSpace(),
-                      // ))
-                    },
-                    label: const Row(
-                      children: [
-                        Text(
-                          "Ngomongin IT",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: showFollowIlmu.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 5, right: 5, top: 0, bottom: 0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          alignment: Alignment.centerLeft,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
                         ),
-                        Spacer(),
-                        Icon(Icons.keyboard_arrow_right),
-                      ],
+                        onPressed: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailIlmu(
+                                        id: showFollowIlmu[index].id,
+                                        codeIlmu:
+                                            showFollowIlmu[index].codeIlmu,
+                                        name: showFollowIlmu[index].name,
+                                      )))
+                        },
+                        label: Row(
+                          children: [
+                            Text(
+                              showFollowIlmu[index].name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Spacer(),
+                            Icon(Icons.keyboard_arrow_right),
+                          ],
+                        ),
+                        icon: const Icon(Icons.account_circle_outlined),
+                      ),
                     ),
-                    icon: const Icon(Icons.account_circle_outlined),
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(
                 height: 10,

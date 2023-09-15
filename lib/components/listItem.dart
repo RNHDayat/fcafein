@@ -89,7 +89,10 @@ class _listItemState extends State<listItem> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => DetailIlmu(
-                            codeIlmu: listIlmu[index].codeIlmu.toString())));
+                              id: listIlmu[index].id,
+                              codeIlmu: listIlmu[index].codeIlmu.toString(),
+                              name: listIlmu[index].name,
+                            )));
               },
               child: Padding(
                 padding: const EdgeInsets.only(

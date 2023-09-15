@@ -9,14 +9,23 @@ import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/add_Kruang.dart';
 import 'package:powershare/screens/setting_akun.dart';
 
-class KredensialPendidikan extends StatefulWidget {
-  const KredensialPendidikan({super.key});
+class EditKredensialPendidikan extends StatefulWidget {
+  final sekolah, jurusan, gelar, type, id, hide;
+  const EditKredensialPendidikan(
+      {super.key,
+      this.sekolah,
+      this.jurusan,
+      this.gelar,
+      this.type,
+      this.id,
+      this.hide});
 
   @override
-  State<KredensialPendidikan> createState() => _KredensialPendidikanState();
+  State<EditKredensialPendidikan> createState() =>
+      _EditKredensialPendidikanState();
 }
 
-class _KredensialPendidikanState extends State<KredensialPendidikan> {
+class _EditKredensialPendidikanState extends State<EditKredensialPendidikan> {
   final _key = GlobalKey<FormState>();
   String token = '';
   int type = 1;
@@ -36,14 +45,21 @@ class _KredensialPendidikanState extends State<KredensialPendidikan> {
     var data = await _db.getToken();
     setState(() {
       token = data[0].token;
+      sekolah.text = widget.sekolah;
+      jurusan.text = widget.jurusan;
+      gelar.text = widget.gelar;
     });
     print(data);
   }
 
   saveKredensial(String jurusan, sekolah, gelar) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
     setState(() {
       description = 'Belajar $jurusan di $sekolah dengan gelar $gelar';
-      StoreCredential.store(token, type.toString(), description);
+      UpdateCredentials.updateCredential(data[0].token, widget.id.toString(),
+          type.toString(), description, widget.hide.toString());
+      // StoreCredential.store(token, type.toString(), description);
     });
   }
 
@@ -163,7 +179,7 @@ class _KredensialPendidikanState extends State<KredensialPendidikan> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                left: 15, right: 0, top: 15, bottom: 20),
+                                left: 15, right: 0, top: 15, bottom: 10),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -172,6 +188,40 @@ class _KredensialPendidikanState extends State<KredensialPendidikan> {
                                     textStyle: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 0, top: 0, bottom: 10),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  UpdateCredentials.destroyCredential(
+                                      token, widget.id.toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Kredensial()));
+                                },
+                                child: Text(
+                                  'Hapus',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)),
+                                    side: BorderSide(width: 0.5),
+                                  ),
+                                ),
                               ),
                             ),
                           ),

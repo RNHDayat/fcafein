@@ -96,7 +96,6 @@ class _HomeState extends State<Home> {
     setState(() {
       token = data[0].token;
     });
-
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -227,7 +226,8 @@ class _HomeState extends State<Home> {
                       Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(25)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25)),
                           color: Colors.grey[200],
                         ),
                         child: const Icon(
@@ -301,7 +301,8 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(currentIndex: 2),
+                            builder: (context) =>
+                                const BottomNavBar(currentIndex: 2),
                           ));
                         },
                         child: Container(
@@ -354,7 +355,6 @@ class _HomeState extends State<Home> {
                 builderDelegate: PagedChildBuilderDelegate<Post>(
                   itemBuilder: (context, item, index) => Column(
                     children: [
-                      
                       Container(
                         color: Colors.white,
                         width: double.infinity,
@@ -546,7 +546,8 @@ class _HomeState extends State<Home> {
                                             padding: const EdgeInsets.all(10),
                                             decoration: BoxDecoration(
                                               color: Colors.grey[300],
-                                              borderRadius: const BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(50),
                                               ),
                                             ),
@@ -737,7 +738,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -761,7 +763,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -785,7 +788,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -808,7 +812,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -831,7 +836,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -853,7 +859,8 @@ class _HomeState extends State<Home> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      decoration: const BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           top: BorderSide(
                                                               width: 0.5,
@@ -891,7 +898,8 @@ class _HomeState extends State<Home> {
                           Visibility(
                             visible: commentVisible[item.id] ?? true,
                             child: Container(
-                              padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                              padding:
+                                  const EdgeInsets.fromLTRB(15, 10, 15, 10),
                               color: Colors.grey[300],
                               child: Row(
                                 children: [

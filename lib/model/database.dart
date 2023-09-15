@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class LoginAuth {
@@ -86,30 +87,29 @@ class CreateAccount {
 }
 
 class AddCredential {
-  String token, description;
+  String description;
   int type;
-  AddCredential(
-      {required this.token, required this.type, required this.description});
+  AddCredential({required this.type, required this.description});
   factory AddCredential.fromJson(Map<String, dynamic> json) {
     return AddCredential(
-      token: json['token'].toString(),
       type: json['type'],
       description: json['description'].toString(),
     );
   }
   static Future<AddCredential?> insert(String token, String description) async {
-    const baseUrl = 'http://direkrut.ptumdi.com/api/credential/store';
-    final response = await http.post(Uri.parse(baseUrl),
-        headers: {
-          "Authorization": 'Bearer $token',
-          "Accept": "application/json",
-        },
-        body: jsonEncode(
-          {
-            "type": 3,
-            "description": description,
-          },
-        ));
+    const baseUrl = 'http://10.0.2.2:8000/api/credential/store';
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+      body: {
+        "type": 3,
+        "description": description,
+      },
+    );
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
       // return AddCredential.fromJson(body);
@@ -610,6 +610,7 @@ class DetailPageIlmu {
         // print('niced');
         // print(jsonData['data'][0]);
         List<dynamic> data = jsonData['data'];
+        // print(data);
         List<DetailPageIlmu> detailIlmu =
             data.map((json) => DetailPageIlmu.fromJson(json)).toList();
         return detailIlmu;
@@ -629,7 +630,7 @@ class DetailPageIlmu {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: Text('Pemberitahuan'),
           content: Text(message),
           actions: <Widget>[
             TextButton(
@@ -642,5 +643,422 @@ class DetailPageIlmu {
         );
       },
     );
+  }
+}
+
+class FollowIlmu {
+  final id;
+  final codeIlmu;
+  final name;
+  final id_user_propose;
+  final id_user_validator;
+  final id_user_follow;
+  final user_status_follow;
+  final created_at;
+  final updated_at;
+
+  FollowIlmu({
+    this.id,
+    this.codeIlmu,
+    this.name,
+    this.id_user_propose,
+    this.id_user_validator,
+    this.id_user_follow,
+    this.user_status_follow,
+    this.created_at,
+    this.updated_at,
+  });
+
+  factory FollowIlmu.fromJson(Map<String, dynamic> json) {
+    return FollowIlmu(
+      id: json['id'].toString(),
+      codeIlmu: json['codeIlmu'],
+      name: json['name'],
+      id_user_propose: json['id_user_propose'],
+      id_user_validator: json['id_user_validator'],
+      id_user_follow: json['id_user_follow'],
+      user_status_follow: json['user_status_follow'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
+  }
+  static Future<FollowIlmu> pushFollow(String token, String codeIlmu) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/knowField/follow"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "codeIlmu": codeIlmu,
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data']);
+      // var data = jsonData['data'];
+      // print(data);
+      // List<FollowIlmu> ilmuList =
+      //     data.map((json) => FollowIlmu.fromJson(jsonData['data'])).toList();
+      return FollowIlmu.fromJson(jsonData['data']);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class FollowingIlmu {
+  final id;
+  final status_follow;
+
+  FollowingIlmu({
+    this.id,
+    this.status_follow,
+  });
+
+  factory FollowingIlmu.fromJson(Map<String, dynamic> json) {
+    return FollowingIlmu(
+      id: json['id'],
+      status_follow: json['status_follow'],
+    );
+  }
+  static Future<FollowingIlmu> getFollow(String token, String codeIlmu) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/knowField/show/$codeIlmu"); // Ganti dengan endpoint yang sesuai
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data'][0]);
+      // List<dynamic> data = jsonData;
+      // List<FollowingIlmu> ilmuList =
+      //     data.map((json) => FollowingIlmu.fromJson(jsonData)).toList();
+      return FollowingIlmu.fromJson(jsonData);
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class ShowFollowIlmu {
+  final id;
+  final codeIlmu;
+  final name;
+  final validation;
+  final id_user_propose;
+  final id_user_validator;
+  final id_user_follow;
+  final user_status_follow;
+  final created_at;
+  final updated_at;
+
+  ShowFollowIlmu({
+    this.id,
+    this.codeIlmu,
+    this.name,
+    this.validation,
+    this.id_user_propose,
+    this.id_user_validator,
+    this.id_user_follow,
+    this.user_status_follow,
+    this.created_at,
+    this.updated_at,
+  });
+
+  factory ShowFollowIlmu.fromJson(Map<String, dynamic> json) {
+    return ShowFollowIlmu(
+      id: json['id'],
+      codeIlmu: json['codeIlmu'],
+      name: json['name'],
+      validation: json['validation'],
+      id_user_propose: json['id_user_propose'],
+      id_user_validator: json['id_user_validator'],
+      id_user_follow: json['id_user_follow'],
+      user_status_follow: json['user_status_follow'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
+  }
+  Future<List<ShowFollowIlmu>> getFollow(String token) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/knowField/showFollowIlmu"); // Ganti dengan endpoint yang sesuai
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data'][0]);
+      List<dynamic> data = jsonData;
+      List<ShowFollowIlmu> ilmuList =
+          data.map((json) => ShowFollowIlmu.fromJson(json)).toList();
+      return ilmuList;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class StoreCredential {
+  static Future<http.Response> store(
+      String token, String type, String description) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/credential/store"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "type": type,
+      "description": description
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(response.statusCode);
+      return response;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class ShowCredentials {
+  final id;
+  final id_employee;
+  final type;
+  final description;
+  final hide;
+  final created_at;
+  final updated_at;
+
+  ShowCredentials({
+    this.id,
+    this.id_employee,
+    this.type,
+    this.description,
+    this.hide,
+    this.created_at,
+    this.updated_at,
+  });
+
+  factory ShowCredentials.fromJson(Map<String, dynamic> json) {
+    return ShowCredentials(
+      id: json['id'],
+      id_employee: json['id_employee'],
+      type: json['type'],
+      description: json['description'],
+      hide: json['hide'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
+  }
+  Future<List<ShowCredentials>> getCredential(String token) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/credential/indexUser"); // Ganti dengan endpoint yang sesuai
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data'][0]);
+      List<dynamic> data = jsonData['data'];
+      List<ShowCredentials> ilmuList =
+          data.map((json) => ShowCredentials.fromJson(json)).toList();
+      return ilmuList;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+class UpdateCredentials {
+  final message;
+
+  UpdateCredentials({
+    this.message,
+  });
+
+  factory UpdateCredentials.fromJson(Map<String, dynamic> json) {
+    return UpdateCredentials(
+      message: json['message'],
+    );
+  }
+  static Future<http.Response> updateCredential(String token, String id,
+      String type, String description, String hide) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/credential/update/$id"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "type": type,
+      "description": description,
+      "hide": hide,
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Berhasil memperbarui kredensial",
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    } else {
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Gagal memperbarui data",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    }
+  }
+
+  static Future<http.Response> destroyCredential(
+    String token,
+    String id,
+  ) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/credential/destroy/$id"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Berhasil menghapus kredensial",
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    } else {
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Gagal menghapus data",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      throw response;
+    }
+  }
+}
+
+class ShowPostingProfile {
+  final id;
+  final id_user;
+  final id_credential;
+  final id_category;
+  final id_knowfield;
+  final title;
+  final description;
+  final nickname;
+  final company;
+  final image;
+  final status;
+  final created_at;
+  final updated_at;
+
+  ShowPostingProfile({
+    this.id,
+  this.id_user,
+  this.id_credential,
+  this.id_category,
+  this.id_knowfield,
+  this.title,
+  this.description,
+  this.nickname,
+  this.company,
+  this.image,
+  this.status,
+  this.created_at,
+  this.updated_at,
+  });
+
+  factory ShowPostingProfile.fromJson(Map<String, dynamic> json) {
+    return ShowPostingProfile(
+      id: json['id'],
+      id_user: json['id_user'],
+      id_credential: json['id_credential'],
+      id_category: json['id_category'],
+      id_knowfield: json['id_knowfield'],
+      title: json['title'],
+      description: json['description'],
+      nickname: json['user']['nickname'],
+      company: json['user']['company'],
+      image: json['image'],
+      status: json['status'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+    );
+  }
+  Future<List<ShowPostingProfile>> getPostingProfile(String token) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/posting/indexProfile"); // Ganti dengan endpoint yang sesuai
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data'][0]);
+      List<dynamic> data = jsonData['data'];
+      List<ShowPostingProfile> ilmuList =
+          data.map((json) => ShowPostingProfile.fromJson(json)).toList();
+      return ilmuList;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
   }
 }

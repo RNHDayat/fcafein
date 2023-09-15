@@ -8,14 +8,16 @@ import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/textfieldTahun.dart';
 
-class KredensialLokasi extends StatefulWidget {
-  const KredensialLokasi({super.key});
+class EditKredensialLokasi extends StatefulWidget {
+  final lokasi, type, id, hide;
+
+  const EditKredensialLokasi({super.key, this.lokasi, this.type, this.id, this.hide});
 
   @override
-  State<KredensialLokasi> createState() => _KredensialLokasiState();
+  State<EditKredensialLokasi> createState() => _EditKredensialLokasiState();
 }
 
-class _KredensialLokasiState extends State<KredensialLokasi> {
+class _EditKredensialLokasiState extends State<EditKredensialLokasi> {
   bool isChecked = false;
   // Color getColor(Set<MaterialState> states) {
   //   const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -39,6 +41,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
     // TODO: implement initState
     super.initState();
     getToken();
+    lokasi.text = widget.lokasi;
   }
 
   getToken() async {
@@ -51,9 +54,13 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
   }
 
   saveKredensial(String lokasi) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
     setState(() {
       description = 'Tinggal di $lokasi';
-      StoreCredential.store(token, type.toString(), description);
+      UpdateCredentials.updateCredential(data[0].token, widget.id.toString(),
+          type.toString(), description, widget.hide.toString());
+      // StoreCredential.store(token, type.toString(), description);
     });
   }
 
@@ -103,7 +110,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const KredensialLokasi()));
+                              builder: (context) => const EditKredensialLokasi()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -187,6 +194,40 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                                   textStyle: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 0, top: 0, bottom: 10),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                UpdateCredentials.destroyCredential(
+                                    token, widget.id.toString());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Kredensial()));
+                              },
+                              child: Text(
+                                'Hapus',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  side: BorderSide(width: 0.5),
+                                ),
+                              ),
                             ),
                           ),
                         ),

@@ -10,14 +10,23 @@ import '../components/textfieldTahun.dart';
 import '../model/database.dart';
 import '../model/dbhelper.dart';
 
-class KredensialPekerjaan extends StatefulWidget {
-  const KredensialPekerjaan({super.key});
+class EditKredensialPekerjaan extends StatefulWidget {
+  final jabatan, perusahaan, type, id, hide;
+
+  const EditKredensialPekerjaan(
+      {super.key,
+      this.jabatan,
+      this.perusahaan,
+      this.type,
+      this.id,
+      this.hide});
 
   @override
-  State<KredensialPekerjaan> createState() => _KredensialPekerjaanState();
+  State<EditKredensialPekerjaan> createState() =>
+      _EditKredensialPekerjaanState();
 }
 
-class _KredensialPekerjaanState extends State<KredensialPekerjaan> {
+class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
   final _key = GlobalKey<FormState>();
   String token = '';
   int type = 3;
@@ -30,6 +39,8 @@ class _KredensialPekerjaanState extends State<KredensialPekerjaan> {
     // TODO: implement initState
     super.initState();
     getToken();
+    jabatan.text = widget.jabatan;
+    perusahaan.text = widget.perusahaan;
   }
 
   getToken() async {
@@ -41,15 +52,16 @@ class _KredensialPekerjaanState extends State<KredensialPekerjaan> {
     print(data);
   }
 
-  saveKredensial(String jabatan, String perusahaan) {
+  saveKredensial(String jabatan, String perusahaan) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
     setState(() {
       description =
           'Saya sedang / pernah bekerja sebagai $jabatan di $perusahaan';
     });
-    // AddCredential.insert(token, description).then((value) {
-    //   print(value);
-    // });
-    StoreCredential.store(token, type.toString(), description);
+    UpdateCredentials.updateCredential(data[0].token, widget.id.toString(),
+        type.toString(), description, widget.hide.toString());
+    // StoreCredential.store(token, type.toString(), description);
   }
 
   @override
@@ -106,14 +118,12 @@ class _KredensialPekerjaanState extends State<KredensialPekerjaan> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const Kredensial()));
+                                builder: (context) => const Kredensial()));
                       } else {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const Kredensial()));
+                                builder: (context) => const Kredensial()));
                       }
                     },
                     style: TextButton.styleFrom(
@@ -197,6 +207,40 @@ class _KredensialPekerjaanState extends State<KredensialPekerjaan> {
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 0, top: 0, bottom: 10),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              UpdateCredentials.destroyCredential(
+                                  token, widget.id.toString());
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Kredensial()));
+                            },
+                            child: Text(
+                              'Hapus',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                side: BorderSide(width: 0.5),
+                              ),
+                            ),
                           ),
                         ),
                       ),
