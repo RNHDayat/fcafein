@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:powershare/model/database.dart';
+import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/edit_Nama.dart';
 import 'package:powershare/screens/edit_biografi.dart';
@@ -19,6 +21,33 @@ class _EditProfileState extends State<EditProfile> {
     // TODO: implement initState
     super.initState();
     name = widget.name;
+  }
+
+  GetUser getUser = GetUser();
+  String fullname = '';
+  String address = '';
+  String job = '';
+  String company = '';
+  String start_year = '';
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    GetUser.getUser(data[0].token).then((value) {
+      setState(() {
+        getUser = value;
+        fullname = getUser.fullname!;
+        address = getUser.address_house!;
+        job = getUser.job_position!;
+        company = getUser.company!;
+        start_year = getUser.start_year!;
+        print(getUser.id);
+        print(company);
+      });
+    });
+    // _db.getToken().then((value) {
+    //   print('nih : $value');
+    // });
   }
 
   @override
@@ -255,8 +284,12 @@ class _EditProfileState extends State<EditProfile> {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const EditNama()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditNama(),
+                        ),
+                      );
                     },
                     child: Container(
                         height: 68,
