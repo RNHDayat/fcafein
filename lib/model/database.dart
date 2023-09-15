@@ -223,6 +223,62 @@ class Postings {
   }
 }
 
+class ShowFollowings {
+  String? id,
+      id_user,
+      following_id,
+      follow_status,
+      fullname,
+      nickname,
+      company,
+      job_position;
+
+  ShowFollowings(
+      {this.id,
+      this.id_user,
+      this.following_id,
+      this.follow_status,
+      this.fullname,
+      this.nickname,
+      this.company,
+      this.job_position});
+
+  factory ShowFollowings.GetFollowingsResult(Map<String, dynamic> data) {
+    return ShowFollowings(
+      id: data["id"].toString(),
+      id_user: data["id_user"].toString(),
+      following_id: data["following_id"].toString(),
+      follow_status: data["follow_status"].toString(),
+      fullname: data["fullname"],
+      nickname: data["nickname"],
+      company: data["company"],
+      job_position: data["job_position"],
+    );
+  }
+
+  get userid => null;
+
+  static Future<ShowFollowings> showfollowings(String token) async {
+    Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/showfollowings");
+    var response = await http.get(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "application/json",
+        "login-type": "0",
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      print(jsonData);
+      return ShowFollowings.GetFollowingsResult(jsonData[0]);
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
+    }
+  }
+}
+
 class Followers {
   String? id,
       id_user,
