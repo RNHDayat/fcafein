@@ -8,14 +8,14 @@ import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/textfieldTahun.dart';
 
-class KredensialLokasi extends StatefulWidget {
-  const KredensialLokasi({super.key});
+class KredensialKeahlian extends StatefulWidget {
+  const KredensialKeahlian({super.key});
 
   @override
-  State<KredensialLokasi> createState() => _KredensialLokasiState();
+  State<KredensialKeahlian> createState() => _KredensialKeahlianState();
 }
 
-class _KredensialLokasiState extends State<KredensialLokasi> {
+class _KredensialKeahlianState extends State<KredensialKeahlian> {
   bool isChecked = false;
   // Color getColor(Set<MaterialState> states) {
   //   const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -30,9 +30,9 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
   // }
   final _key = GlobalKey<FormState>();
   String token = '';
-  int type = 2;
+  int type = 0;
   String description = '';
-  TextEditingController lokasi = TextEditingController();
+  TextEditingController keahlian = TextEditingController();
 
   @override
   void initState() {
@@ -50,9 +50,9 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
     print(data);
   }
 
-  saveKredensial(String lokasi) async {
+  saveKredensial(String keahlian) async {
     setState(() {
-      description = 'Tinggal di $lokasi';
+      description = 'Saya memiliki keahlian $keahlian';
       StoreCredential.store(token, type.toString(), description);
     });
   }
@@ -94,7 +94,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
-                      saveKredensial(lokasi.text);
+                      saveKredensial(keahlian.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -103,7 +103,8 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const KredensialLokasi()));
+                              builder: (context) =>
+                                  const KredensialKeahlian()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -182,7 +183,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Tambahkan Kredensial Lokasi",
+                              "Tambahkan Kredensial Keahlian",
                               style: GoogleFonts.poppins(
                                   textStyle: const TextStyle(
                                       fontSize: 16,
@@ -198,7 +199,7 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Lokasi",
+                                  "Keahlian",
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                           fontSize: 14,
@@ -209,12 +210,12 @@ class _KredensialLokasiState extends State<KredensialLokasi> {
                                 height: 10,
                               ),
                               TextFormField(
-                                controller: lokasi,
+                                controller: keahlian,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  hintText: 'Masukkan alamat',
+                                  hintText: 'Masukkan keahlian',
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 7, horizontal: 15),
                                 ),

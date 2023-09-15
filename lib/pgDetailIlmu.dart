@@ -6,9 +6,15 @@ import 'package:powershare/pgDetailPosting.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DetailIlmu extends StatefulWidget {
+  final id;
   final String codeIlmu;
+  final String name;
 
-  const DetailIlmu({super.key, required this.codeIlmu});
+  const DetailIlmu(
+      {super.key,
+      required this.codeIlmu,
+      required this.id,
+      required this.name});
 
   @override
   State<DetailIlmu> createState() => _DetailIlmuState();
@@ -22,17 +28,38 @@ class _DetailIlmuState extends State<DetailIlmu> {
     super.initState();
     print(widget.codeIlmu);
     getIlmu();
+    // getFollower();
+  }
+
+  FollowingIlmu followingIlmu = FollowingIlmu();
+  bool followIlmu = false;
+  getFollower() async {
+    FollowingIlmu.getFollow(token, widget.codeIlmu).then((value) {
+      setState(() {
+        followingIlmu = value;
+        if (followingIlmu.status_follow == 1) {
+          followIlmu = true;
+        } else {
+          followIlmu = false;
+        }
+        print(followingIlmu.id);
+        print(followingIlmu.status_follow);
+      });
+    });
   }
 
   GetUser getUser = GetUser();
   // late int id;
   String token = '';
+  int id_user = 0;
   user() async {
     final _db = DBhelper();
     var data = await _db.getToken();
     print(data[0].token);
     setState(() {
       token = data[0].token;
+      id_user = data[0].id;
+      getFollower();
     });
   }
 
@@ -42,7 +69,7 @@ class _DetailIlmuState extends State<DetailIlmu> {
   getIlmu() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    postinganIlmu = await pageIlmu.get(context,data[0].token, widget.codeIlmu);
+    postinganIlmu = await pageIlmu.get(context, data[0].token, widget.codeIlmu);
     setState(() {});
   }
 
@@ -58,6 +85,21 @@ class _DetailIlmuState extends State<DetailIlmu> {
         following_id = 3;
       }
       print(followStatus);
+    });
+  }
+
+  final Map<int, bool> followIlmuStatus = {};
+  late int followingIlmu_id;
+
+  void toggleFollowIlmu(int id_ilmu) {
+    setState(() {
+      followIlmuStatus[id_ilmu] = !(followIlmuStatus[id_ilmu] ?? false);
+      if (followIlmuStatus[id_ilmu] == true) {
+        followingIlmu_id = 1;
+      } else {
+        followingIlmu_id = 2;
+      }
+      print(followIlmuStatus);
     });
   }
 
@@ -109,7 +151,7 @@ class _DetailIlmuState extends State<DetailIlmu> {
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('judul nich'),
+        title: Text(widget.name),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -133,16 +175,15 @@ class _DetailIlmuState extends State<DetailIlmu> {
                 ),
               ),
               SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('Ikuti'),
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  padding: EdgeInsets.only(left: 50, right: 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
+              FollowIlmuButton(
+                isFollowing: followIlmu,
+                onPressed: () {
+                  // toggleFollowIlmu(widget.id);
+                  setState(() {
+                    followIlmu = !followIlmu;
+                    FollowIlmu.pushFollow(token, widget.codeIlmu);
+                  });
+                },
               ),
               SizedBox(height: 10),
               Divider(thickness: 2),
@@ -168,18 +209,7 @@ class _DetailIlmuState extends State<DetailIlmu> {
                             //second parameter is top to down
                           ),
                         ],
-                        // border: Border(
-                        //   top: BorderSide(
-                        //     //                   <--- left side
-                        //     color: Colors.black,
-                        //     width: 1,
-                        //   ),
-                        //   bottom: BorderSide(
-                        //     //                    <--- top side
-                        //     color: Colors.black,
-                        //     width: 1,
-                        //   ),
-                        // ),
+                        
                       ),
                       width: double.infinity,
                       padding: const EdgeInsets.only(bottom: 10),
@@ -217,6 +247,8 @@ class _DetailIlmuState extends State<DetailIlmu> {
                                           children: [
                                             Text(ilmu.nickname),
                                             FollowButton(
+                                                idLogin: id_user.toString(),
+                                                idUser: ilmu.id_user.toString(),
                                                 isFollowing: followStatus[
                                                         ilmu.id_user] ??
                                                     false,
@@ -227,25 +259,6 @@ class _DetailIlmuState extends State<DetailIlmu> {
                                                       ilmu.id_user.toString(),
                                                       following_id.toString());
                                                 }),
-                                            // TextButton(
-                                            //   onPressed: () {
-                                            //     setState(() {
-                                            //       ilmu.isFollow =
-                                            //           !ilmu.isFollow;
-                                            //       print(index);
-                                            //       toggleFollow(ilmu.id);
-                                            //     });
-                                            //   },
-                                            //   child: Text(
-                                            //     ilmu.isFollow
-                                            //         ? 'mengikuti'
-                                            //         : 'ikuti',
-                                            //     style: TextStyle(
-                                            //         color: followStatus
-                                            //             ? Colors.grey
-                                            //             : Colors.blue),
-                                            //   ),
-                                            // ),
                                           ],
                                         ),
                                         subtitle: Text(
@@ -712,18 +725,54 @@ class _DetailIlmuState extends State<DetailIlmu> {
   }
 }
 
-class FollowButton extends StatelessWidget {
+class FollowIlmuButton extends StatelessWidget {
   final bool isFollowing;
   final VoidCallback onPressed;
 
-  FollowButton({required this.isFollowing, required this.onPressed});
+  FollowIlmuButton({required this.isFollowing, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(
+        isFollowing ? 'mengikuti' : 'ikuti',
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isFollowing ? Colors.grey : Colors.blue,
+        elevation: 0,
+        padding: EdgeInsets.only(left: 50, right: 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    );
+  }
+}
+
+//follow akun user in ilmu
+class FollowButton extends StatelessWidget {
+  final bool isFollowing;
+  final VoidCallback onPressed;
+  final String idLogin;
+  final String idUser;
+
+  FollowButton(
+      {required this.isFollowing,
+      required this.onPressed,
+      required this.idLogin,
+      required this.idUser});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        isFollowing ? 'mengikuti' : 'ikuti',
+        idUser == idLogin
+            ? ''
+            : isFollowing
+                ? 'mengikuti'
+                : 'ikuti',
         style: TextStyle(color: isFollowing ? Colors.grey : Colors.blue),
       ),
     );
