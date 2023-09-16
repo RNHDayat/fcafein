@@ -27,8 +27,9 @@ class LoginAuth {
       var body = json.decode(response.body);
       return LoginAuth.fromJson(body["data"]);
     } else {
-      var body = json.decode(response.body);
-      print(body);
+      // var body = json.decode(response.body);
+
+      print(response.statusCode);
       // return null;
       throw {print("Login Eror")};
     }
@@ -1062,18 +1063,18 @@ class ShowPostingProfile {
 
   ShowPostingProfile({
     this.id,
-  this.id_user,
-  this.id_credential,
-  this.id_category,
-  this.id_knowfield,
-  this.title,
-  this.description,
-  this.nickname,
-  this.company,
-  this.image,
-  this.status,
-  this.created_at,
-  this.updated_at,
+    this.id_user,
+    this.id_credential,
+    this.id_category,
+    this.id_knowfield,
+    this.title,
+    this.description,
+    this.nickname,
+    this.company,
+    this.image,
+    this.status,
+    this.created_at,
+    this.updated_at,
   });
 
   factory ShowPostingProfile.fromJson(Map<String, dynamic> json) {

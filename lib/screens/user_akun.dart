@@ -1365,25 +1365,21 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     DetailPosting(
-                                                        id: content.id,
-                                                        title: content.title ==
-                                                                null
-                                                            ? ""
-                                                            : content.title,
-                                                        nickname: content
-                                                            .nickname,
-                                                        company:
-                                                            content.company,
-                                                        description:
-                                                            content.description ==
-                                                                    null
-                                                                ? ''
-                                                                : content
-                                                                    .description,
-                                                        image: content.image ==
-                                                                null 
-                                                            ? ""
-                                                            : content.image,),
+                                                  id: content.id,
+                                                  title: content.title == null
+                                                      ? ""
+                                                      : content.title,
+                                                  nickname: content.nickname,
+                                                  company: content.company,
+                                                  description:
+                                                      content.description ==
+                                                              null
+                                                          ? ''
+                                                          : content.description,
+                                                  image: content.image == null
+                                                      ? ""
+                                                      : content.image,
+                                                ),
                                               ));
                                           print(content.id);
                                           print(content.id_user);
