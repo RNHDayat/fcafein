@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:powershare/screens/screen_ruang.dart';
 import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../bottomNavBar.dart';
 import '../main.dart';
 
 void main() {
@@ -31,7 +32,12 @@ class _SettingScreenState extends State<SettingScreen> {
             size: 20,
           ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BottomNavBar(currentIndex: 0),
+              ),
+            );
           },
         ),
         toolbarHeight: 70,
@@ -158,8 +164,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
               //Tampilan
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
+                padding: const EdgeInsets.only(
+                    left: 15, right: 0, top: 15, bottom: 0),
                 child: Container(
                   width: double.infinity,
                   height: 40,
@@ -190,8 +196,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
               //Slider
               Container(
-                padding:
-                    const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15, top: 10, bottom: 10),
                 child: Column(
                   children: [
                     Align(

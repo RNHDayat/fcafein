@@ -1,17 +1,12 @@
-import 'dart:convert';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:powershare/model/dbhelper.dart';
-import 'package:powershare/pgDetailPosting.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/add_tahutentang.dart';
 import 'package:powershare/screens/edit_profile.dart';
 import 'package:powershare/screens/screen_ruang.dart';
 import 'package:powershare/screens/user_follower.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../components/follow_button.dart';
 import '../components/photozoom.dart';
@@ -146,6 +141,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
   String address = '';
   String job = '';
   String company = '';
+  String description = '';
   String start_year = '';
   int id_user = 0;
   String token = '';
@@ -161,11 +157,12 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
         address = getUser.address_house!;
         job = getUser.job_position!;
         company = getUser.company!;
+        description = getUser.description!;
         start_year = getUser.start_year!;
         id_user = data[0].id;
         token = data[0].token;
         print(getUser.id);
-        print(company);
+        print(description);
       });
     });
     // _db.getToken().then((value) {
@@ -378,6 +375,18 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Visibility(
+                      visible: description != null && description.isNotEmpty,
+                      child: Column(
+                        children: [Text(description)],
+                      ),
+                      replacement: SizedBox(
+                          height:
+                              0), // Widget ini akan digunakan jika description kosong
                     ),
                   ),
                   Padding(
@@ -1571,287 +1580,287 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                         const urlPreview =
                                                             'https://docs.google.com/spreadsheets/d/1FsG3d2vkTGiFbNP3LkjdAmBh66CcL40B3s-pupd1GQU/edit#gid=2068281591';
 
-                                                        await Share.share(
-                                                            'Check out this great video\n\n$urlPreview');
-                                                      },
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        child: const Row(
-                                                          children: [
-                                                            Icon(Icons.share),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text("120"),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    // Container(
-                                                    //   padding: EdgeInsets.all(10),
-                                                    //   child: Row(
-                                                    //     children: [
-                                                    //       Icon(Icons.share),
-                                                    //       SizedBox(
-                                                    //         width: 5,
-                                                    //       ),
-                                                    //       Text("120"),
-                                                    //     ],
-                                                    //   ),
-                                                    // ),
-                                                  ],
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              // width: double.infinity,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(15),
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              child: Stack(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                children: <Widget>[
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Colors
-                                                                            .red[900]),
-                                                                  ),
-                                                                  const Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: <Widget>[
-                                                                      Text(
-                                                                        'Jawab',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.grey,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Center(
-                                                                  child: Text(
-                                                                      "Bagikan melalui.."),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child:
-                                                                    const Center(
-                                                                  child: Text(
-                                                                      "Tidak tertarik dengan ini"),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child: const Center(
-                                                                    child: Text(
-                                                                        "Simpan")),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child: const Center(
-                                                                    child: Text(
-                                                                        "Dorong turun pertamyaan")),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child: const Center(
-                                                                    child: Text(
-                                                                        "Log")),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {},
-                                                              child: Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        15),
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  border:
-                                                                      Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0.5,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                ),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                      "Laporkan",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color: Colors
-                                                                            .red[900],
-                                                                      )),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      });
-                                                },
-                                                child: const Icon(
-                                                    Icons.more_horiz),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          )
+                          //                               await Share.share(
+                          //                                   'Check out this great video\n\n$urlPreview');
+                          //                             },
+                          //                             child: Container(
+                          //                               padding:
+                          //                                   const EdgeInsets
+                          //                                       .all(10),
+                          //                               child: const Row(
+                          //                                 children: [
+                          //                                   Icon(Icons.share),
+                          //                                   SizedBox(
+                          //                                     width: 5,
+                          //                                   ),
+                          //                                   Text("120"),
+                          //                                 ],
+                          //                               ),
+                          //                             ),
+                          //                           ),
+                          //                           // Container(
+                          //                           //   padding: EdgeInsets.all(10),
+                          //                           //   child: Row(
+                          //                           //     children: [
+                          //                           //       Icon(Icons.share),
+                          //                           //       SizedBox(
+                          //                           //         width: 5,
+                          //                           //       ),
+                          //                           //       Text("120"),
+                          //                           //     ],
+                          //                           //   ),
+                          //                           // ),
+                          //                         ],
+                          //                       ),
+                          //                     ),
+                          //                     GestureDetector(
+                          //                       onTap: () {
+                          //                         showModalBottomSheet(
+                          //                             isScrollControlled: true,
+                          //                             context: context,
+                          //                             builder: (context) {
+                          //                               return Column(
+                          //                                 mainAxisSize:
+                          //                                     MainAxisSize.min,
+                          //                                 mainAxisAlignment:
+                          //                                     MainAxisAlignment
+                          //                                         .center,
+                          //                                 children: <Widget>[
+                          //                                   Container(
+                          //                                     // width: double.infinity,
+                          //                                     padding:
+                          //                                         const EdgeInsets
+                          //                                             .all(15),
+                          //                                     width:
+                          //                                         MediaQuery.of(
+                          //                                                 context)
+                          //                                             .size
+                          //                                             .width,
+                          //                                     child: Stack(
+                          //                                       alignment: Alignment
+                          //                                           .centerLeft,
+                          //                                       children: <Widget>[
+                          //                                         GestureDetector(
+                          //                                           onTap: () {
+                          //                                             Navigator.pop(
+                          //                                                 context);
+                          //                                           },
+                          //                                           child: Icon(
+                          //                                               Icons
+                          //                                                   .close,
+                          //                                               color: Colors
+                          //                                                   .red[900]),
+                          //                                         ),
+                          //                                         const Row(
+                          //                                           mainAxisAlignment:
+                          //                                               MainAxisAlignment
+                          //                                                   .center,
+                          //                                           children: <Widget>[
+                          //                                             Text(
+                          //                                               'Jawab',
+                          //                                               style:
+                          //                                                   TextStyle(
+                          //                                                 color:
+                          //                                                     Colors.grey,
+                          //                                               ),
+                          //                                             ),
+                          //                                           ],
+                          //                                         ),
+                          //                                       ],
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child:
+                          //                                           const Center(
+                          //                                         child: Text(
+                          //                                             "Bagikan melalui.."),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child:
+                          //                                           const Center(
+                          //                                         child: Text(
+                          //                                             "Tidak tertarik dengan ini"),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child: const Center(
+                          //                                           child: Text(
+                          //                                               "Simpan")),
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child: const Center(
+                          //                                           child: Text(
+                          //                                               "Dorong turun pertamyaan")),
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child: const Center(
+                          //                                           child: Text(
+                          //                                               "Log")),
+                          //                                     ),
+                          //                                   ),
+                          //                                   GestureDetector(
+                          //                                     onTap: () {},
+                          //                                     child: Container(
+                          //                                       padding:
+                          //                                           const EdgeInsets
+                          //                                               .all(
+                          //                                               15),
+                          //                                       width: MediaQuery.of(
+                          //                                               context)
+                          //                                           .size
+                          //                                           .width,
+                          //                                       decoration:
+                          //                                           const BoxDecoration(
+                          //                                         border:
+                          //                                             Border(
+                          //                                           top: BorderSide(
+                          //                                               width:
+                          //                                                   0.5,
+                          //                                               color: Colors
+                          //                                                   .grey),
+                          //                                         ),
+                          //                                       ),
+                          //                                       child: Center(
+                          //                                         child: Text(
+                          //                                             "Laporkan",
+                          //                                             style:
+                          //                                                 TextStyle(
+                          //                                               color: Colors
+                          //                                                   .red[900],
+                          //                                             )),
+                          //                                       ),
+                          //                                     ),
+                          //                                   ),
+                          //                                 ],
+                          //                               );
+                          //                             });
+                          //                       },
+                          //                       child: const Icon(
+                          //                           Icons.more_horiz),
+                          //                     ),
+                          //                   ],
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const SizedBox(
+                          //               height: 3,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     );
+                          //   },
+                          // )
                         ],
                       ),
                     ),

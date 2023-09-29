@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:powershare/model/database.dart';
+import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/edit_Nama.dart';
 import 'package:powershare/screens/edit_biografi.dart';
+import 'package:powershare/screens/user_akun.dart';
 
 class EditProfile extends StatefulWidget {
   final String name;
@@ -18,7 +21,36 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    user();
     name = widget.name;
+  }
+
+  GetUser getUser = GetUser();
+  String fullname = '';
+  String address = '';
+  String job = '';
+  String description = "";
+  String company = '';
+  String start_year = '';
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    GetUser.getUser(data[0].token).then((value) {
+      setState(() {
+        getUser = value;
+        fullname = getUser.fullname!;
+        address = getUser.address_house!;
+        job = getUser.job_position!;
+        description = getUser.description!;
+        company = getUser.company!;
+        start_year = getUser.start_year!;
+        print(getUser.id);
+      });
+    });
+    // _db.getToken().then((value) {
+    //   print('nih : $value');
+    // });
   }
 
   @override
@@ -32,7 +64,8 @@ class _EditProfileState extends State<EditProfile> {
             size: 20,
           ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UserAkun()));
           },
         ),
         elevation: 0,
@@ -255,8 +288,14 @@ class _EditProfileState extends State<EditProfile> {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const EditNama()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditNama(
+                            fullname: fullname,
+                          ),
+                        ),
+                      );
                     },
                     child: Container(
                         height: 68,
@@ -367,7 +406,9 @@ class _EditProfileState extends State<EditProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditBio()));
+                              builder: (context) => EditBio(
+                                    description: description,
+                                  )));
                     },
                     child: Container(
                         height: 68,

@@ -1,14 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:powershare/model/database.dart';
+import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/screens/user_akun.dart';
 
 class EditNama extends StatefulWidget {
-  const EditNama({super.key});
+  final fullname, id;
+  const EditNama({super.key, this.fullname, this.id});
 
   @override
   State<EditNama> createState() => _EditNamaState();
 }
 
 class _EditNamaState extends State<EditNama> {
+  String token = '';
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController fullname = TextEditingController();
+
+  saveNama(String fullname) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    setState(() {
+      UpdateNama.updateNama(data[0].token, fullname);
+      // StoreCredential.store(token, type.toString(), description);
+    });
+  }
+
+  GetUser getUser = GetUser();
+  String fullnamee = '';
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    GetUser.getUser(data[0].token).then((value) {
+      setState(() {
+        getUser = value;
+        fullnamee = getUser.fullname!;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user();
+    setState(() {
+      fullname.text = widget.fullname;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +66,7 @@ class _EditNamaState extends State<EditNama> {
             Navigator.pop(context);
           },
         ),
+
         // toolbarHeight: 55,
         actions: <Widget>[
           Padding(
@@ -33,7 +76,14 @@ class _EditNamaState extends State<EditNama> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    if (formKey.currentState!.validate()) {
+                      saveNama(fullname.text);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => UserAkun()));
+                    } else {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => UserAkun()));
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -46,7 +96,7 @@ class _EditNamaState extends State<EditNama> {
                     ),
                   ),
                   child: Text(
-                    'Selesai',
+                    'Simpan',
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
                             fontSize: 12,
@@ -63,9 +113,10 @@ class _EditNamaState extends State<EditNama> {
       ),
       body: Container(
         margin: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: Form(
+          key: formKey,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               'Edit Nama',
               style: GoogleFonts.poppins(
@@ -76,16 +127,17 @@ class _EditNamaState extends State<EditNama> {
               height: 10,
             ),
             TextField(
+              controller: fullname,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                hintText: 'Nama baru',
+                hintText: "Masukkan Nama",
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
               ),
             ),
-          ],
+          ]),
         ),
       ),
     );
