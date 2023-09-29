@@ -130,6 +130,7 @@ class GetUser {
       nickname,
       level,
       gender,
+      description,
       address_house,
       company,
       job_position,
@@ -142,6 +143,7 @@ class GetUser {
     this.nickname,
     this.level,
     this.gender,
+    this.description,
     this.address_house,
     this.company,
     this.job_position,
@@ -159,6 +161,7 @@ class GetUser {
       gender: data["employees"]["gender"],
       address_house: data["employees"]["address_house"],
       company: data["employees"]["company"],
+      description: data["employees"]["description"],
       job_position: data["employees"]["job_position"],
       start_year: data["employees"]["start_year"],
     );
@@ -185,7 +188,6 @@ class GetUser {
   }
 }
 
-//POSTING
 class Postings {
   String? token, title, description, id_knowField;
   Postings({this.token, this.title, this.description, this.id_knowField});
@@ -335,17 +337,183 @@ class Followers {
   }
 }
 
-class ChangeName {
-  final int id;
-  final String fullname;
+class UpdateDescrip {
+  final String? description;
 
-  const ChangeName({required this.id, required this.fullname});
+  UpdateDescrip({
+    this.description,
+  });
 
-  factory ChangeName.fromJson(Map<String, dynamic> json) {
-    return ChangeName(
-      id: json['id'],
+  factory UpdateDescrip.fromJson(Map<String, dynamic> json) {
+    return UpdateDescrip(
+      description: json['description'],
+    );
+  }
+  static Future<http.Response> updateDescrip(
+      String token, String description) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/employee/updateDeskripsi"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "description": description,
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(jsonData);
+      Fluttertoast.showToast(
+          msg: "Berhasil memperbarui deskripsi",
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    } else {
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Gagal memperbarui data",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    }
+  }
+}
+
+class UpdateNama {
+  final String? fullname;
+
+  UpdateNama({
+    this.fullname,
+  });
+
+  factory UpdateNama.fromJson(Map<String, dynamic> json) {
+    return UpdateNama(
       fullname: json['fullname'],
     );
+  }
+  static Future<http.Response> updateNama(String token, String fullname) async {
+    Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/employee/updateFullName"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "fullname": fullname,
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(jsonData);
+      Fluttertoast.showToast(
+          msg: "Berhasil memperbarui nama",
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    } else {
+      print(response.statusCode);
+      Fluttertoast.showToast(
+          msg: "Gagal memperbarui data",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return response;
+    }
+  }
+}
+
+class UpdatePassword {
+  final String? password;
+
+  UpdatePassword({
+    this.password,
+  });
+
+  factory UpdatePassword.fromJson(Map<String, dynamic> json) {
+    return UpdatePassword(
+      password: json['password'],
+    );
+  }
+  static Future<http.Response> changePassword(
+      String token, String password) async {
+    final Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/updatepw"); // Ganti dengan endpoint yang sesuai
+    final Map<String, String> headers = {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+    };
+    final Map<String, String> body = {
+      "password": password,
+    };
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+
+      return response;
+    } catch (e) {
+      // Tangani kesalahan jika ada
+      print(e.toString());
+      return http.Response('Failed to send request',
+          500); // Ganti ini dengan respons kesalahan yang sesuai
+    }
+  }
+}
+
+class ValidateOldPassword {
+  final String? password;
+
+  ValidateOldPassword({
+    this.password,
+  });
+
+  factory ValidateOldPassword.fromJson(Map<String, dynamic> json) {
+    return ValidateOldPassword(
+      password: json['password'],
+    );
+  }
+  static Future<http.Response> validatePassword(
+      String token, String password) async {
+    final Uri url = Uri.parse(
+        "http://10.0.2.2:8000/api/validatepassword"); // Ganti dengan endpoint yang sesuai
+    var response = await http.post(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    }, body: {
+      "password": password,
+    });
+
+    print('BODYYYYY =>>${password} --- ${response.body}');
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(jsonData);
+
+      return response;
+    } else {
+      print(response.statusCode);
+
+      return response;
+    }
   }
 }
 
@@ -1076,18 +1244,18 @@ class ShowPostingProfile {
 
   ShowPostingProfile({
     this.id,
-  this.id_user,
-  this.id_credential,
-  this.id_category,
-  this.id_knowfield,
-  this.title,
-  this.description,
-  this.nickname,
-  this.company,
-  this.image,
-  this.status,
-  this.created_at,
-  this.updated_at,
+    this.id_user,
+    this.id_credential,
+    this.id_category,
+    this.id_knowfield,
+    this.title,
+    this.description,
+    this.nickname,
+    this.company,
+    this.image,
+    this.status,
+    this.created_at,
+    this.updated_at,
   });
 
   factory ShowPostingProfile.fromJson(Map<String, dynamic> json) {

@@ -5,6 +5,7 @@ import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/edit_Nama.dart';
 import 'package:powershare/screens/edit_biografi.dart';
+import 'package:powershare/screens/user_akun.dart';
 
 class EditProfile extends StatefulWidget {
   final String name;
@@ -20,6 +21,7 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    user();
     name = widget.name;
   }
 
@@ -27,6 +29,7 @@ class _EditProfileState extends State<EditProfile> {
   String fullname = '';
   String address = '';
   String job = '';
+  String description = "";
   String company = '';
   String start_year = '';
   user() async {
@@ -39,10 +42,10 @@ class _EditProfileState extends State<EditProfile> {
         fullname = getUser.fullname!;
         address = getUser.address_house!;
         job = getUser.job_position!;
+        description = getUser.description!;
         company = getUser.company!;
         start_year = getUser.start_year!;
         print(getUser.id);
-        print(company);
       });
     });
     // _db.getToken().then((value) {
@@ -61,7 +64,8 @@ class _EditProfileState extends State<EditProfile> {
             size: 20,
           ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UserAkun()));
           },
         ),
         elevation: 0,
@@ -287,7 +291,9 @@ class _EditProfileState extends State<EditProfile> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditNama(),
+                          builder: (context) => EditNama(
+                            fullname: fullname,
+                          ),
                         ),
                       );
                     },
@@ -400,7 +406,9 @@ class _EditProfileState extends State<EditProfile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EditBio()));
+                              builder: (context) => EditBio(
+                                    description: description,
+                                  )));
                     },
                     child: Container(
                         height: 68,
