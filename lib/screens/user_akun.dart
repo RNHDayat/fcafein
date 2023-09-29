@@ -2874,7 +2874,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                             ),
                                                             SizedBox(
                                                               child: Text(
-                                                                'Universitas 17 Agustus 1945 Surabaya',
+                                                                'Universitas 17 Agustus 1945 Surabayaa',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
