@@ -27,8 +27,9 @@ class LoginAuth {
       var body = json.decode(response.body);
       return LoginAuth.fromJson(body["data"]);
     } else {
-      var body = json.decode(response.body);
-      print(body);
+      // var body = json.decode(response.body);
+
+      print(response.statusCode);
       // return null;
       throw {print("Login Eror")};
     }
