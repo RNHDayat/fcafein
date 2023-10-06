@@ -3,8 +3,12 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+import 'package:powershare/pgHome.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:powershare/screens/ubah_sandi-1.dart';
+
+import '../model/database.dart';
+import '../model/dbhelper.dart';
 
 class SettingAkun extends StatefulWidget {
   const SettingAkun({super.key});
@@ -14,6 +18,35 @@ class SettingAkun extends StatefulWidget {
 }
 
 class _SettingAkunState extends State<SettingAkun> {
+  GetUser getUser = GetUser();
+  String fullname = '';
+  String email = '';
+  int id_user = 0;
+  String token = '';
+
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    GetUser.getUser(data[0].token).then((value) {
+      setState(() {
+        getUser = value;
+        fullname = getUser.fullname!;
+        email = getUser.email!;
+        id_user = data[0].id;
+        token = data[0].token;
+        print(getUser.id);
+        print(email);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user();
+  }
+
   var size, height, width;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +60,12 @@ class _SettingAkunState extends State<SettingAkun> {
             size: 20,
           ),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SettingScreen(),
+              ),
+            );
           },
         ),
         toolbarHeight: 70,
@@ -70,7 +108,8 @@ class _SettingAkunState extends State<SettingAkun> {
               color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 0, top: 20, bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 0, top: 20, bottom: 0),
               child: Container(
                 width: size.width,
                 height: 60,
@@ -81,7 +120,7 @@ class _SettingAkunState extends State<SettingAkun> {
                       child: Column(
                         children: [
                           Text(
-                            "test@gmail.co",
+                            email,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600)),
@@ -135,8 +174,8 @@ class _SettingAkunState extends State<SettingAkun> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         hintText: 'nama@contoh.id',
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 7, horizontal: 15),
                       ),
                     ),
                     const SizedBox(
@@ -167,7 +206,8 @@ class _SettingAkunState extends State<SettingAkun> {
               color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),
               child: Container(
                 width: double.infinity,
                 height: 30,
@@ -193,7 +233,8 @@ class _SettingAkunState extends State<SettingAkun> {
               color: const Color.fromRGBO(217, 217, 217, 100),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 15, top: 0, bottom: 0),
+              padding:
+                  const EdgeInsets.only(left: 10, right: 15, top: 0, bottom: 0),
               child: Container(
                 width: size.width,
                 height: 50,
