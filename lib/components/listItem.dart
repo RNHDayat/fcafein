@@ -129,7 +129,7 @@ class _listItemState extends State<listItem> {
                     ),
                     Text(
                       // parseTitle(listIlmu[index].name),
-                      listIlmu[index].codeIlmu,
+                      listIlmu[index].name,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _listItemState extends State<listItem> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      listIlmu[index].name,
+                      listIlmu[index].codeIlmu,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 5),

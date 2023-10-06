@@ -8,6 +8,7 @@ import 'package:powershare/screens/add_question.dart';
 import 'package:http/http.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 
 import 'model/database.dart';
 import 'model/dbhelper.dart';
@@ -29,7 +30,7 @@ class Post {
   final company;
   final image;
   final repliedData;
-  bool isFollow = false;
+  // bool isFollow = false;
   Post(
     this.id,
     this.id_user,
@@ -41,44 +42,59 @@ class Post {
     this.image,
     this.repliedData,
   );
+  // factory Post.fromJson(Map<String, dynamic> json) {
+  //   return Post(
+  //     id:json['id'],
+  //     id_user:json['id_user'],
+  //     id_postings:json['id_postings'],
+  //     nickname:json['nickname'],
+  //     title:json['title'],
+  //     description:json['description'],
+  //     company:json['company'],
+  //     image:json['image'],
+  //     repliedData:json['repliedData'],
+  //   );
+  // }
 }
 
 class _HomeState extends State<Home> {
   bool follow = false;
   int following = 0;
-  ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
   bool _showBackToTopButton = false;
   bool isExpanded = false;
   String title =
       "Satu kata yang muncul di pikiranku ketika melihat foto ini, PEDIH! Bagaimana dengan kalian?Halo para Quorawan, ini tulisan pertamaku so m";
 
-  final _numberOfPostsPerRequest = 5;
-
+  final _perPage = 3;
+  // final _numberOfPostsPerRequest = 3;
   final PagingController<int, Post> _pagingController =
-      PagingController(firstPageKey: 0);
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
-    user();
+    // user();
     _scrollController.addListener(_scrollListener);
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+    _pagingController.addPageRequestListener((page) {
+      _fetchPage(page);
     });
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   _scrollController.dispose();
-  //   _pagingController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _pagingController.dispose();
+    super.dispose();
+    // Saat pengguna pindah halaman, set _shouldCancelDataFetching menjadi true untuk membatalkan penguraian data JSON.
+    // _shouldCancelDataFetching = true;
+  }
 
   void _scrollListener() {
-    if (_scrollController.offset >= 200) {
-      setState(() {
-        _showBackToTopButton = true;
-      });
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      // final nextPageKey = page + 1;
+      //       _pagingController.appendPage(postList, nextPageKey);
     } else {
       setState(() {
         _showBackToTopButton = false;
@@ -89,59 +105,85 @@ class _HomeState extends State<Home> {
   GetUser getUser = GetUser();
   // late int id;
   String token = '';
-  user() async {
-    final _db = DBhelper();
-    var data = await _db.getToken();
-    print(data[0].token);
-    setState(() {
-      token = data[0].token;
-    });
-  }
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   setState(() {
+  //     token = data[0].token;
+  //   });
+  // }
 
-  Future<void> _fetchPage(int pageKey) async {
+  // bool _shouldCancelDataFetching = false;
+  // http.Response? _response;
+  Future<void> _fetchPage(int page) async {
     try {
       final _db = DBhelper();
       var data = await _db.getToken();
       // print(data[0].token);
-      final response = await get(
+      final response = await http.get(
+        // Uri.parse("http://10.0.2.2:8000/api/home?page=$pageKey&limit=$_numberOfPostsPerRequest"),
         Uri.parse(
-            "http://10.0.2.2:8000/api/home?_page=$pageKey&_limit=$_numberOfPostsPerRequest"),
+            "http://10.0.2.2:8000/api/home?per_page=$_perPage&page=$page"),
         headers: {
           "Authorization": 'Bearer ${data[0].token}',
-          "Accept": "application/json",
+          "Accept": "*/*",
           "login-type": "0",
+          // 'Charset': 'utf-8',
         },
       );
-      var responseList = json.decode(response.body);
-      List<MapEntry<String, dynamic>> mapEntries = [];
-      mapEntries = responseList.entries.toList();
-      // print(mapEntries[1][0]);
-      List result = mapEntries.firstWhere((entry) => entry.key == 'data').value;
-      print(result);
-      List<Post> postList = result
-          .map((data) => Post(
-                data['id'],
-                data['id_user'],
-                data['id_postings'],
-                data['nickname'],
-                data['title'],
-                data['description'],
-                data['company'],
-                data['image'],
-                data['repliedData'],
-              ))
-          .toList();
-      print(postList.length);
-      // print(id);
-      final isLastPage = postList.length < _numberOfPostsPerRequest;
-      if (isLastPage) {
-        _pagingController.appendLastPage(postList);
-      } else {
-        final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(postList, nextPageKey);
+      // if (!_shouldCancelDataFetching) {
+      // setState(() {
+      //   _response = response;
+      // });
+      try {
+        var responseList;
+        if (response.body.isNotEmpty) {
+          responseList = json.decode(response.body)["data"];
+        }
+        // List<MapEntry<String, dynamic>> mapEntries = [];
+        // mapEntries = responseList.entries.toList();
+
+        // List result = mapEntries
+        //     .firstWhere((entry) => entry.key == 'data',
+        //         orElse: () => MapEntry('data', []))
+        //     .value;
+        List result = responseList;
+
+        List<Post> postList = result
+            .map((data) => Post(
+                  data['id'],
+                  data['id_user'],
+                  data['id_postings'],
+                  data['nickname'],
+                  data['title'],
+                  data['description'],
+                  data['company'],
+                  data['image'],
+                  data['repliedData'],
+                ))
+            .toList();
+        print(postList.length);
+        // print(id);
+        if (mounted) {
+          final isLastPage = postList.length < _perPage;
+          if (isLastPage) {
+            _pagingController.appendLastPage(postList);
+          } else {
+            // final nextPageKey = page + 1;
+            final nextPageKey = page + postList.length;
+            _pagingController.appendPage(postList, nextPageKey);
+          }
+        }
+      } catch (e) {
+        print(response.statusCode);
+        print('Terjadi kesalahan saat memproses data: $e');
       }
+      // }
     } catch (e) {
-      print("error --> $e");
+      // if (!_shouldCancelDataFetching) {
+      print('Error: $e');
+      // }
       _pagingController.error = e;
     }
   }
@@ -161,21 +203,21 @@ class _HomeState extends State<Home> {
     });
   }
 
-  final Map<int, bool> comment = {};
-  final commentVisible = <int, bool>{};
-  // late int following_id;
+  // final Map<int, bool> comment = {};
+  // final commentVisible = <int, bool>{};
+  // // late int following_id;
 
-  void toggleComment(int userId) {
-    setState(() {
-      comment[userId] = !(comment[userId] ?? false);
-      // if (followStatus[userId] == true) {
-      //   following_id = 1;
-      // } else {
-      //   following_id = 3;
-      // }
-      print(comment);
-    });
-  }
+  // void toggleComment(int userId) {
+  //   setState(() {
+  //     comment[userId] = !(comment[userId] ?? false);
+  //     // if (followStatus[userId] == true) {
+  //     //   following_id = 1;
+  //     // } else {
+  //     //   following_id = 3;
+  //     // }
+  //     print(comment);
+  //   });
+  // }
 
   int selectedVote = 0;
   int selectedIndex = 0;
@@ -391,7 +433,9 @@ class _HomeState extends State<Home> {
                                         child: ListTile(
                                           title: Row(
                                             children: [
-                                              Text(item.nickname),
+                                              Text(item.nickname == null
+                                                  ? ""
+                                                  : item.nickname),
                                               FollowButton(
                                                   isFollowing: followStatus[
                                                           item.id_user] ??
@@ -426,7 +470,9 @@ class _HomeState extends State<Home> {
                                             ],
                                           ),
                                           subtitle: Text(
-                                            item.company,
+                                            item.company == null
+                                                ? ""
+                                                : item.company,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -440,7 +486,7 @@ class _HomeState extends State<Home> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            Text("Diperbarui 2th"),
+                                            // Text("Diperbarui 2th"),
                                             SizedBox(
                                               height: 20,
                                             ),
@@ -471,22 +517,25 @@ class _HomeState extends State<Home> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DetailPosting(
-                                          id: item.id_postings,
-                                          title: item.title == null
-                                              ? ""
-                                              : item.title,
-                                          nickname: item.nickname,
-                                          company: item.company,
-                                          description: item.description == null
-                                              ? ''
-                                              : item.description,
-                                          image: item.image == null
-                                              ? ""
-                                              : item.image),
+                                        id: item.id_postings,
+                                        title: item.title == null
+                                            ? ""
+                                            : item.title,
+                                        nickname: item.nickname,
+                                        company: item.company,
+                                        description: item.description == null
+                                            ? ''
+                                            : item.description,
+                                        image:
+                                            "https://user-images.githubusercontent.com/67002144/236230142-1063ebbe-169b-4927-b69b-41edeb909aae.png",
+                                        // image: item.image == null
+                                        //     ? ""
+                                        //     : item.image,
+                                      ),
                                     ));
                                 print(item.id);
                                 print(item.id_user);
-                                print(item.id_postings);
+                                print(item.image);
                               },
                               child: Container(
                                 padding: EdgeInsets.fromLTRB(
@@ -519,17 +568,20 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            // Container(
-                            //   width: double.infinity,
-                            //   // decoration: BoxDecoration(
-                            //   //   border: Border.all(
-                            //   //     //<-- SEE HERE
-                            //   //     width: 5,
-                            //   //   ),
-                            //   // ),
-                            //   child: Image.network("${item.image}",
-                            //       fit: BoxFit.cover),
-                            // ),
+                            Container(
+                              width: double.infinity,
+                              // decoration: BoxDecoration(
+                              //   border: Border.all(
+                              //     //<-- SEE HERE
+                              //     width: 5,
+                              //   ),
+                              // ),
+                              child: Image.network(
+                                  "https://user-images.githubusercontent.com/67002144/236230142-1063ebbe-169b-4927-b69b-41edeb909aae.png",
+                                  fit: BoxFit.cover),
+                              // child: Image.network("${item.image}",
+                              //     fit: BoxFit.cover),
+                            ),
                             Container(
                               width: double.infinity,
                               // color: Colors.red,
@@ -583,7 +635,7 @@ class _HomeState extends State<Home> {
                                                 const SizedBox(
                                                   width: 5,
                                                 ),
-                                                const Text("12,5rb"),
+                                                // const Text("12,5rb"),
                                                 Container(
                                                   height: 20,
                                                   child: const VerticalDivider(
@@ -621,12 +673,14 @@ class _HomeState extends State<Home> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              print(item.id);
-                                              commentVisible[item.id] =
-                                                  !(commentVisible[item.id] ??
-                                                      true);
-                                              print('lohe:' +
-                                                  commentVisible.toString());
+                                              // print(item.id);
+                                              // commentVisible[item.id] =
+                                              //     !(commentVisible[
+                                              //             item.id] ??
+                                              //         true);
+                                              // print('lohe:' +
+                                              //     commentVisible
+                                              //         .toString());
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(10),
@@ -893,42 +947,43 @@ class _HomeState extends State<Home> {
                       const SizedBox(
                         height: 3,
                       ),
-                      if (item.repliedData != null)
-                        for (var reply in item.repliedData)
-                          Visibility(
-                            visible: commentVisible[item.id] ?? true,
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                              color: Colors.grey[300],
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey[100],
-                                    ),
-                                    child: const Icon(
-                                      Icons.person,
-                                      size: 28,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: Text(reply['title']),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                      // if (item.repliedData != null)
+                      //   for (var reply in item.repliedData)
+                      //     Visibility(
+                      //       visible: commentVisible[item.id] ?? true,
+                      //       child: Container(
+                      //         padding: const EdgeInsets.fromLTRB(
+                      //             15, 10, 15, 10),
+                      //         color: Colors.grey[300],
+                      //         child: Row(
+                      //           children: [
+                      //             Container(
+                      //               padding: const EdgeInsets.all(5),
+                      //               decoration: BoxDecoration(
+                      //                 shape: BoxShape.circle,
+                      //                 color: Colors.grey[100],
+                      //               ),
+                      //               child: const Icon(
+                      //                 Icons.person,
+                      //                 size: 28,
+                      //               ),
+                      //             ),
+                      //             const SizedBox(width: 10),
+                      //             Expanded(
+                      //               child: Container(
+                      //                 padding: const EdgeInsets.all(10),
+                      //                 decoration: BoxDecoration(
+                      //                   color: Colors.white,
+                      //                   borderRadius:
+                      //                       BorderRadius.circular(25),
+                      //                 ),
+                      //                 child: Text(reply['title']),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
                     ],
                   ),
                 ),

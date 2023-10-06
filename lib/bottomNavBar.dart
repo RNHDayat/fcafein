@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:powershare/Answer/pgComment.dart';
 import 'package:powershare/pgFollowing.dart';
+// import 'package:powershare/Answer/pgComment.dart';
+import 'package:powershare/pgFollowingBACKUP.dart';
 import 'package:powershare/pgHome.dart';
 import 'package:powershare/drawerWidget.dart';
 import 'package:powershare/Answer/pgAnswer.dart';
@@ -68,8 +71,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   List pages = [
     const Home(),
-    const Following(),
-    Answer(),
+    PageFollowing(),
+    // const Following(),
+    // Answer(),
+    // Comment(),
+    PgComment(),
     const ScreenRuang(),
     const PageNotification(),
   ];
@@ -139,7 +145,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const TambahPertanyaan(initialIndex: 0),
+                      builder: (context) =>
+                          const TambahPertanyaan(initialIndex: 0),
                     ));
                   },
                   child: const Icon(Icons.add_circle_outline)),
@@ -169,7 +176,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.article), label: 'Mengikuti'),
           const BottomNavigationBarItem(
               icon: Icon(Icons.question_answer), label: 'Jawab'),
-          const BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Ruang'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.group), label: 'Ruang'),
           const BottomNavigationBarItem(
               icon: Icon(Icons.notifications), label: 'Notifikasi'),
         ],

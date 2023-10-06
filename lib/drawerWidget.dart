@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/comment.dart';
+import 'package:powershare/model/database.dart';
 import 'package:powershare/pgNewPassword.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
 import 'package:powershare/screens/setting_akun.dart';
@@ -10,13 +11,59 @@ import 'package:powershare/splashScreen.dart';
 
 import 'model/dbhelper.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // user();
+  }
+
+  GetUser getUser = GetUser();
+  String fullname = '';
+  String nickname = '';
+  String address = '';
+  String job = '';
+  String company = '';
+  String start_year = '';
+  int id_user = 0;
+  String token = '';
+
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    GetUser.getUser(data[0].token).then((value) {
+      setState(() {
+        getUser = value;
+        fullname = getUser.fullname!;
+        nickname = getUser.nickname!;
+        address = getUser.address_house!;
+        job = getUser.job_position!;
+        company = getUser.company!;
+        start_year = getUser.start_year!;
+        id_user = data[0].id;
+        token = data[0].token;
+        // print("nihhhhhhhh : ${getUser.description}");
+        // print(company);
+      });
+    });
+    // _db.getToken().then((value) {
+    //   print('nih : $value');
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
         elevation: 1.5,
         child: Column(children: <Widget>[
-          _drawerHeader(context),
+          _drawerHeader(context, nickname),
           Expanded(
               child: ListView(
             padding: EdgeInsets.zero,
@@ -72,7 +119,8 @@ class DrawerWidget extends StatelessWidget {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => const SettingScreen(),
+                                      builder: (context) =>
+                                          const SettingScreen(),
                                     ));
                                   },
                                   child: const Row(
@@ -211,7 +259,7 @@ class DrawerWidget extends StatelessWidget {
   }
 }
 
-Widget _drawerHeader(context) {
+Widget _drawerHeader(context, String nickname) {
   return UserAccountsDrawerHeader(
     decoration: const BoxDecoration(color: Colors.white),
     currentAccountPicture: const ClipOval(
@@ -236,10 +284,10 @@ Widget _drawerHeader(context) {
       child: Container(
         padding: const EdgeInsets.all(10),
         // color: Colors.red,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Andri Dwi',
+            Text("nickname",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             Icon(Icons.arrow_right),
           ],

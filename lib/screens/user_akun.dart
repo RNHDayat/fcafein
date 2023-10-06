@@ -164,8 +164,8 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
         start_year = getUser.start_year!;
         id_user = data[0].id;
         token = data[0].token;
-        print(getUser.id);
-        print(company);
+        print("nihhhhhhhh : ${getUser.description}");
+        // print(company);
       });
     });
     // _db.getToken().then((value) {
@@ -1852,6 +1852,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                               );
                             },
                           )
+                        
                         ],
                       ),
                     ),

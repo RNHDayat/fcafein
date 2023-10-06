@@ -74,7 +74,8 @@ class _RegistrationState extends State<Registration> {
                 maxChildSize: 0.8,
                 builder: (BuildContext c, s) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -386,6 +387,7 @@ class _RegistrationState extends State<Registration> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 CreateAccount.create(
+                                  context,
                                         username.text,
                                         email.text,
                                         fullname.text,
@@ -394,11 +396,12 @@ class _RegistrationState extends State<Registration> {
                                         phone.text,
                                         gender.text)
                                     .then((value) {
-                                  if (value != null) {
-                                    print(value);
-                                  } else {
-                                    print("eror guys");
-                                  }
+                                  // if (value != null) {
+                                  //   // print(value);
+                                  // } else {
+                                  //   print("eror guys");
+                                  // }
+                                  print(value);
                                 });
                               } else {
                                 print("Form harap diisi");
@@ -443,7 +446,8 @@ class _RegistrationState extends State<Registration> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (BuildContext) => const Login()));
+                                          builder: (BuildContext) =>
+                                              const Login()));
                                 },
                                 child: const Text(
                                   'Masuk Disini',

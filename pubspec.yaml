@@ -49,6 +49,7 @@ dependencies:
   infinite_scroll_pagination: ^3.2.0
   faker: ^2.1.0
   fluttertoast: ^8.2.2
+  quickalert: ^1.0.2
 
 dev_dependencies:
   flutter_test:

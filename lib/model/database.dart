@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:powershare/services/global.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class LoginAuth {
   String? id, token, level;
@@ -16,11 +19,12 @@ class LoginAuth {
   }
   static Future<LoginAuth?> login(String username, String password) async {
     // final baseUrl = 'http://direkrut.ptumdi.com/api/login';
-    const baseUrl = 'http://10.0.2.2:8000/api/login';
+    // const baseUrl = 'http://192.168.1.5:8000/api/login';
+    Uri url = Uri.parse(URL + "login");
     // final baseUrl = 'http://192.168.1.1:8000/api/login';
 
     final response = await http.post(
-      Uri.parse(baseUrl),
+      url,
       body: {"username": username, "password": password, "login_type": "0"},
     );
     if (response.statusCode == 200) {
@@ -59,11 +63,12 @@ class CreateAccount {
     );
   }
 
-  static Future<CreateAccount?> create(String username, email, fullname,
-      nickname, datebirth, phone, gender) async {
-    const baseUrl = 'http://10.0.2.2:8000/api/createAccount';
+  static Future<CreateAccount?> create(BuildContext context, String username,
+      email, fullname, nickname, datebirth, phone, gender) async {
+    // const baseUrl = 'http://10.0.2.2:8000/api/createAccount';
+    Uri url = Uri.parse(URL + "createAccount");
     final response = await http.post(
-      Uri.parse(baseUrl),
+      url,
       body: {
         "username": username,
         "email": email,
@@ -77,12 +82,40 @@ class CreateAccount {
     if (response.statusCode == 200) {
       var body = json.decode(response.body);
       print(body);
-      return CreateAccount.fromJson(body);
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: body['msg'],
+      );
+      // return CreateAccount.fromJson(body);
+    } else if (response.statusCode == 400) {
+      List<String> errorMessages = [];
+      String errorMessageText = '';
+      // Jika status code adalah 400 (Bad Request), maka Anda dapat menguraikan respons JSON untuk mendapatkan pesan kesalahan
+      final data = json.decode(response.body);
+      final msg = data['msg'];
+
+      if (msg != null) {
+        msg.forEach((key, value) {
+          if (value is List && value.isNotEmpty) {
+            errorMessages.add(value[0]);
+            errorMessageText = errorMessages.join('\n');
+            print(errorMessages);
+          }
+        });
+      }
+      // ignore: use_build_context_synchronously
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: errorMessageText,
+        textAlignment: TextAlign.start,
+        confirmBtnText: 'Ok',
+      );
     } else {
-      var body = json.decode(response.body);
-      print(body);
-      print(response.statusCode);
-      throw {print("gagal post")};
+      // Handle kode status lain jika diperlukan
+      print('tidak ada');
     }
   }
 }
@@ -99,8 +132,9 @@ class AddCredential {
   }
   static Future<AddCredential?> insert(String token, String description) async {
     const baseUrl = 'http://10.0.2.2:8000/api/credential/store';
+    Uri url = Uri.parse(URL + "credential/store");
     final response = await http.post(
-      Uri.parse(baseUrl),
+      url,
       headers: {
         "Authorization": 'Bearer $token',
         "Accept": "application/json",
@@ -131,6 +165,7 @@ class GetUser {
       nickname,
       level,
       gender,
+      description,
       address_house,
       company,
       job_position,
@@ -142,6 +177,7 @@ class GetUser {
     this.fullname,
     this.nickname,
     this.level,
+    this.description,
     this.gender,
     this.address_house,
     this.company,
@@ -158,6 +194,7 @@ class GetUser {
       nickname: data["employees"]["nickname"],
       level: data["level"].toString(),
       gender: data["employees"]["gender"],
+      description: data["employees"]["description"],
       address_house: data["employees"]["address_house"],
       company: data["employees"]["company"],
       job_position: data["employees"]["job_position"],
@@ -166,7 +203,8 @@ class GetUser {
   }
 
   static Future<GetUser> getUser(String token) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/profile");
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/profile");
+    Uri url = Uri.parse(URL + "profile");
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -198,9 +236,11 @@ class Postings {
   // }
   static Future<Postings?> share(String title, String description, String token,
       String id_knowField) async {
-    const baseUrl = 'http://10.0.2.2:8000/api/posting/store';
+    // const baseUrl = 'http://10.0.2.2:8000/api/posting/store';
+    Uri url = Uri.parse(URL + "posting/store");
+
     final response = await http.post(
-      Uri.parse(baseUrl),
+      url,
       headers: {
         "Authorization": 'Bearer $token',
         "Accept": "application/json",
@@ -260,7 +300,8 @@ class ShowFollowings {
   get userid => null;
 
   static Future<ShowFollowings> showfollowings(String token) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/showfollowings");
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/showfollowings");
+    Uri url = Uri.parse(URL + "followuser/showfollowings");
     var response = await http.get(
       url,
       headers: {
@@ -316,7 +357,9 @@ class Followers {
   get userid => null;
 
   static Future<Followers> followers(String token) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/followers");
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/followers");
+    Uri url = Uri.parse(URL + "followuser/followers");
+
     var response = await http.get(
       url,
       headers: {
@@ -353,7 +396,9 @@ class Following {
 
   static Future<Following> follow(
       String token, String following_id, String follow_status) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/follow");
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/follow");
+    Uri url = Uri.parse(URL + "followuser/follow");
+
     var response = await http.post(
       url,
       headers: {
@@ -380,39 +425,35 @@ class Following {
   }
 }
 
-class Comment {
+class PostComment {
   final id;
-  final id_user;
-  final nickname;
-  final title;
-  final description;
-  final company;
-  final image;
+  final id_postings;
+  final toAnswer_posting;
+  final updated_at;
+  final created_at;
 
-  Comment({
+  PostComment({
     this.id,
-    this.id_user,
-    this.nickname,
-    this.title,
-    this.description,
-    this.company,
-    this.image,
+    this.id_postings,
+    this.toAnswer_posting,
+    this.updated_at,
+    this.created_at,
   });
 
-  factory Comment.CommentResult(Map<String, dynamic> data) {
-    return Comment(
+  factory PostComment.PostCommentResult(Map<String, dynamic> data) {
+    return PostComment(
       id: data['id'],
-      id_user: data['id_user'],
-      nickname: data['nickname'],
-      title: data['title'],
-      description: data['description'],
-      company: data['company'],
-      image: data['image'],
+      id_postings: data['id_postings'],
+      toAnswer_posting: data['toAnswer_posting'],
+      updated_at: data['updated_at'],
+      created_at: data['created_at'],
     );
   }
 
-  static Future<Comment> commentNested(String token) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/store");
+  static Future<PostComment> commentNested(String token) async {
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/store");
+    Uri url = Uri.parse(URL + "store");
+
     var response = await http.get(
       url,
       headers: {
@@ -425,16 +466,18 @@ class Comment {
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
       print('YESS');
-      return jsonData['data'];
+      return jsonData;
     } else {
       print(response.statusCode);
       throw {print("gagal post")};
     }
   }
 
-  static Future<Comment> postComment(String token, String id_postings,
+  static Future<PostComment> postComment(String token, String id_postings,
       String title, String description) async {
-    Uri url = Uri.parse("http://10.0.2.2:8000/api/reply/store");
+    // Uri url = Uri.parse("http://10.0.2.2:8000/api/reply/store");
+    Uri url = Uri.parse(URL + "reply/store");
+
     var response = await http.post(
       url,
       headers: {
@@ -449,10 +492,10 @@ class Comment {
       },
     );
     // print(jsonData["data"]["token"]);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var jsonData = json.decode(response.body);
       print('YESS');
-      return jsonData['data'];
+      return PostComment.PostCommentResult(jsonData);
     } else {
       print(response.statusCode);
       throw {print("gagal post")};
@@ -483,8 +526,10 @@ class Vote {
   }
   static Future<Vote> voting(
       String token, int postingsId, int voteStatus) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/vote/store"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/vote/store"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "vote/store");
+
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -526,8 +571,10 @@ class Ilmu {
     );
   }
   static Future<Ilmu> add(String token, String codeIlmu, String name) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/knowField/store"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    // "http://10.0.2.2:8000/api/knowField/store");
+    Uri url = Uri.parse(URL + "knowField/store");
+    // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -542,7 +589,7 @@ class Ilmu {
       print(response.statusCode);
       print('L:');
       print(jsonData);
-      return Ilmu.fromJson(jsonData['data']);
+      return Ilmu.fromJson(jsonData);
     } else {
       print(response.statusCode);
       throw Exception('Failed to update or create vote');
@@ -581,8 +628,10 @@ class PageIlmu {
     );
   }
   Future<List<PageIlmu>> get(String token) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/knowField"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/knowField"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "knowField");
+
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -651,8 +700,10 @@ class DetailPageIlmu {
   Future<List<DetailPageIlmu>> get(
       BuildContext context, String token, String codeIlmu) async {
     try {
-      Uri url = Uri.parse(
-          "http://10.0.2.2:8000/api/knowField/showDetail/$codeIlmu"); // Ganti dengan endpoint yang sesuai
+      // Uri url = Uri.parse(
+      //     "http://10.0.2.2:8000/api/knowField/showDetail/$codeIlmu"); // Ganti dengan endpoint yang sesuai
+      Uri url = Uri.parse(URL + "knowField/showDetail/$codeIlmu");
+
       var response = await http.get(url, headers: {
         "Authorization": 'Bearer $token',
         "Accept": "application/json",
@@ -740,8 +791,10 @@ class FollowIlmu {
     );
   }
   static Future<FollowIlmu> pushFollow(String token, String codeIlmu) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/knowField/follow"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/knowField/follow"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "knowField/follow");
+
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -784,8 +837,10 @@ class FollowingIlmu {
     );
   }
   static Future<FollowingIlmu> getFollow(String token, String codeIlmu) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/knowField/show/$codeIlmu"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/knowField/show/$codeIlmu"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "knowField/show/$codeIlmu");
+
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -849,8 +904,10 @@ class ShowFollowIlmu {
     );
   }
   Future<List<ShowFollowIlmu>> getFollow(String token) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/knowField/showFollowIlmu"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/knowField/showFollowIlmu"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "knowField/showFollowIlmu");
+
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -877,8 +934,10 @@ class ShowFollowIlmu {
 class StoreCredential {
   static Future<http.Response> store(
       String token, String type, String description) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/credential/store"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/credential/store"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "credential/store");
+
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -929,8 +988,10 @@ class ShowCredentials {
     );
   }
   Future<List<ShowCredentials>> getCredential(String token) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/credential/indexUser"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/credential/indexUser"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "credential/indexUser");
+
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -968,8 +1029,10 @@ class UpdateCredentials {
   }
   static Future<http.Response> updateCredential(String token, String id,
       String type, String description, String hide) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/credential/update/$id"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/credential/update/$id"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "credential/update/$id");
+
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -1011,8 +1074,10 @@ class UpdateCredentials {
     String token,
     String id,
   ) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/credential/destroy/$id"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/credential/destroy/$id"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "credential/destroy/$id");
+
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -1095,8 +1160,10 @@ class ShowPostingProfile {
     );
   }
   Future<List<ShowPostingProfile>> getPostingProfile(String token) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/posting/indexProfile"); // Ganti dengan endpoint yang sesuai
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/posting/indexProfile"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "posting/indexProfile");
+
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -1112,6 +1179,107 @@ class ShowPostingProfile {
       List<dynamic> data = jsonData['data'];
       List<ShowPostingProfile> ilmuList =
           data.map((json) => ShowPostingProfile.fromJson(json)).toList();
+      return ilmuList;
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to update or create vote');
+    }
+  }
+}
+
+//komentar like postingan
+class ShowComment {
+  final id;
+  final id_user;
+  final id_credential;
+  final id_category;
+  final id_knowfield;
+  final title;
+  final description;
+  final status;
+  final id_post;
+  final nickname;
+  final company;
+  final id_user_post;
+  final id_credential_post;
+  final id_knowfield_post;
+  final title_post;
+  final description_post;
+  final image_post;
+  final created_at;
+  final updated_at;
+  final created_at_post;
+  final updated_at_post;
+
+  ShowComment({
+    this.id,
+    this.id_user,
+    this.id_credential,
+    this.id_category,
+    this.id_knowfield,
+    this.title,
+    this.description,
+    this.status,
+    this.id_post,
+    this.nickname,
+    this.company,
+    this.id_user_post,
+    this.id_credential_post,
+    this.id_knowfield_post,
+    this.title_post,
+    this.description_post,
+    this.image_post,
+    this.created_at,
+    this.updated_at,
+    this.created_at_post,
+    this.updated_at_post,
+  });
+
+  factory ShowComment.fromJson(Map<String, dynamic> json) {
+    return ShowComment(
+      id: json['id'],
+      id_user: json['id_user'],
+      id_credential: json['id_credential'],
+      id_category: json['id_category'],
+      id_knowfield: json['id_knowfield'],
+      title: json['title'],
+      description: json['description'],
+      status: json['status'],
+      id_post: json['toAnswer_posting'][0]['id'],
+      id_user_post: json['toAnswer_posting'][0]['id_user'],
+      nickname: json['toAnswer_posting'][0]['nickname'],
+      company: json['toAnswer_posting'][0]['company'],
+      id_credential_post: json['toAnswer_posting'][0]['id_credential'],
+      id_knowfield_post: json['toAnswer_posting'][0]['id_knowfield'],
+      title_post: json['toAnswer_posting'][0]['title'],
+      description_post: json['toAnswer_posting'][0]['description'],
+      image_post: json['toAnswer_posting'][0]['image'],
+      created_at: json['created_at'],
+      updated_at: json['updated_at'],
+      created_at_post: json['toAnswer_posting'][0]['created_at'],
+      updated_at_post: json['toAnswer_posting'][0]['updated_at'],
+    );
+  }
+  Future<List<ShowComment>> getComments(String token) async {
+    // Uri url = Uri.parse(
+    //     "http://10.0.2.2:8000/api/reply/showComment"); // Ganti dengan endpoint yang sesuai
+    Uri url = Uri.parse(URL + "reply/showComment");
+
+    var response = await http.get(url, headers: {
+      "Authorization": 'Bearer $token',
+      "Accept": "application/json",
+      "login-type": "0",
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      var jsonData = json.decode(response.body);
+      // Iterable it = jsonData["data"][0];
+      print(response.statusCode);
+      // print('niced');
+      // print(jsonData['data'][0]);
+      List<dynamic> data = jsonData;
+      List<ShowComment> ilmuList =
+          data.map((json) => ShowComment.fromJson(json)).toList();
       return ilmuList;
     } else {
       print(response.statusCode);

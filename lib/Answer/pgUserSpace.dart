@@ -80,7 +80,7 @@ class _UserSpaceState extends State<UserSpace> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    'Ruang',
+                                    'Ruang Ilmu',
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),

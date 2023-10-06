@@ -3,28 +3,93 @@ import 'dart:convert';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/model/database.dart';
+import 'package:powershare/pgHome.dart';
 
 import 'model/dbhelper.dart';
 
 class DetailPosting extends StatefulWidget {
   final id;
-  final String title;
-  final String nickname;
-  final String company;
-  final String description;
-  final String image;
+  final title;
+  final nickname;
+  final company;
+  final description;
+  final image;
   const DetailPosting(
       {super.key,
-      required this.id,
-      required this.title,
-      required this.nickname,
-      required this.company,
-      required this.description,
-      required this.image});
+      this.id,
+      this.title,
+      this.nickname,
+      this.company,
+      this.description,
+      this.image});
 
   @override
   State<DetailPosting> createState() => _DetailPostingState();
+}
+
+class Comment {
+  final int id;
+  final int id_postings;
+  final String nickname;
+  final int toAnswer_posting;
+  final String description;
+  final List<Comment> repliedData;
+
+  Comment({
+    required this.id,
+    required this.id_postings,
+    required this.nickname,
+    required this.toAnswer_posting,
+    required this.description,
+    required this.repliedData,
+  });
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    List<Comment> repliedData = [];
+    if (json['repliedData'] != null) {
+      repliedData = List<Comment>.from(
+          json['repliedData'].map((reply) => Comment.fromJson(reply)));
+    }
+    return Comment(
+      id: json['id'],
+      id_postings: json['id_postings'],
+      nickname: json['nickname'],
+      toAnswer_posting: json['toAnswer_posting'] ??
+          0, // Atur ke 0 jika toAnswer_posting adalah null
+      description: json['description'],
+      repliedData: repliedData,
+    );
+  }
+}
+
+class Post {
+  final int id;
+  final String title;
+  final String description;
+  final List<Comment> repliedData;
+
+  Post({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.repliedData,
+  });
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    List<Comment> repliedData = [];
+    if (json['toAnswer_posting'] == null && json['repliedData'] != null) {
+      repliedData = List<Comment>.from(
+          json['repliedData'].map((comment) => Comment.fromJson(comment)));
+    }
+    return Post(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      repliedData: repliedData,
+    );
+  }
 }
 
 class _DetailPostingState extends State<DetailPosting> {
@@ -34,10 +99,11 @@ class _DetailPostingState extends State<DetailPosting> {
   void initState() {
     // fetchData();
     super.initState();
+    print(widget.id);
   }
 
   // Method untuk mengambil data dari API
-  Future<void> fetchData() async {
+  Future<List<Post>> fetchData() async {
     final _db = DBhelper();
     var data = await _db.getToken();
     final response = await http.get(
@@ -49,109 +115,30 @@ class _DetailPostingState extends State<DetailPosting> {
       },
     );
     if (response.statusCode == 200) {
-      setState(() {
-        print(response.body);
-        // var data = json.decode(response.body);
-
-        dataList = json.decode(response.body);
-        print(dataList[0]['repliedData']);
-        // dataList =response.body;
-        // Ubah state dataList dengan data baru dari API
-        // dataList = YOUR_DATA_PROCESSING_LOGIC(response.body);
-      });
+      final List<dynamic> responseData = json.decode(response.body);
+      return responseData.map((json) => Post.fromJson(json)).toList();
     } else {
-      print('ada yang salah brow');
-      print(response.statusCode);
+      throw Exception('Failed to load posts');
     }
   }
 
-  func(dataList) {
-    for (var i in dataList) {
-      Container();
-      Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey[100],
-            ),
-            child: const Icon(
-              Icons.person,
-              size: 28,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Text('komen'),
-            ),
-          ),
-        ],
-      );
-      if (i['repliedData'] != 0) {
-        func(i['repliedData']);
-      }
-      // print(i['repliedData']);
-    }
-  }
-
-  bool showWidgets = false; // State untuk mengontrol tampilan widget
-
-  Widget buildWidgetList(List<dynamic> data) {
-    List<Widget> widgets = [];
-
-    for (var i in data) {
-      widgets.add(Container());
-      widgets.add(
-        Container(
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[100],
-                ),
-                child: const Icon(
-                  Icons.person,
-                  size: 28,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Text(i['title']),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      if (i['repliedData'] != 0) {
-        widgets.add(buildWidgetList(i['repliedData']));
-      }
-    }
-
-    return Column(children: widgets);
-  }
-
+  bool showComments = false; // State untuk mengontrol tampilan widget
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+          // leading: GestureDetector(
+          //   onTap: () => Navigator.pushReplacement(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => BottomNavBar(currentIndex: 0),
+          //     ),
+          //   ),
+          //   child: Icon(Icons.arrow_back),
+          // ),
+          ),
       body: SingleChildScrollView(
         controller: ScrollController(),
         child: Container(
@@ -264,10 +251,11 @@ class _DetailPostingState extends State<DetailPosting> {
                   ],
                 ),
               ),
-              Container(
-                width: double.infinity,
-                child: Image.network(widget.image, fit: BoxFit.cover),
-              ),
+              // Container(
+              //   width: double.infinity,
+              //   child:
+              //       Image.network(widget.image==null?'':widget.image.toString(), fit: BoxFit.cover),
+              // ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -306,8 +294,10 @@ class _DetailPostingState extends State<DetailPosting> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                showWidgets = !showWidgets;
-                                print(showWidgets);
+                                setState(() {
+                                  showComments = !showComments;
+                                  print(showComments);
+                                });
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
@@ -491,102 +481,286 @@ class _DetailPostingState extends State<DetailPosting> {
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                color: Colors.grey[300],
-                child: Row(
+              if (showComments == true)
+                Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey[100],
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        size: 28,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Container(
-                        // padding: EdgeInsets.all(5),
-                        child: TextFormField(
-                          controller: commentController,
-                          decoration: new InputDecoration(
-                              errorStyle: const TextStyle(fontSize: 18.0),
-                              hintText: 'Tambahkan komentar...',
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabledBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.blue,
-                                  )),
-                              border: OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 1.0))),
-                          style: const TextStyle(color: Colors.black),
-                        ),
+                        height: 2,
+                        color: Colors.grey[300],
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () async {
-                        final _db = DBhelper();
-                        var data = await _db.getToken();
-                        Comment.postComment(data[0].token, widget.id.toString(),
-                            widget.title, commentController.text);
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(5, 10, 15, 10),
+                      // color: Colors.grey[300],
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[100],
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+                              // padding: EdgeInsets.all(5),
+                              child: TextFormField(
+                                controller: commentController,
+                                decoration: new InputDecoration(
+                                    contentPadding: EdgeInsets.all(5),
+                                    errorStyle: const TextStyle(fontSize: 16.0),
+                                    hintText: 'Tambahkan komentar...',
+                                    hintStyle: TextStyle(fontSize: 16),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: const BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(25.0),
+                                        borderSide: const BorderSide(
+                                          color: Colors.blue,
+                                        )),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(25.0),
+                                        borderSide: const BorderSide(
+                                            color: Colors.black, width: 1.0))),
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () async {
+                              final _db = DBhelper();
+                              var data = await _db.getToken();
+                              PostComment.postComment(
+                                  data[0].token,
+                                  widget.id.toString(),
+                                  widget.title,
+                                  commentController.text);
+                              commentController.clear();
+                              showComments = !showComments;
+                            },
+                            // padding: EdgeInsets.all(5),
+                            child: const Icon(Icons.send),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FutureBuilder<List<Post>>(
+                      future: fetchData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          final posts = snapshot.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: posts.length,
+                            itemBuilder: (context, index) {
+                              return _buildCommentItemLvl1(
+                                  context, posts[index]);
+                            },
+                          );
+                        }
                       },
-                      // padding: EdgeInsets.all(5),
-                      child: const Icon(Icons.send),
                     ),
                   ],
-                ),
-              ),
-              // if (showWidgets) buildWidgetList(dataList),
-              // func(dataList) == null ? Text('nothing') : func(dataList),
-              // Container(
-              //   padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-              //   color: Colors.grey[300],
-              //   child: Row(
-              //     children: [
-              //       Container(
-              //         padding: EdgeInsets.all(5),
-              //         decoration: BoxDecoration(
-              //           shape: BoxShape.circle,
-              //           color: Colors.grey[100],
-              //         ),
-              //         child: Icon(
-              //           Icons.person,
-              //           size: 28,
-              //         ),
-              //       ),
-              //       SizedBox(width: 10),
-              //       Expanded(
-              //         child: Container(
-              //           padding: EdgeInsets.all(10),
-              //           decoration: BoxDecoration(
-              //             color: Colors.white,
-              //             borderRadius: BorderRadius.circular(25),
-              //           ),
-              //           child: Text('komen'),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+                )
+              else
+                Container(),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget _buildCommentItemLvl1(BuildContext context, Post post) {
+  return Container(
+    padding: EdgeInsets.only(top: 10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final comment in post.repliedData
+            .where((comment) => comment.toAnswer_posting != 0))
+          _buildCommentItemLvl2(context, comment),
+      ],
+    ),
+  );
+}
+
+Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
+  bool showReply = false; // State untuk mengontrol tampilan widget
+  print(comment.description);
+
+  return Container(
+    padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[100],
+              ),
+              child: Icon(
+                Icons.person,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: '${comment.nickname}${comment.id} ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          // fontSize: 12,
+                          color: Colors.black),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: comment.description,
+                          style: TextStyle(
+                              // fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        )
+                      ],
+                    ),
+                  ),
+                  // Text("Comment #${comment.nickname}: ${comment.description}"),
+                  SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      showReply = !showReply;
+                      print(comment.id);
+                      print(showReply);
+                      _modalBottomSheetComment(context, comment.id,
+                          comment.description, comment.nickname);
+                    },
+                    child: Text("Balas"),
+                  ),
+                  SizedBox(height: 10),
+                  // ListTile(
+
+                  //   title:
+                  //       Text("Comment #${comment.id}: ${comment.description}"),
+                  //   subtitle: InkWell(
+                  // onTap: () {
+                  //   showReply = !showReply;
+                  //   print(comment.id);
+                  //   print(showReply);
+                  //   _modalBottomSheetComment(context);
+                  // },
+                  //     child: Text("Balas"),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 15),
+                  //   child: TextFormField(
+                  //     decoration: InputDecoration(
+                  //       hintText: "Balas..",
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        if (comment.repliedData.isNotEmpty) ...[
+          for (final reply in comment.repliedData) ...[
+            _buildReplyHeader(reply.toAnswer_posting),
+            _buildCommentItemLvl2(context, reply),
+          ],
+        ],
+      ],
+    ),
+  );
+}
+
+Widget _buildReplyHeader(int nickname) {
+  return Padding(
+    padding: EdgeInsets.only(left: 55),
+    child: Text(
+      'Reply to Comment #$nickname:',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+  );
+}
+
+void _modalBottomSheetComment(
+    BuildContext context, int comment_id, String description, String nickname) {
+  TextEditingController balasan = TextEditingController();
+  showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+      backgroundColor: Colors.white,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+            padding: EdgeInsets.only(
+                top: 10,
+                right: 20,
+                left: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: balasan,
+                  decoration: InputDecoration(
+                    hintText: 'Balas @${nickname}',
+                    border: InputBorder.none,
+                  ),
+                  autofocus: true,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () async {
+                          final _db = DBhelper();
+                          var data = await _db.getToken();
+                          PostComment.postComment(data[0].token,
+                              comment_id.toString(), description, balasan.text);
+                        },
+                        child: Text("Kirim")),
+                  ],
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+          ));
 }

@@ -129,22 +129,22 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                           child: Text("Berdasarkan peran")),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.all(15),
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(
-                                              width: 0.5, color: Colors.grey),
-                                        ),
-                                      ),
-                                      child: const Center(
-                                          child:
-                                              Text("Baru-baru ini dikunjungi")),
-                                    ),
-                                  ),
+                                  // GestureDetector(
+                                  //   onTap: () {},
+                                  //   child: Container(
+                                  //     padding: const EdgeInsets.all(15),
+                                  //     width: MediaQuery.of(context).size.width,
+                                  //     decoration: const BoxDecoration(
+                                  //       border: Border(
+                                  //         top: BorderSide(
+                                  //             width: 0.5, color: Colors.grey),
+                                  //       ),
+                                  //     ),
+                                  //     child: const Center(
+                                  //         child:
+                                  //             Text("Baru-baru ini dikunjungi")),
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             });
