@@ -60,111 +60,111 @@ class _ScreenRuangState extends State<ScreenRuang> {
         child: Column(
           children: [
             Column(children: [
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       left: 15, right: 15, top: 10, bottom: 10),
+              //   child: Row(
+              //     children: [
+              //       const Text(
+              //         "Cafe Room",
+              //         style:
+              //             TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              //       ),
+              //       const Spacer(),
+              //       GestureDetector(
+              //         onTap: () {
+              //           showModalBottomSheet(
+              //               isScrollControlled: true,
+              //               context: context,
+              //               builder: (context) {
+              //                 return Column(
+              //                   mainAxisSize: MainAxisSize.min,
+              //                   mainAxisAlignment: MainAxisAlignment.center,
+              //                   children: <Widget>[
+              //                     Container(
+              //                       // width: double.infinity,
+              //                       padding: const EdgeInsets.all(15),
+              //                       width: MediaQuery.of(context).size.width,
+              //                       child: Stack(
+              //                         alignment: Alignment.centerLeft,
+              //                         children: <Widget>[
+              //                           GestureDetector(
+              //                             onTap: () {
+              //                               Navigator.pop(context);
+              //                             },
+              //                             child: Icon(Icons.close,
+              //                                 color: Colors.red[900]),
+              //                           ),
+              //                         ],
+              //                       ),
+              //                     ),
+              //                     GestureDetector(
+              //                       onTap: () {},
+              //                       child: Container(
+              //                         padding: const EdgeInsets.all(15),
+              //                         width: MediaQuery.of(context).size.width,
+              //                         decoration: const BoxDecoration(
+              //                           border: Border(
+              //                             top: BorderSide(
+              //                                 width: 0.5, color: Colors.grey),
+              //                           ),
+              //                         ),
+              //                         child: const Center(
+              //                           child: Text("Alfabetis"),
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     GestureDetector(
+              //                       onTap: () {},
+              //                       child: Container(
+              //                         padding: const EdgeInsets.all(15),
+              //                         width: MediaQuery.of(context).size.width,
+              //                         decoration: const BoxDecoration(
+              //                           border: Border(
+              //                             top: BorderSide(
+              //                                 width: 0.5, color: Colors.grey),
+              //                           ),
+              //                         ),
+              //                         child: const Center(
+              //                             child: Text("Berdasarkan peran")),
+              //                       ),
+              //                     ),
+              //                     // GestureDetector(
+              //                     //   onTap: () {},
+              //                     //   child: Container(
+              //                     //     padding: const EdgeInsets.all(15),
+              //                     //     width: MediaQuery.of(context).size.width,
+              //                     //     decoration: const BoxDecoration(
+              //                     //       border: Border(
+              //                     //         top: BorderSide(
+              //                     //             width: 0.5, color: Colors.grey),
+              //                     //       ),
+              //                     //     ),
+              //                     //     child: const Center(
+              //                     //         child:
+              //                     //             Text("Baru-baru ini dikunjungi")),
+              //                     //   ),
+              //                     // ),
+              //                   ],
+              //                 );
+              //               });
+              //         },
+              //         child: Container(
+              //           child: const Row(
+              //             children: [
+              //               Text("Baru-baru dikunjungi",
+              //                   style: TextStyle(color: Colors.grey)),
+              //               Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+              //             ],
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 15, right: 15, top: 10, bottom: 10),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Ruang Kamu",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    // width: double.infinity,
-                                    padding: const EdgeInsets.all(15),
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Stack(
-                                      alignment: Alignment.centerLeft,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Icon(Icons.close,
-                                              color: Colors.red[900]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.all(15),
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(
-                                              width: 0.5, color: Colors.grey),
-                                        ),
-                                      ),
-                                      child: const Center(
-                                        child: Text("Alfabetis"),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.all(15),
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          top: BorderSide(
-                                              width: 0.5, color: Colors.grey),
-                                        ),
-                                      ),
-                                      child: const Center(
-                                          child: Text("Berdasarkan peran")),
-                                    ),
-                                  ),
-                                  // GestureDetector(
-                                  //   onTap: () {},
-                                  //   child: Container(
-                                  //     padding: const EdgeInsets.all(15),
-                                  //     width: MediaQuery.of(context).size.width,
-                                  //     decoration: const BoxDecoration(
-                                  //       border: Border(
-                                  //         top: BorderSide(
-                                  //             width: 0.5, color: Colors.grey),
-                                  //       ),
-                                  //     ),
-                                  //     child: const Center(
-                                  //         child:
-                                  //             Text("Baru-baru ini dikunjungi")),
-                                  //   ),
-                                  // ),
-                                ],
-                              );
-                            });
-                      },
-                      child: Container(
-                        child: const Row(
-                          children: [
-                            Text("Baru-baru dikunjungi",
-                                style: TextStyle(color: Colors.grey)),
-                            Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, top: 4, bottom: 0),
+                    left: 15, right: 15, top: 15, bottom: 0),
                 child: Row(
                   children: [
                     OutlinedButton.icon(
@@ -185,18 +185,18 @@ class _ScreenRuangState extends State<ScreenRuang> {
                     const SizedBox(
                       width: 8,
                     ),
-                    OutlinedButton.icon(
-                      onPressed: () => scrollToIndex(),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.blue),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(18.0),
-                        ),
-                      ),
-                      icon: const Icon(Icons.map),
-                      label: const Text("Temukan"),
-                    )
+                    // OutlinedButton.icon(
+                    //   onPressed: () => scrollToIndex(),
+                    //   style: OutlinedButton.styleFrom(
+                    //     side: const BorderSide(color: Colors.blue),
+                    //     shape: RoundedRectangleBorder(
+                    //       side: const BorderSide(color: Colors.black),
+                    //       borderRadius: BorderRadius.circular(18.0),
+                    //     ),
+                    //   ),
+                    //   icon: const Icon(Icons.map),
+                    //   label: const Text("Temukan"),
+                    // )
                   ],
                 ),
               ),
@@ -248,15 +248,16 @@ class _ScreenRuangState extends State<ScreenRuang> {
                   );
                 },
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
               Container(
                 key: scrollTemukan,
-                color: const Color(0x30726D6D),
+                // color: const Color(0x30726D6D),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 15, bottom: 4),
+                      left: 15, right: 15, top: 0
+                      , bottom: 4),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -278,10 +279,10 @@ class _ScreenRuangState extends State<ScreenRuang> {
                                   fontWeight: FontWeight.normal, fontSize: 16),
                             ),
                             const Spacer(),
-                            TextButton(
-                                onPressed: () => {},
-                                child: const Text("Lihat Semua",
-                                    style: TextStyle(color: Colors.grey)))
+                            // TextButton(
+                            //     onPressed: () => {},
+                            //     child: const Text("Lihat Semua",
+                            //         style: TextStyle(color: Colors.grey)))
                           ],
                         ),
                         const SizedBox(

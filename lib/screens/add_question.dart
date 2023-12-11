@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:powershare/add_ilmu.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/audiens.dart';
@@ -25,7 +28,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
   TextEditingController tag = TextEditingController();
   final List<Widget> _tabs = [
     const Tab(text: 'Tambahkan Pertanyaan'),
-    const Tab(text: 'Buat kiriman Informasi'),
+    // const Tab(text: 'Buat kiriman Informasi'),
   ];
 
   bool isChecked = true;
@@ -74,6 +77,39 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
     });
     getIlmu();
   }
+
+  File? imageFile;
+  final _picker = ImagePicker();
+  Future getImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  File? docFile;
+  String? fileName;
+  FilePickerResult? pickedFile;
+  Future getFile() async {
+    pickedFile = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc'],
+    );
+    if (pickedFile != null) {
+      setState(() {
+        docFile = File(pickedFile!.files.single.path!);
+        fileName = pickedFile!.files.single.name;
+      });
+    }
+  }
+  // String? getStringImage(File? file) {
+  //   if (file == null) return null;
+  //   return base64Encode(file.readAsBytesSync());
+  // }
+
+  GlobalKey<FormState> key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -145,15 +181,15 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
 
           bottom: TabBar(
             onTap: (index) {
-              setState(() {
-                tabIndex = index;
-                // isChecked = index == 0;
-                if (index == 0) {
-                  isChecked = false;
-                } else if (index == 1) {
-                  isChecked = true;
-                }
-              });
+              // setState(() {
+              //   tabIndex = index;
+              //   // isChecked = index == 0;
+              //   if (index == 0) {
+              //     isChecked = false;
+              //   } else if (index == 1) {
+              //     isChecked = true;
+              //   }
+              // });
             },
             splashBorderRadius: BorderRadius.circular(5),
             labelColor: Colors.black, // Color of the active tab label
@@ -178,18 +214,28 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                 onPressed: () async {
                   final _db = DBhelper();
                   var data = await _db.getToken();
-                  // print(data[0].token);
-                  // for (var i = 0; i < selected.length; i++) {
-                  //   print(jsonEncode(selected));
-                  // }
-                  Postings.share(title.text, description.text, data[0].token,
-                      jsonEncode(selected));
+                  if (key.currentState!.validate()) {
+                    Postings.share(
+                        title.text,
+                        description.text,
+                        data[0].token,
+                        selected.isEmpty ? '' : jsonEncode(selected),
+                        imageFile,
+                        docFile);
+                    setState(() {
+                      title.clear();
+                      description.clear();
+                      selected.clear();
+                      // imageFile!.delete();
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    )),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
                 child: const Text("Simpan"),
               ),
             )
@@ -274,158 +320,197 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                           ],
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.account_circle_rounded,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Icon(
-                              Icons.arrow_right_outlined,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  alignment: Alignment.centerLeft,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Audiens()));
-                                },
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.groups_rounded,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'Publik',
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey)),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Icon(
-                                      Icons.keyboard_arrow_down_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   margin: const EdgeInsets.only(
+                      //       left: 15, right: 15, top: 0, bottom: 0),
+                      //   child: Row(
+                      //     children: [
+                      //       const Icon(
+                      //         Icons.account_circle_rounded,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 5,
+                      //       ),
+                      //       const Icon(
+                      //         Icons.arrow_right_outlined,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 5,
+                      //       ),
+                      //       ElevatedButton(
+                      //           style: ElevatedButton.styleFrom(
+                      //             alignment: Alignment.centerLeft,
+                      //             backgroundColor: Colors.transparent,
+                      //             elevation: 0,
+                      //             shape: RoundedRectangleBorder(
+                      //               side: const BorderSide(color: Colors.grey),
+                      //               borderRadius: BorderRadius.circular(18.0),
+                      //             ),
+                      //           ),
+                      //           onPressed: () {
+                      //             Navigator.push(
+                      //                 context,
+                      //                 MaterialPageRoute(
+                      //                     builder: (context) =>
+                      //                         const Audiens()));
+                      //           },
+                      //           child: Row(
+                      //             children: [
+                      //               const Icon(
+                      //                 Icons.groups_rounded,
+                      //                 color: Colors.grey,
+                      //               ),
+                      //               const SizedBox(
+                      //                 width: 10,
+                      //               ),
+                      //               Text(
+                      //                 'Publik',
+                      //                 style: GoogleFonts.poppins(
+                      //                     textStyle: const TextStyle(
+                      //                         fontSize: 14,
+                      //                         fontWeight: FontWeight.w600,
+                      //                         color: Colors.grey)),
+                      //               ),
+                      //               const SizedBox(
+                      //                 width: 10,
+                      //               ),
+                      //               const Icon(
+                      //                 Icons.keyboard_arrow_down_outlined,
+                      //                 color: Colors.grey,
+                      //               ),
+                      //             ],
+                      //           )),
+                      //     ],
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          top: 0,
-                          bottom: 0,
-                        ),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Judul Topik",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 0),
+                      Form(
+                        key: key,
                         child: Column(
-                          children: [
-                            TextField(
-                              controller: title,
-                              decoration: const InputDecoration(
-                                hintText:
-                                    'Inputkan topik atau judul dari pertanyaan anda',
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          top: 0,
-                          bottom: 0,
-                        ),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Deskripsi / Pertanyaan",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: 15,
+                                right: 15,
+                                top: 0,
+                                bottom: 0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                        text: 'Judul Topik',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red),
+                                          )
+                                        ]),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 0),
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller: description,
-                              maxLines: null,
-                              decoration: const InputDecoration(
-                                hintText:
-                                    'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 0, bottom: 0),
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty || value == null) {
+                                        return 'Judul tidak boleh kosong';
+                                      }
+                                    },
+                                    controller: title,
+                                    decoration: const InputDecoration(
+                                      hintText:
+                                          'Inputkan topik atau judul dari pertanyaan anda',
+                                      border: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  hastag = value.contains('#');
-                                  var x = value;
-                                  // print(x.split('#')[1]);
-                                  hastag
-                                      ? onSearch(x.split('#')[1])
-                                      : onSearch('');
-                                  // print(_searchTag);
-                                });
-                              },
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: 15,
+                                right: 15,
+                                top: 0,
+                                bottom: 0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                        text: 'Deskripsi / Pertanyaan',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: '*',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red),
+                                          )
+                                        ]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 0, bottom: 0),
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty || value == null) {
+                                        return 'Deskripsi tidak boleh kosong';
+                                      }
+                                    },
+                                    controller: description,
+                                    maxLines: null,
+                                    decoration: const InputDecoration(
+                                      hintText:
+                                          'Awali pertanyaan Anda dengan “Apa”, “Bagaimana”, “Mengapa”, dll.',
+                                      border: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        hastag = value.contains('#');
+                                        var x = value;
+                                        // print(x.split('#')[1]);
+                                        hastag
+                                            ? onSearch(x.split('#')[1])
+                                            : onSearch('');
+                                        // print(_searchTag);
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -451,7 +536,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: '(Optional)',
+                                    text: ' (Optional)',
                                     style: TextStyle(
                                       color: Colors.grey[600],
                                       fontWeight: FontWeight.normal,
@@ -517,6 +602,39 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                               },
                             ),
                           ],
+                        ),
+                      ),
+                      //add image
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          image: imageFile == null
+                              ? null
+                              : DecorationImage(
+                                  image: FileImage(imageFile ?? File('')),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.image,
+                              size: 50, color: Colors.black38),
+                          onPressed: () => getImage(),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 100,
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Text(fileName == null ? '' : fileName.toString()),
+                              ElevatedButton(
+                                onPressed: () => getFile(),
+                                child: Text('Tambah File'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Visibility(
@@ -615,107 +733,107 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                     ],
                   ),
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          width: 1,
-                          color: Color.fromRGBO(217, 217, 217, 100),
-                        ))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, top: 15, bottom: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Andri Dwi',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              )),
-                            ),
-                            const SizedBox(height: 5),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Kredensial()));
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    Icons.account_circle_rounded,
-                                    color: Colors.grey[400],
-                                    size: 40,
-                                  ),
-                                  // Container(
-                                  //   padding: EdgeInsets.all(5),
-                                  //   decoration: BoxDecoration(
-                                  //     borderRadius:
-                                  //         BorderRadius.all(Radius.circular(25)),
-                                  //     color: Colors.grey[200],
-                                  //   ),
-                                  //   child: Icon(
-                                  //     Icons.person,
-                                  //     size: 24,
-                                  //   ),
-                                  // ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Expanded(
-                                    // width: MediaQuery.of(context).size.width * 2,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(25)),
-                                        color: Colors.grey[200],
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.all(10),
-                                      child: const Text(
-                                        'Belajar di Universital 17 Agustus 1945 Surabaya',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          margin: const EdgeInsets.all(15),
-                          child: const Column(
-                            children: [
-                              TextField(
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  hintText: 'Katakan sesuatu ...',
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   child: Column(
+                //     children: [
+                //       Container(
+                //         decoration: const BoxDecoration(
+                //             border: Border(
+                //                 bottom: BorderSide(
+                //           width: 1,
+                //           color: Color.fromRGBO(217, 217, 217, 100),
+                //         ))),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.only(
+                //             left: 10, right: 10, top: 15, bottom: 10),
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'Andri Dwi',
+                //               textAlign: TextAlign.left,
+                //               style: GoogleFonts.poppins(
+                //                   textStyle: const TextStyle(
+                //                 fontSize: 14,
+                //                 fontWeight: FontWeight.w600,
+                //               )),
+                //             ),
+                //             const SizedBox(height: 5),
+                //             InkWell(
+                //               onTap: () {
+                //                 Navigator.push(
+                //                     context,
+                //                     MaterialPageRoute(
+                //                         builder: (context) =>
+                //                             const Kredensial()));
+                //               },
+                //               child: Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceEvenly,
+                //                 children: [
+                //                   Icon(
+                //                     Icons.account_circle_rounded,
+                //                     color: Colors.grey[400],
+                //                     size: 40,
+                //                   ),
+                //                   // Container(
+                //                   //   padding: EdgeInsets.all(5),
+                //                   //   decoration: BoxDecoration(
+                //                   //     borderRadius:
+                //                   //         BorderRadius.all(Radius.circular(25)),
+                //                   //     color: Colors.grey[200],
+                //                   //   ),
+                //                   //   child: Icon(
+                //                   //     Icons.person,
+                //                   //     size: 24,
+                //                   //   ),
+                //                   // ),
+                //                   const SizedBox(
+                //                     width: 5,
+                //                   ),
+                //                   Expanded(
+                //                     // width: MediaQuery.of(context).size.width * 2,
+                //                     child: Container(
+                //                       decoration: BoxDecoration(
+                //                         borderRadius: const BorderRadius.all(
+                //                             Radius.circular(25)),
+                //                         color: Colors.grey[200],
+                //                       ),
+                //                       alignment: Alignment.centerLeft,
+                //                       padding: const EdgeInsets.all(10),
+                //                       child: const Text(
+                //                         'Belajar di Universital 17 Agustus 1945 Surabaya',
+                //                         style: TextStyle(
+                //                           fontSize: 12,
+                //                           color: Colors.grey,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //       Container(
+                //           margin: const EdgeInsets.all(15),
+                //           child: const Column(
+                //             children: [
+                //               TextField(
+                //                 maxLines: null,
+                //                 decoration: InputDecoration(
+                //                   hintText: 'Katakan sesuatu ...',
+                //                   border: InputBorder.none,
+                //                   enabledBorder: InputBorder.none,
+                //                 ),
+                //               ),
+                //             ],
+                //           )),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ],

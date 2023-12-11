@@ -23,7 +23,7 @@ class _UserFollowerState extends State<UserFollower>
     _tabController = TabController(length: 2, vsync: this);
     fetchFollowers();
     fetchFollowings();
-    user();
+    userLogin();
   }
 
   Followers followers = Followers();
@@ -64,13 +64,13 @@ class _UserFollowerState extends State<UserFollower>
   }
 
   ShowFollowings getFollowings = ShowFollowings();
-  String useridfollowing = '';
-  String followingIduser = '';
-  String statusfollowing = '';
-  String namefollowing = '';
-  String nickfollowing = '';
-  String companyfollowing = '';
-  String jobfollowing = '';
+  // String useridfollowing = '';
+  // String followingIduser = '';
+  // String statusfollowing = '';
+  // String namefollowing = '';
+  // String nickfollowing = '';
+  // String companyfollowing = '';
+  // String jobfollowing = '';
 
   List<ShowFollowings> followingList = [];
 
@@ -78,45 +78,73 @@ class _UserFollowerState extends State<UserFollower>
     final _db = DBhelper();
     var data = await _db.getToken();
     print(data[0].token);
-    ShowFollowings.showfollowings(data[0].token).then((value) {
-      setState(() {
-        followingList.add(value);
-        getFollowings = value;
-        useridfollowing = getFollowings.id_user!;
-        followingIduser = getFollowings.following_id!;
-        statusfollowing = getFollowings.follow_status!;
-        namefollowing = getFollowings.fullname!;
-        nickfollowing = getFollowings.nickname!;
-        companyfollowing = getFollowings.company!;
-        jobfollowing = getFollowings.job_position!;
-      });
-    });
+    followingList = await getFollowings.showfollowings(data[0].token);
+    setState(() {});
+    // ShowFollowings.showfollowings(data[0].token).then((value) {
+    //   setState(() {
+    //     followingList.add(value);
+    //     getFollowings = value;
+    //     useridfollowing = getFollowings.id_user!;
+    //     followingIduser = getFollowings.following_id!;
+    //     statusfollowing = getFollowings.follow_status!;
+    //     namefollowing = getFollowings.fullname!;
+    //     nickfollowing = getFollowings.nickname!;
+    //     companyfollowing = getFollowings.company!;
+    //     jobfollowing = getFollowings.job_position!;
+    //   });
+    // });
   }
 
-  GetUser getUser = GetUser();
-  String fullname = '';
-  String nickname = '';
-  String address = '';
-  String job = '';
-  String company = '';
-  String start_year = '';
-  user() async {
+  // GetUser getUser = GetUser();
+  // String fullname = '';
+  // String nickname = '';
+  // String address = '';
+  // String job = '';
+  // String company = '';
+  // String start_year = '';
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   GetUser.getUser(data[0].token).then((value) {
+  //     setState(() {
+  //       getUser = value;
+  //       fullname = getUser.fullname!;
+  //       nickname = getUser.nickname!;
+  //       address = getUser.address_house!;
+  //       job = getUser.job_position!;
+  //       company = getUser.company!;
+  //       start_year = getUser.start_year!;
+  //       print(getUser.id);
+  //       print(company);
+  //     });
+  //   });
+  // }
+  // List<GetUser> user = [];
+  GetUser user = GetUser();
+  userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        fullname = getUser.fullname!;
-        nickname = getUser.nickname!;
-        address = getUser.address_house!;
-        job = getUser.job_position!;
-        company = getUser.company!;
-        start_year = getUser.start_year!;
-        print(getUser.id);
-        print(company);
-      });
-    });
+    // print(data[0].token);
+    user = await GetUser.getUser(data[0].token,data[0].id);
+    setState(() {});
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     fullname = getUser.fullname!;
+    //     address = getUser.address_house!;
+    //     job = getUser.job_position!;
+    //     company = getUser.company!;
+    //     description = getUser.description!;
+    //     start_year = getUser.start_year!;
+    //     id_user = data[0].id;
+    //     token = data[0].token;
+    //     // print("nihhhhhhhh : ${getUser.description}");
+    //     // // print(company);
+    //     // print(getUser.id);
+    //     // print(description);
+    //   });
+    // });
   }
 
   @override
@@ -162,7 +190,7 @@ class _UserFollowerState extends State<UserFollower>
                       Icons.account_circle,
                       color: Colors.grey,
                     ),
-                    label: Text(fullname))
+                    label: Text(user.fullname))
               ],
             ),
             bottom: PreferredSize(

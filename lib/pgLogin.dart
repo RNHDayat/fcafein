@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/pgRegistration.dart';
 import 'package:pointycastle/export.dart' as pc;
+import 'package:powershare/screens/cafein/beranda.dart';
 
 import 'model/database.dart';
 import 'model/dbhelper.dart';
@@ -86,6 +88,7 @@ class _LoginState extends State<Login> {
 
   bool visiblePassword = false;
   String? username, pasword;
+  String firebase_token = "";
 
   Future<void> saveToken(id, token) async {
     final _db = DBhelper();
@@ -120,7 +123,8 @@ class _LoginState extends State<Login> {
                 maxChildSize: 0.8,
                 builder: (BuildContext c, s) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -363,9 +367,15 @@ class _LoginState extends State<Login> {
                             height: 10,
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               // If all validators of the form's fields are valid.
                               if (_formKey.currentState!.validate()) {
+                                await FirebaseMessaging.instance
+                                    .getToken()
+                                    .then((value) {
+                                  firebase_token = value!;
+                                });
+                                print(firebase_token);
                                 String plaintext = username_.text;
                                 String plaintext2 = password_.text;
                                 String password = passwordController.text;
@@ -398,20 +408,29 @@ class _LoginState extends State<Login> {
                                   "password": jsonOutput2
                                 };
                                 // print(jsonOutput);
-                                // print(map["username"].runtimeType);
-                                LoginAuth.login(
+                                print("user : " + map["username"]);
+                                print("pass : " + map["password"]);
+                                LoginAuth.login(context, firebase_token,
                                         map["username"], map["password"])
                                     .then((value) {
                                   if (value != null) {
                                     print("token : " + value.id.toString());
                                     print("token : " + value.token.toString());
                                     saveToken(value.id, value.token);
+
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const BottomNavBar(currentIndex: 0),
+                                              const HomeCafein(),
                                         ));
+                                    // Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           const BottomNavBar(
+                                    //               currentIndex: 0),
+                                    //     ));
                                   } else {
                                     print('ada salah');
                                   }

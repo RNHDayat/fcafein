@@ -34,13 +34,13 @@ class _EditBioState extends State<EditBio> {
     final _db = DBhelper();
     var data = await _db.getToken();
     print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        descriptions = getUser.description!;
-        name = getUser.fullname!;
-      });
-    });
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     descriptions = getUser.description!;
+    //     name = getUser.fullname!;
+    //   });
+    // });
   }
 
   @override
@@ -74,7 +74,9 @@ class _EditBioState extends State<EditBio> {
             child: Row(
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final _db = DBhelper();
+                    var data = await _db.getToken();
                     if (formKey.currentState!.validate()) {
                       saveDescrip(description.text);
                       Navigator.push(
@@ -84,8 +86,10 @@ class _EditBioState extends State<EditBio> {
                                     name: name,
                                   )));
                     } else {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserAkun()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserAkun(id_user:data[0].id)));
                     }
                   },
                   style: ElevatedButton.styleFrom(

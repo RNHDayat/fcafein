@@ -28,24 +28,50 @@ class _EditNamaState extends State<EditNama> {
     });
   }
 
-  GetUser getUser = GetUser();
-  String fullnamee = '';
-  user() async {
+  // GetUser getUser = GetUser();
+  // String fullnamee = '';
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   GetUser.getUser(data[0].token).then((value) {
+  //     setState(() {
+  //       getUser = value;
+  //       fullnamee = getUser.fullname!;
+  //     });
+  //   });
+  // }
+  // List<GetUser> user = [];
+  GetUser user = GetUser();
+  userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        fullnamee = getUser.fullname!;
-      });
-    });
+    // print(data[0].token);
+    user = await GetUser.getUser(data[0].token, data[0].id);
+    setState(() {});
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     fullname = getUser.fullname!;
+    //     address = getUser.address_house!;
+    //     job = getUser.job_position!;
+    //     company = getUser.company!;
+    //     description = getUser.description!;
+    //     start_year = getUser.start_year!;
+    //     id_user = data[0].id;
+    //     token = data[0].token;
+    //     // print("nihhhhhhhh : ${getUser.description}");
+    //     // // print(company);
+    //     // print(getUser.id);
+    //     // print(description);
+    //   });
+    // });
   }
 
   @override
   void initState() {
     super.initState();
-    user();
+    userLogin();
     setState(() {
       fullname.text = widget.fullname;
     });
@@ -75,14 +101,20 @@ class _EditNamaState extends State<EditNama> {
             child: Row(
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final _db = DBhelper();
+                    var data = await _db.getToken();
                     if (formKey.currentState!.validate()) {
                       saveNama(fullname.text);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserAkun()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserAkun(id_user:data[0].id)));
                     } else {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => UserAkun()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserAkun(id_user:data[0].id)));
                     }
                   },
                   style: ElevatedButton.styleFrom(

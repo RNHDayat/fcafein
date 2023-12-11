@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:powershare/pgLogin.dart';
-
+import 'package:powershare/screens/cafein/beranda.dart';
 import 'app_colors.dart';
 
 class OnBoard extends StatefulWidget {
@@ -106,11 +106,17 @@ class _OnBoardState extends State<OnBoard> {
                         duration: const Duration(milliseconds: 400),
                         curve: Curves.easeOut);
                   } else if (buttonText == "NEXT") {
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const Login(),
+                    //     ));
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Login(),
-                        ));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeCafein(),
+                                        ));
                   }
                   // getChangedPageAndMoveBar(1);
                 },

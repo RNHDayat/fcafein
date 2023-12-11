@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "57062539005",
+    "project_id": "powershare-notification",
+    "storage_bucket": "powershare-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57062539005:android:bf0fe605c0f07d68d80894",
+        "android_client_info": {
+          "package_name": "com.inkindo.cafein"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvzpdlLcffNlj9o3qU-DMp_uyH-3m-8cY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -80,12 +80,17 @@ class _KredensialTopikState extends State<KredensialTopik> {
                   width: 5,
                 ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    final _db = DBhelper();
+                    var data = await _db.getToken();
                     if (_key.currentState!.validate()) {
                       saveKredensial(topik.text, pengalaman.text);
                     }
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserAkun()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                UserAkun(id_user: data[0].id)));
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.white,

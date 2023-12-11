@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:powershare/Answer/pgComment.dart';
 import 'package:powershare/pgFollowing.dart';
+import 'package:powershare/pgFollowingBACKUP2.dart';
 // import 'package:powershare/Answer/pgComment.dart';
 import 'package:powershare/pgFollowingBACKUP.dart';
 import 'package:powershare/pgHome.dart';
@@ -54,7 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         search = true;
         addQuestion = true;
       } else if (index == 3) {
-        _currentMenu = 'Ruang';
+        _currentMenu = 'Cafe Room';
         search = true;
 
         addQuestion = false;
@@ -71,7 +72,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   List pages = [
     const Home(),
-    PageFollowing(),
+    // PageFollowing(),
+    PgFollowing(),
     // const Following(),
     // Answer(),
     // Comment(),

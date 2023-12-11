@@ -21,35 +21,62 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    user();
+    userLogin();
     name = widget.name;
   }
 
-  GetUser getUser = GetUser();
-  String fullname = '';
-  String address = '';
-  String job = '';
-  String description = "";
-  String company = '';
-  String start_year = '';
-  user() async {
+  // GetUser getUser = GetUser();
+  // String fullname = '';
+  // String address = '';
+  // String job = '';
+  // String description = "";
+  // String company = '';
+  // String start_year = '';
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   GetUser.getUser(data[0].token).then((value) {
+  //     setState(() {
+  //       getUser = value;
+  //       fullname = getUser.fullname!;
+  //       address = getUser.address_house!;
+  //       job = getUser.job_position!;
+  //       description = getUser.description!;
+  //       company = getUser.company!;
+  //       start_year = getUser.start_year!;
+  //       print(getUser.id);
+  //     });
+  //   });
+  //   // _db.getToken().then((value) {
+  //   //   print('nih : $value');
+  //   // });
+  // }
+
+  // List<GetUser> user = [];
+  GetUser user = GetUser();
+  userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        fullname = getUser.fullname!;
-        address = getUser.address_house!;
-        job = getUser.job_position!;
-        description = getUser.description!;
-        company = getUser.company!;
-        start_year = getUser.start_year!;
-        print(getUser.id);
-      });
-    });
-    // _db.getToken().then((value) {
-    //   print('nih : $value');
+    // print(data[0].token);
+    user = await GetUser.getUser(data[0].token, data[0].id);
+    setState(() {});
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     fullname = getUser.fullname!;
+    //     address = getUser.address_house!;
+    //     job = getUser.job_position!;
+    //     company = getUser.company!;
+    //     description = getUser.description!;
+    //     start_year = getUser.start_year!;
+    //     id_user = data[0].id;
+    //     token = data[0].token;
+    //     // print("nihhhhhhhh : ${getUser.description}");
+    //     // // print(company);
+    //     // print(getUser.id);
+    //     // print(description);
+    //   });
     // });
   }
 
@@ -64,8 +91,7 @@ class _EditProfileState extends State<EditProfile> {
             size: 20,
           ),
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => UserAkun()));
+            Navigator.of(context).pop();
           },
         ),
         elevation: 0,
@@ -292,7 +318,7 @@ class _EditProfileState extends State<EditProfile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditNama(
-                            fullname: fullname,
+                            fullname: user.fullname,
                           ),
                         ),
                       );
@@ -407,7 +433,7 @@ class _EditProfileState extends State<EditProfile> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => EditBio(
-                                    description: description,
+                                    description: user.description,
                                   )));
                     },
                     child: Container(

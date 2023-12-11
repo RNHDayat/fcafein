@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/pgHome.dart';
+import 'package:powershare/services/global.dart';
 
 import 'model/dbhelper.dart';
 
@@ -32,14 +33,16 @@ class DetailPosting extends StatefulWidget {
 class Comment {
   final int id;
   final int id_postings;
+  final int id_user;
   final String nickname;
-  final int toAnswer_posting;
+  final String toAnswer_posting;
   final String description;
   final List<Comment> repliedData;
 
   Comment({
     required this.id,
     required this.id_postings,
+    required this.id_user,
     required this.nickname,
     required this.toAnswer_posting,
     required this.description,
@@ -55,9 +58,10 @@ class Comment {
     return Comment(
       id: json['id'],
       id_postings: json['id_postings'],
+      id_user: json['id_user'],
       nickname: json['nickname'],
       toAnswer_posting: json['toAnswer_posting'] ??
-          0, // Atur ke 0 jika toAnswer_posting adalah null
+          "", // Atur ke 0 jika toAnswer_posting adalah null
       description: json['description'],
       repliedData: repliedData,
     );
@@ -100,6 +104,8 @@ class _DetailPostingState extends State<DetailPosting> {
     // fetchData();
     super.initState();
     print(widget.id);
+    user();
+    vote(widget.id);
   }
 
   // Method untuk mengambil data dari API
@@ -107,7 +113,7 @@ class _DetailPostingState extends State<DetailPosting> {
     final _db = DBhelper();
     var data = await _db.getToken();
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8000/api/posting/detail/${widget.id}'),
+      Uri.parse(URL + 'posting/commentDetailPost/${widget.id}'),
       headers: {
         "Authorization": 'Bearer ${data[0].token}',
         "Accept": "application/json",
@@ -119,6 +125,46 @@ class _DetailPostingState extends State<DetailPosting> {
       return responseData.map((json) => Post.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load posts');
+    }
+  }
+
+  GetUser getUser = GetUser();
+  String token = '';
+  int idLogin = 0;
+  user() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+
+    print(data[0].token);
+    setState(() {
+      token = data[0].token;
+      idLogin = data[0].id;
+    });
+  }
+
+  ShowVote showVote = ShowVote();
+  vote(int id) async {
+    showVote = await ShowVote.showVoting(id);
+    print(showVote.id_user);
+    setState(() {});
+  }
+
+  int selectedVote = 0;
+  updateVote(int id_posting, int vote) async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    setState(() {
+      selectedVote = vote;
+    });
+
+    try {
+      Vote.voting(
+          data[0].token, id_posting, vote); // Ganti dengan data yang sesuai
+    } catch (error) {
+      setState(() {
+        selectedVote = 0; // Reset selectedVote jika ada kesalahan
+      });
+      print('Error: $error');
     }
   }
 
@@ -251,11 +297,26 @@ class _DetailPostingState extends State<DetailPosting> {
                   ],
                 ),
               ),
-              // Container(
-              //   width: double.infinity,
-              //   child:
-              //       Image.network(widget.image==null?'':widget.image.toString(), fit: BoxFit.cover),
-              // ),
+              Container(
+                width: double.infinity,
+                child: widget.image == null
+                    ? SizedBox(
+                        height: 5,
+                      )
+                    : Image.network(
+                        URL + "posting/showImagePost/" + widget.image,
+                        headers: {
+                          "Authorization": 'Bearer ${token}',
+                          "login-type": "0",
+                        },
+                        fit: BoxFit.cover,
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        // width: 100,
+                      ),
+                // child: Image.network("${item.image}",
+                //     fit: BoxFit.cover),
+              ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -276,11 +337,38 @@ class _DetailPostingState extends State<DetailPosting> {
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.thumb_up),
+                                  InkWell(
+                                    child: Icon(
+                                      Icons.thumb_up,
+                                      color: showVote.vote_status == 1
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        if (showVote.vote_status == 1) {
+                                          selectedVote = 0;
+
+                                          print(selectedVote);
+                                          updateVote(showVote.id_postings,
+                                              selectedVote);
+                                          vote(widget.id);
+                                        } else {
+                                          selectedVote = 1;
+                                          print(selectedVote);
+                                          updateVote(showVote.id_postings,
+                                              selectedVote);
+                                          vote(widget.id);
+                                        }
+                                      });
+                                    },
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  const Text("12,5rb"),
+                                  Text(showVote.upvote == 0
+                                      ? ''
+                                      : showVote.upvote.toString()),
                                   Container(
                                     height: 20,
                                     child: const VerticalDivider(
@@ -288,7 +376,35 @@ class _DetailPostingState extends State<DetailPosting> {
                                       thickness: 1,
                                     ),
                                   ),
-                                  const Icon(Icons.thumb_down),
+                                  InkWell(
+                                    child: Icon(
+                                      Icons.thumb_down,
+                                      color: showVote.vote_status == 2
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        if (showVote.vote_status == 2) {
+                                          selectedVote = 0;
+                                          updateVote(showVote.id_postings,
+                                              selectedVote);
+                                          vote(widget.id);
+                                        } else {
+                                          selectedVote = 2;
+                                          updateVote(showVote.id_postings,
+                                              selectedVote);
+                                          vote(widget.id);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(showVote.downvote == 0
+                                      ? ''
+                                      : showVote.downvote.toString()),
                                 ],
                               ),
                             ),
@@ -304,10 +420,10 @@ class _DetailPostingState extends State<DetailPosting> {
                                 child: const Row(
                                   children: [
                                     Icon(Icons.chat_bubble),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text("345"),
+                                    // SizedBox(
+                                    //   width: 5,
+                                    // ),
+                                    // Text("345"),
                                   ],
                                 ),
                               ),
@@ -317,10 +433,10 @@ class _DetailPostingState extends State<DetailPosting> {
                               child: const Row(
                                 children: [
                                   Icon(Icons.share),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("120"),
+                                  // SizedBox(
+                                  //   width: 5,
+                                  // ),
+                                  // Text("120"),
                                 ],
                               ),
                             ),
@@ -481,7 +597,7 @@ class _DetailPostingState extends State<DetailPosting> {
               const SizedBox(
                 height: 10,
               ),
-              if (showComments == true)
+              if (showComments)
                 Column(
                   children: [
                     Padding(
@@ -547,13 +663,16 @@ class _DetailPostingState extends State<DetailPosting> {
                             onTap: () async {
                               final _db = DBhelper();
                               var data = await _db.getToken();
+                              print(widget.id);
+                              print(widget.title);
+                              print(commentController.text);
                               PostComment.postComment(
                                   data[0].token,
                                   widget.id.toString(),
                                   widget.title,
                                   commentController.text);
                               commentController.clear();
-                              showComments = !showComments;
+                              // showComments = !showComments;
                             },
                             // padding: EdgeInsets.all(5),
                             child: const Icon(Icons.send),
@@ -577,8 +696,9 @@ class _DetailPostingState extends State<DetailPosting> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: posts.length,
                             itemBuilder: (context, index) {
+                              print(posts[index].title);
                               return _buildCommentItemLvl1(
-                                  context, posts[index]);
+                                  context, posts[index], idLogin);
                             },
                           );
                         }
@@ -596,7 +716,7 @@ class _DetailPostingState extends State<DetailPosting> {
   }
 }
 
-Widget _buildCommentItemLvl1(BuildContext context, Post post) {
+Widget _buildCommentItemLvl1(BuildContext context, Post post, int idLogin) {
   return Container(
     padding: EdgeInsets.only(top: 10),
     child: Column(
@@ -604,15 +724,15 @@ Widget _buildCommentItemLvl1(BuildContext context, Post post) {
       children: [
         for (final comment in post.repliedData
             .where((comment) => comment.toAnswer_posting != 0))
-          _buildCommentItemLvl2(context, comment),
+          _buildCommentItemLvl2(context, comment, idLogin),
       ],
     ),
   );
 }
 
-Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
+Widget _buildCommentItemLvl2(
+    BuildContext context, Comment comment, int idLogin) {
   bool showReply = false; // State untuk mengontrol tampilan widget
-  print(comment.description);
 
   return Container(
     padding: EdgeInsets.fromLTRB(15, 0, 0, 10),
@@ -642,7 +762,7 @@ Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: '${comment.nickname}${comment.id} ',
+                      text: '${comment.nickname} ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           // fontSize: 12,
@@ -660,15 +780,30 @@ Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
                   ),
                   // Text("Comment #${comment.nickname}: ${comment.description}"),
                   SizedBox(height: 10),
-                  InkWell(
-                    onTap: () {
-                      showReply = !showReply;
-                      print(comment.id);
-                      print(showReply);
-                      _modalBottomSheetComment(context, comment.id,
-                          comment.description, comment.nickname);
-                    },
-                    child: Text("Balas"),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showReply = !showReply;
+                          print(comment.id);
+                          print(showReply);
+                          _modalBottomSheetComment(context, comment.id,
+                              comment.description, comment.nickname);
+                        },
+                        child: Text("Balas"),
+                      ),
+                      SizedBox(width: 5),
+                      InkWell(
+                        onTap: () {
+                          showReply = !showReply;
+                          print(comment.id);
+                          print(showReply);
+                          _modalBottomSheetComment(context, comment.id,
+                              comment.description, comment.nickname);
+                        },
+                        child: Text("Up"),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 10),
                   // ListTile(
@@ -696,12 +831,32 @@ Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
                 ],
               ),
             ),
+            Visibility(
+              visible: idLogin == comment.id_user,
+              child: PopupMenuButton(
+                icon: Icon(Icons.more_vert),
+                onSelected: (value) {
+                  deleteComment(comment.id_postings);
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'item1',
+                    child: Text(
+                      'Hapus',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         if (comment.repliedData.isNotEmpty) ...[
           for (final reply in comment.repliedData) ...[
             _buildReplyHeader(reply.toAnswer_posting),
-            _buildCommentItemLvl2(context, reply),
+            _buildCommentItemLvl2(context, reply, idLogin),
           ],
         ],
       ],
@@ -709,12 +864,28 @@ Widget _buildCommentItemLvl2(BuildContext context, Comment comment) {
   );
 }
 
-Widget _buildReplyHeader(int nickname) {
+Future deleteComment(id) async {
+  final _db = DBhelper();
+  var data = await _db.getToken();
+  final response = await http.get(
+    Uri.parse(URL + 'reply/destroy/${id}'),
+    headers: {
+      "Authorization": 'Bearer ${data[0].token}',
+      "Accept": "application/json",
+      "login-type": "0",
+    },
+  );
+}
+
+Widget _buildReplyHeader(String nickname) {
   return Padding(
     padding: EdgeInsets.only(left: 55),
     child: Text(
-      'Reply to Comment #$nickname:',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      'Membalas $nickname',
+      style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.italic,
+          color: Colors.grey),
     ),
   );
 }
@@ -755,6 +926,8 @@ void _modalBottomSheetComment(
                           var data = await _db.getToken();
                           PostComment.postComment(data[0].token,
                               comment_id.toString(), description, balasan.text);
+                          balasan.clear();
+                          Navigator.pop(context);
                         },
                         child: Text("Kirim")),
                   ],

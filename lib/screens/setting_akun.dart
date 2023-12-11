@@ -18,33 +18,59 @@ class SettingAkun extends StatefulWidget {
 }
 
 class _SettingAkunState extends State<SettingAkun> {
-  GetUser getUser = GetUser();
-  String fullname = '';
-  String email = '';
-  int id_user = 0;
-  String token = '';
+  // GetUser getUser = GetUser();
+  // String fullname = '';
+  // String email = '';
+  // int id_user = 0;
+  // String token = '';
 
-  user() async {
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   GetUser.getUser(data[0].token).then((value) {
+  //     setState(() {
+  //       getUser = value;
+  //       fullname = getUser.fullname!;
+  //       email = getUser.email!;
+  //       id_user = data[0].id;
+  //       token = data[0].token;
+  //       print(getUser.id);
+  //       print(email);
+  //     });
+  //   });
+  // }
+  // List<GetUser> user = [];
+  GetUser user = GetUser();
+  userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        fullname = getUser.fullname!;
-        email = getUser.email!;
-        id_user = data[0].id;
-        token = data[0].token;
-        print(getUser.id);
-        print(email);
-      });
-    });
+    // print(data[0].token);
+    user = await GetUser.getUser(data[0].token,data[0].id);
+    setState(() {});
+    // GetUser.getUser(data[0].token).then((value) {
+    //   setState(() {
+    //     getUser = value;
+    //     fullname = getUser.fullname!;
+    //     address = getUser.address_house!;
+    //     job = getUser.job_position!;
+    //     company = getUser.company!;
+    //     description = getUser.description!;
+    //     start_year = getUser.start_year!;
+    //     id_user = data[0].id;
+    //     token = data[0].token;
+    //     // print("nihhhhhhhh : ${getUser.description}");
+    //     // // print(company);
+    //     // print(getUser.id);
+    //     // print(description);
+    //   });
+    // });
   }
 
   @override
   void initState() {
     super.initState();
-    user();
+      userLogin();
   }
 
   var size, height, width;
@@ -120,7 +146,7 @@ class _SettingAkunState extends State<SettingAkun> {
                       child: Column(
                         children: [
                           Text(
-                            email,
+                            user.email,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600)),

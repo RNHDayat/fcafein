@@ -1,4 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:powershare/OnBoard/onBoard.dart';
 import 'package:powershare/pgFollowingBACKUP.dart';
 import 'package:powershare/pgHome.dart';
@@ -31,14 +34,42 @@ import 'package:powershare/screens/user_follower.dart';
 import 'package:powershare/search.dart';
 import 'package:powershare/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Answer/pgMessage.dart';
 import 'Answer/pgQuestion.dart';
 import 'Answer/pgUserSpace.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   // announcement: false,
+  //   badge: true,
+  //   // carPlay: false,
+  //   // criticalAlert: false,
+  //   // provisional: false,
+  //   sound: true,
+  // );
+
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //Ketika Terminated
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  await FlutterDownloader.initialize(
+      debug:
+          true, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl:
+          true // option: set to false to disable working with http links (default: false)
+      );
   runApp(const MyApp());
 }
 
@@ -46,7 +77,6 @@ class MyApp extends StatelessWidget {
   static final ValueNotifier<ThemeMode> themeNotifier =
       ValueNotifier(ThemeMode.light);
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -58,7 +88,8 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData.dark(),
           themeMode: currentMode,
           theme: ThemeData(primarySwatch: Colors.lightBlue),
-          home: const SplashScreen(),
+          // home: const SplashScreen(),
+          home: Login(),
         );
       },
     );
@@ -112,12 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
-          //
           // Invoke "debug painting" (press "p" in the console, choose the
           // "Toggle Debug Paint" action from the Flutter Inspector in Android
           // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
           // to see the wireframe for each widget.
-          //
           // Column has various properties to control how it sizes itself and
           // how it positions its children. Here we use mainAxisAlignment to
           // center the children vertically; the main axis here is the vertical

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/comment.dart';
 import 'package:powershare/model/database.dart';
+import 'package:powershare/pgLogin.dart';
 import 'package:powershare/pgNewPassword.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
+import 'package:powershare/screens/cafein/beranda.dart';
+import 'package:powershare/screens/pgTopFun.dart';
 import 'package:powershare/screens/setting_akun.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:powershare/screens/user_akun.dart';
@@ -34,29 +37,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   int id_user = 0;
   String token = '';
 
-  user() async {
-    final _db = DBhelper();
-    var data = await _db.getToken();
-    print(data[0].token);
-    GetUser.getUser(data[0].token).then((value) {
-      setState(() {
-        getUser = value;
-        fullname = getUser.fullname!;
-        nickname = getUser.nickname!;
-        address = getUser.address_house!;
-        job = getUser.job_position!;
-        company = getUser.company!;
-        start_year = getUser.start_year!;
-        id_user = data[0].id;
-        token = data[0].token;
-        // print("nihhhhhhhh : ${getUser.description}");
-        // print(company);
-      });
-    });
-    // _db.getToken().then((value) {
-    //   print('nih : $value');
-    // });
-  }
+  // user() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   GetUser.getUser(data[0].token).then((value) {
+  //     setState(() {
+  //       getUser = value;
+  //       fullname = getUser.fullname!;
+  //       nickname = getUser.nickname!;
+  //       address = getUser.address_house!;
+  //       job = getUser.job_position!;
+  //       company = getUser.company!;
+  //       start_year = getUser.start_year!;
+  //       id_user = data[0].id;
+  //       token = data[0].token;
+  //       // print("nihhhhhhhh : ${getUser.description}");
+  //       // print(company);
+  //     });
+  //   });
+  //   // _db.getToken().then((value) {
+  //   //   print('nih : $value');
+  //   // });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,31 +72,34 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               ListTile(
-                title: const Text('Pesan'),
-                leading: const Icon(Icons.chat),
+                title: const Text('Top Fun'),
+                leading: const Icon(
+                  Icons.leaderboard_rounded,
+                  color: Colors.amber,
+                ),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CNested(),
+                        builder: (context) => PageTopFun(),
                       ));
                 },
               ),
-              ListTile(
-                title: const Text('Konten & Statistik Anda'),
-                leading: const Icon(Icons.bar_chart),
-                onTap: () {},
-              ),
-              ListTile(
-                title: const Text('Daftar Bacaan'),
-                leading: const Icon(Icons.bookmark_outline),
-                onTap: () {},
-              ),
-              ListTile(
-                title: const Text('Draf'),
-                leading: const Icon(Icons.drafts_sharp),
-                onTap: () {},
-              ),
+              // ListTile(
+              //   title: const Text('Konten & Statistik Anda'),
+              //   leading: const Icon(Icons.bar_chart),
+              //   onTap: () {},
+              // ),
+              // ListTile(
+              //   title: const Text('Daftar Bacaan'),
+              //   leading: const Icon(Icons.bookmark_outline),
+              //   onTap: () {},
+              // ),
+              // ListTile(
+              //   title: const Text('Draf'),
+              //   leading: const Icon(Icons.drafts_sharp),
+              //   onTap: () {},
+              // ),
             ],
           )),
           // This container holds the align
@@ -152,40 +158,40 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     child: Center(
                                       child: ListView(
                                         children: [
-                                          Container(
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  color: Color.fromRGBO(
-                                                      217, 217, 217, 100),
-                                                  width: 1.0,
-                                                ),
-                                              ),
-                                            ),
-                                            height: 50,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  child: Text(
-                                                    'Tambahkan Kredensial',
-                                                    textAlign: TextAlign.center,
-                                                    style: GoogleFonts.poppins(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color:
-                                                                  Colors.grey),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                          // Container(
+                                          //   decoration: const BoxDecoration(
+                                          //     border: Border(
+                                          //       bottom: BorderSide(
+                                          //         color: Color.fromRGBO(
+                                          //             217, 217, 217, 100),
+                                          //         width: 1.0,
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          //   height: 50,
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.center,
+                                          //     children: [
+                                          //       SizedBox(
+                                          //         child: Text(
+                                          //           'Tambahkan Kredensial',
+                                          //           textAlign: TextAlign.center,
+                                          //           style: GoogleFonts.poppins(
+                                          //             textStyle:
+                                          //                 const TextStyle(
+                                          //                     fontSize: 12,
+                                          //                     fontWeight:
+                                          //                         FontWeight
+                                          //                             .w500,
+                                          //                     color:
+                                          //                         Colors.grey),
+                                          //           ),
+                                          //         ),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
                                           ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               alignment: Alignment.centerLeft,
@@ -195,13 +201,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                             ),
                                             onPressed: () async {
                                               final _db = DBhelper();
-                                              await _db.deleteToken();
+                                              // await _db.deleteToken();
                                               Navigator.of(context)
-                                                  .pushReplacement(
+                                                  .pushAndRemoveUntil(
                                                       MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SplashScreen(),
-                                              ));
+                                                          builder: (context) =>
+                                                              HomeCafein()),
+                                                      (route) => false);
                                             },
                                             child: Container(
                                                 decoration: const BoxDecoration(
@@ -220,7 +226,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                                   children: [
                                                     SizedBox(
                                                       child: Text(
-                                                        'Keluar',
+                                                        'Kembali ke beranda',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
@@ -262,23 +268,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 Widget _drawerHeader(context, String nickname) {
   return UserAccountsDrawerHeader(
     decoration: const BoxDecoration(color: Colors.white),
-    currentAccountPicture: const ClipOval(
-      child:
-          Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
-    ),
-    otherAccountsPictures: [
-      const ClipOval(
-        child:
-            Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
-      ),
-    ],
+    // currentAccountPicture: const ClipOval(
+    //   child:
+    //       Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
+    // ),
+    // otherAccountsPictures: [
+    //   const ClipOval(
+    //     child:
+    //         Image(image: AssetImage('assets/logo/logo.png'), fit: BoxFit.cover),
+    //   ),
+    // ],
     accountName: const Text(''),
     accountEmail: GestureDetector(
-      onTap: () {
+      onTap: () async {
+        final _db = DBhelper();
+        var data = await _db.getToken();
+        print(data[0].id);
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => UserAkun(),
+              builder: (context) =>  UserAkun(id_user: data[0].id),
             ));
       },
       child: Container(
@@ -287,7 +296,7 @@ Widget _drawerHeader(context, String nickname) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("nickname",
+            Text("Profil",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             Icon(Icons.arrow_right),
           ],
