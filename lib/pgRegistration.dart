@@ -32,9 +32,9 @@ class _RegistrationState extends State<Registration> {
   TextEditingController datebirth = new TextEditingController();
   TextEditingController phone = new TextEditingController();
   TextEditingController gender = new TextEditingController();
+  TextEditingController password = new TextEditingController();
   // String? gender;
   String? selectedGender;
-  TextEditingController password = new TextEditingController();
   List<String> genderOptions = ['Laki-Laki', 'Perempuan'];
   // String strUsername = '1462000142';
   // String strPassword = 'dayat';
@@ -150,6 +150,28 @@ class _RegistrationState extends State<Registration> {
                             decoration: const InputDecoration(
                               hintText: "Alamat Email",
                               labelText: "Alamat Email",
+                              labelStyle: TextStyle(color: Colors.black),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              // border: OutlineInputBorder(
+                              //   borderRadius:
+                              //       BorderRadius.all(Radius.circular(10)),
+                              // ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: password,
+                            style: const TextStyle(color: Colors.black),
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "Password",
+                              labelText: "Password",
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -387,9 +409,10 @@ class _RegistrationState extends State<Registration> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 CreateAccount.create(
-                                  context,
+                                        context,
                                         username.text,
                                         email.text,
+                                        password.text,
                                         fullname.text,
                                         nickname.text,
                                         datebirth.text,
@@ -401,7 +424,18 @@ class _RegistrationState extends State<Registration> {
                                   // } else {
                                   //   print("eror guys");
                                   // }
-                                  print(value);
+                                  // print("LOL:" + value.toString());
+                                  if (value == 200 || value == 201) {
+                                    username.clear();
+                                    email.clear();
+                                    password.clear();
+                                    fullname.clear();
+                                    nickname.clear();
+                                    datebirth.clear();
+                                    phone.clear();
+                                    gender.clear();
+                                    
+                                  }
                                 });
                               } else {
                                 print("Form harap diisi");

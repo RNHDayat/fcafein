@@ -46,7 +46,7 @@ class _SettingAkunState extends State<SettingAkun> {
     final _db = DBhelper();
     var data = await _db.getToken();
     // print(data[0].token);
-    user = await GetUser.getUser(data[0].token,data[0].id);
+    user = await GetUser.getUser(data[0].token, data[0].id);
     setState(() {});
     // GetUser.getUser(data[0].token).then((value) {
     //   setState(() {
@@ -70,7 +70,7 @@ class _SettingAkunState extends State<SettingAkun> {
   @override
   void initState() {
     super.initState();
-      userLogin();
+    userLogin();
   }
 
   var size, height, width;
@@ -86,12 +86,7 @@ class _SettingAkunState extends State<SettingAkun> {
             size: 20,
           ),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SettingScreen(),
-              ),
-            );
+            Navigator.pop(context);
           },
         ),
         toolbarHeight: 70,
@@ -146,7 +141,7 @@ class _SettingAkunState extends State<SettingAkun> {
                       child: Column(
                         children: [
                           Text(
-                            user.email,
+                            user.email ==null? "" : user.email,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600)),

@@ -239,133 +239,48 @@ class _LoginState extends State<Login> {
                             },
                           ),
                           Container(
-                            height: 10,
-                          ),
-                          Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                    child: Row(
-                                  children: [
-                                    Checkbox(
-                                        value: rememberMe,
-                                        onChanged: _onRememberMeChanged),
-                                    const Text(
-                                      "Ingat Saya",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                                const SizedBox(
-                                  height: 16,
-                                ),
-                                TextButton(
-                                  child: const Text(
-                                    "Lupa password ?",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
                             height: 20,
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext) =>
-                                          const Registration()));
-                              // if (username_.text == strUsername &&
-                              //     password_.text == strPassword) {
-                              //   Navigator.pushReplacement(context,
-                              //       MaterialPageRoute(builder: (BuildContext) {
-                              //     // return pageBeranda();
-                              //     // return pageHome();
-                              //   }));
-                              // } else {
-                              //   setState(() {
-                              //     this.error = "Username atau Password Salah!";
-                              //   });
-                              //   // password_.notifyListeners()
-                              // }
-                            },
-                            child: Container(
-                              // width: MediaQuery.of(context).size.width,
-                              // height: MediaQuery.of(context).size.height * 0.05,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffd9d9d9),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  const BoxShadow(
-                                    color: Color(0x3f000000),
-                                    blurRadius: 3,
-                                    offset: Offset(0, 3), // Shadow position
-                                  ),
-                                ],
-                              ),
-                              child: const Center(
-                                child: Text("Buat Akun",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xff000000),
-                                    )),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 10,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                // lineleftRUL (34:128)
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height: 1,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffd9d9d9),
-                                ),
-                              ),
-                              Container(
-                                // atau99S (34:126)
-
-                                child: const Text(
-                                  'Atau',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xff5f5b5b),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                // lineleftRUL (34:128)
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height: 1,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffd9d9d9),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 10,
-                          ),
+                          //ingat saya
+                          // Container(
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: <Widget>[
+                          //       Container(
+                          //           child: Row(
+                          //         children: [
+                          //           Checkbox(
+                          //               value: rememberMe,
+                          //               onChanged: _onRememberMeChanged),
+                          //           const Text(
+                          //             "Ingat Saya",
+                          //             style: TextStyle(
+                          //               color: Colors.black,
+                          //               fontSize: 14,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       )),
+                          //       const SizedBox(
+                          //         height: 16,
+                          //       ),
+                          //       TextButton(
+                          //         child: const Text(
+                          //           "Lupa password ?",
+                          //           style: TextStyle(
+                          //             color: Colors.black,
+                          //             fontSize: 14,
+                          //           ),
+                          //         ),
+                          //         onPressed: () {},
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // Container(
+                          //   height: 20,
+                          // ),
                           TextButton(
                             onPressed: () async {
                               // If all validators of the form's fields are valid.
@@ -458,6 +373,94 @@ class _LoginState extends State<Login> {
                               ),
                               child: const Center(
                                 child: Text("Masuk",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xff000000),
+                                    )),
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                // lineleftRUL (34:128)
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height: 1,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffd9d9d9),
+                                ),
+                              ),
+                              Container(
+                                // atau99S (34:126)
+
+                                child: const Text(
+                                  'Atau',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff5f5b5b),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                // lineleftRUL (34:128)
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height: 1,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffd9d9d9),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 10,
+                          ),
+
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext) =>
+                                          const Registration()));
+                              // if (username_.text == strUsername &&
+                              //     password_.text == strPassword) {
+                              //   Navigator.pushReplacement(context,
+                              //       MaterialPageRoute(builder: (BuildContext) {
+                              //     // return pageBeranda();
+                              //     // return pageHome();
+                              //   }));
+                              // } else {
+                              //   setState(() {
+                              //     this.error = "Username atau Password Salah!";
+                              //   });
+                              //   // password_.notifyListeners()
+                              // }
+                            },
+                            child: Container(
+                              // width: MediaQuery.of(context).size.width,
+                              // height: MediaQuery.of(context).size.height * 0.05,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffd9d9d9),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  const BoxShadow(
+                                    color: Color(0x3f000000),
+                                    blurRadius: 3,
+                                    offset: Offset(0, 3), // Shadow position
+                                  ),
+                                ],
+                              ),
+                              child: const Center(
+                                child: Text("Buat Akun",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,

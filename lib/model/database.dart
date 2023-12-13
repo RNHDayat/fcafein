@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/pgLogin.dart';
 import 'package:powershare/services/global.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -71,6 +72,54 @@ class LoginAuth {
   }
 }
 
+class Logout {
+  static Future<int> logout(String token) async {
+    const baseUrl = URL + 'logout';
+    Uri url = Uri.parse(baseUrl);
+
+    final response = await http.get(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "*/*",
+        "login-type": "0",
+      },
+    );
+
+    String toastMessage;
+    Color toastColor;
+
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      toastMessage = body['msg'];
+      toastColor = Colors.green;
+      Fluttertoast.showToast(
+        msg: toastMessage,
+        backgroundColor: toastColor,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return response.statusCode;
+    } else {
+      toastMessage = "Logout failed. Status Code: ${response.statusCode}";
+      toastColor = Colors.red;
+      Fluttertoast.showToast(
+        msg: toastMessage,
+        backgroundColor: toastColor,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return response.statusCode;
+    }
+  }
+}
+
 class CreateAccount {
   String username, email, fullname, nickname, datebirth, phone, gender;
   CreateAccount({
@@ -94,8 +143,8 @@ class CreateAccount {
     );
   }
 
-  static Future<CreateAccount?> create(BuildContext context, String username,
-      email, fullname, nickname, datebirth, phone, gender) async {
+  static Future create(BuildContext context, String username, email, password,
+      fullname, nickname, datebirth, phone, gender) async {
     // const baseUrl = 'http://10.0.2.2:8000/api/createAccount';
     Uri url = Uri.parse(URL + "createAccount");
     final response = await http.post(
@@ -103,6 +152,7 @@ class CreateAccount {
       body: {
         "username": username,
         "email": email,
+        "password": password,
         "fullname": fullname,
         "nickname": nickname,
         "datebirth": datebirth,
@@ -110,14 +160,20 @@ class CreateAccount {
         "gender": gender,
       },
     );
-    if (response.statusCode == 200) {
+    print(response.statusCode);
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var body = json.decode(response.body);
-      print(body);
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
         text: body['msg'],
+        onConfirmBtnTap: () => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
+            (route) => false),
       );
+      return response.statusCode;
       // return CreateAccount.fromJson(body);
     } else if (response.statusCode == 400) {
       List<String> errorMessages = [];
@@ -146,6 +202,14 @@ class CreateAccount {
       );
     } else {
       // Handle kode status lain jika diperlukan
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'Terjadi kesalahan',
+        textAlignment: TextAlign.start,
+        confirmBtnText: 'Ok',
+      );
       print('tidak ada');
     }
   }
@@ -233,7 +297,7 @@ class GetUser {
     );
   }
 
-  static Future<GetUser> getUser(String token,int id) async {
+  static Future<GetUser> getUser(String token, int id) async {
     // Uri url = Uri.parse("http://10.0.2.2:8000/api/profile");
     Uri url = Uri.parse(URL + "showprofile/$id");
     var response = await http.get(url, headers: {
@@ -573,11 +637,12 @@ class UpdatePassword {
   }
   static Future<http.Response> changePassword(
       String token, String password) async {
-    final Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/updatepw"); // Ganti dengan endpoint yang sesuai
+    final Uri url =
+        Uri.parse(URL + "updatePassword"); // Ganti dengan endpoint yang sesuai
     final Map<String, String> headers = {
       "Authorization": 'Bearer $token',
-      "Accept": "application/json",
+      "Accept": "*/*",
+      "login-type": "1",
     };
     final Map<String, String> body = {
       "password": password,
@@ -611,7 +676,7 @@ class ValidateOldPassword {
   static Future<http.Response> validatePassword(
       String token, String password) async {
     final Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/validatepassword"); // Ganti dengan endpoint yang sesuai
+        URL + "validatepassword"); // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -651,7 +716,7 @@ class UpdateDescript {
   static Future<http.Response> updateDescrip(
       String token, String description) async {
     Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/employee/updateDeskripsi"); // Ganti dengan endpoint yang sesuai
+        URL + "employee/updateDeskripsi"); // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -702,7 +767,7 @@ class UpdateName {
   }
   static Future<http.Response> updateNama(String token, String fullname) async {
     Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/employee/updateFullName"); // Ganti dengan endpoint yang sesuai
+        URL + "employee/updateFullName"); // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -753,8 +818,8 @@ class UpdatePass {
   }
   static Future<http.Response> changePassword(
       String token, String password) async {
-    final Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/updatepw"); // Ganti dengan endpoint yang sesuai
+    final Uri url =
+        Uri.parse(URL + "updatepw"); // Ganti dengan endpoint yang sesuai
     final Map<String, String> headers = {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -791,7 +856,7 @@ class ValidateOldPass {
   static Future<http.Response> validatePassword(
       String token, String password) async {
     final Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/validatepassword"); // Ganti dengan endpoint yang sesuai
+        URL + "validatepassword"); // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -1609,7 +1674,7 @@ class ShowPostingProfile {
     );
   }
   static Future<List<ShowPostingProfile>> getPostingProfile(
-      String token,int id) async {
+      String token, int id) async {
     // Uri url = Uri.parse(
     //     "http://10.0.2.2:8000/api/posting/indexProfile"); // Ganti dengan endpoint yang sesuai
     Uri url = Uri.parse(URL + "posting/indexProfile/$id");

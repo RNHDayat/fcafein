@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/components/textfieldPass.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/pgLogin.dart';
 import 'package:powershare/screens/setting_akun.dart';
 import 'package:powershare/screens/ubah_sandi-2.dart';
 import 'package:http/http.dart' as http;
@@ -25,14 +26,66 @@ class _UbahSandiState extends State<UbahSandi> {
   bool isPasswordValid = false;
   TextEditingController oldPasswordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController encryptedRequestController = TextEditingController();
 
+String _returnJson(String data) {
+    var parts = data.split(':');
+    var algorithm = parts[0];
+    var iterations = parts[1];
+    var salt = parts[2];
+    var iv = parts[3];
+    var ciphertext = parts[4];
+    var gcmTag = parts[5];
+
+    JsonEncryption jsonEncryption = JsonEncryption(
+        algorithm: algorithm,
+        iterations: iterations,
+        salt: salt,
+        iv: iv,
+        ciphertext: ciphertext,
+        gcmTag: gcmTag);
+
+    String encryptionResult = jsonEncode(jsonEncryption);
+    // make it pretty
+    var object = json.decode(encryptionResult);
+    var luaran = {
+      'ciphertext': object["ciphertext"],
+      'iv': object["iv"],
+      'salt': object["salt"],
+      'iterations': object["iterations"]
+    };
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    print(stringToBase64.encode(jsonEncode(luaran)));
+    setState(() {
+      //set state yang dikirim ke server
+      encryptedRequestController.text =
+          stringToBase64.encode(jsonEncode(luaran));
+    });
+    var prettyEncryptionResult2 =
+        const JsonEncoder.withIndent('  ').convert(object);
+
+    return encryptedRequestController.text;
+  }
   Future<void> validatePw() async {
     try {
+      String plaintext=oldPasswordController.text;
+      String output2 = aesCbcIterPbkdf2EncryptToBase64(
+          'harusbisa1', '999', plaintext);
+      String _formdata2 = 'AES-256 CBC PBKDF2' +
+          ':' +
+          '999' +
+          ':' +
+          output2 +
+          ':Not Used'; // empty gcm tag
+      String jsonOutput2 = _returnJson(_formdata2);
+      Map<String, dynamic> map = {
+        "password": jsonOutput2
+      };
       final _db = DBhelper();
       var data = await _db.getToken();
       var response = await ValidateOldPassword.validatePassword(
         data[0].token,
-        oldPasswordController.text,
+        map["password"],
       );
       if (response.statusCode == 200) {
         Navigator.push(
@@ -53,7 +106,7 @@ class _UbahSandiState extends State<UbahSandi> {
     super.initState();
     oldPasswordController = TextEditingController();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +118,7 @@ class _UbahSandiState extends State<UbahSandi> {
             size: 20,
           ),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SettingAkun(),
-              ),
-            );
+            Navigator.pop(context);
           },
         ),
         actions: <Widget>[

@@ -17,15 +17,6 @@ class DBhelper {
       return _database!;
     }
   }
-  // Get a location using getDatabasesPath
-
-// open the database
-// Database database = await openDatabase(path, version: 1,
-//     onCreate: (Database db, int version) async {
-//   // When creating the db, create the table
-//   await db.execute(
-//       'CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)');
-// });
 
   initDB() async {
     // Directory document = await getApplicationDocumentsDirectory();
@@ -41,13 +32,23 @@ class DBhelper {
     );
   }
 
+  // Future<void> insertToken(User user) async {
+  //   final db = await dbInstance;
+  //   await db.insert(
+  //     'tokenUser',
+  //     user.toMap(),
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   );
+  // }
   Future<void> insertToken(User user) async {
     final db = await dbInstance;
-    await db.insert(
-      'tokenUser',
-      user.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.transaction((txn) async {
+      int rowsAffected = await txn.rawUpdate(
+        'INSERT OR REPLACE INTO tokenUser (id, token) VALUES (?, ?)',
+        [user.id, user.token],
+      );
+      print('Rows affected: $rowsAffected');
+    });
   }
 
   Future<List<User>> getToken() async {

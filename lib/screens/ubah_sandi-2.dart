@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:powershare/components/showToast.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/pgLogin.dart';
 import 'package:powershare/screens/setting_akun.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:powershare/screens/ubah_sandi-1.dart';
@@ -40,11 +42,86 @@ class _UbahSandi2State extends State<UbahSandi2> {
   String? confirmPasswordErrorText;
   String? passwordErrorText;
 
+  TextEditingController encryptedRequestController = TextEditingController();
+
+  String _returnJson(String data) {
+    var parts = data.split(':');
+    var algorithm = parts[0];
+    var iterations = parts[1];
+    var salt = parts[2];
+    var iv = parts[3];
+    var ciphertext = parts[4];
+    var gcmTag = parts[5];
+
+    JsonEncryption jsonEncryption = JsonEncryption(
+        algorithm: algorithm,
+        iterations: iterations,
+        salt: salt,
+        iv: iv,
+        ciphertext: ciphertext,
+        gcmTag: gcmTag);
+
+    String encryptionResult = jsonEncode(jsonEncryption);
+    // make it pretty
+    var object = json.decode(encryptionResult);
+    var luaran = {
+      'ciphertext': object["ciphertext"],
+      'iv': object["iv"],
+      'salt': object["salt"],
+      'iterations': object["iterations"]
+    };
+    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    print(stringToBase64.encode(jsonEncode(luaran)));
+    setState(() {
+      //set state yang dikirim ke server
+      encryptedRequestController.text =
+          stringToBase64.encode(jsonEncode(luaran));
+    });
+    var prettyEncryptionResult2 =
+        const JsonEncoder.withIndent('  ').convert(object);
+
+    return encryptedRequestController.text;
+  }
+
   _changePassword(String password) async {
+    String plaintext = password;
+    String output2 =
+        aesCbcIterPbkdf2EncryptToBase64('harusbisa1', '999', plaintext);
+    String _formdata2 = 'AES-256 CBC PBKDF2' +
+        ':' +
+        '999' +
+        ':' +
+        output2 +
+        ':Not Used'; // empty gcm tag
+    String jsonOutput2 = _returnJson(_formdata2);
+    Map<String, dynamic> map = {"password": jsonOutput2};
     final _db = DBhelper();
     var data = await _db.getToken();
     setState(() {
-      UpdatePassword.changePassword(data[0].token, password);
+      UpdatePassword.changePassword(data[0].token, map["password"])
+          .then((value) {
+        if (value.statusCode == 200) {
+          Fluttertoast.showToast(
+            msg: 'Kata Sandi Berhasil Diubah',
+            backgroundColor: Colors.green,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Terjadi Kesalahan',
+            backgroundColor: Colors.red,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+      });
     });
   }
 

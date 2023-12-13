@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/pgLogin.dart';
 import 'package:powershare/screens/cafein/media.dart';
@@ -153,10 +154,18 @@ class _HomeCafeinState extends State<HomeCafein> {
                     TextButton(
                       onPressed: () async {
                         final _db = DBhelper();
-                        await _db.deleteToken();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => Login()),
-                            (route) => false);
+                        var data = await _db.getToken();
+                        Logout.logout(data[0].token).then((value) async {
+                          if (value == 200) {
+                            await _db.deleteToken();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => Login()),
+                                (route) => false);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        });
                       },
                       child: Text(
                         "Keluar",
