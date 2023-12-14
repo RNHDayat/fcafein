@@ -2274,3 +2274,86 @@ class TopFun {
     }
   }
 }
+
+class GetNotif {
+  final id;
+  final id_user;
+  final id_user_follow;
+  final title;
+  final body;
+  int status_read;
+  final updated_at;
+  final created_at;
+
+  GetNotif({
+    this.id,
+    this.id_user,
+    this.id_user_follow,
+    this.title,
+    this.body,
+    required this.status_read,
+    this.updated_at,
+    this.created_at,
+  });
+
+  factory GetNotif.fromJson(Map<String, dynamic> json) {
+    return GetNotif(
+      id: json['id'],
+      id_user: json['id_user'],
+      id_user_follow: json['id_user_follow'],
+      title: json['title'],
+      body: json['body'],
+      status_read: json['status_read'],
+      updated_at: json['updated_at'],
+      created_at: json['created_at'],
+    );
+  }
+
+  static Future<List<GetNotif>> getNotif(String token) async {
+    Uri url = Uri.parse(URL + "notif");
+    var response = await http.get(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "*/*",
+        "login-type": "0",
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      print(jsonData[0]);
+      List<dynamic> data = jsonData;
+      List<GetNotif> listGetNotif =
+          data.map((json) => GetNotif.fromJson(json)).toList();
+      print(response.statusCode);
+      return listGetNotif;
+    } else {
+      print(response.statusCode);
+      throw {print("gagal post")};
+    }
+  }
+
+  static Future<http.Response> read(String token, String id) async {
+    Uri url = Uri.parse(URL + "notif/update/$id");
+    var response = await http.post(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "*/*",
+        "login-type": "0",
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      // var jsonData = json.decode(response.body);
+      // print(jsonData[0]);
+
+      return response;
+    } else {
+      print(response.statusCode);
+      // throw {print("gagal post")};
+      return response;
+    }
+  }
+}

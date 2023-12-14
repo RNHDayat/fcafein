@@ -642,7 +642,8 @@ class _HomeState extends State<Home> {
                                                     Following.follow(
                                                       token,
                                                       item.id_user.toString(),
-                                                      following_id.toString(),
+                                                      // following_id.toString(),
+                                                      "1",
                                                     );
                                                   },
                                                 ),

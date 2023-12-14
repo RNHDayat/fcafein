@@ -559,7 +559,8 @@ class _PgFollowingState extends State<PgFollowing> {
                                                     Following.follow(
                                                       token,
                                                       item.id_user.toString(),
-                                                      following_id.toString(),
+                                                      // following_id.toString(),
+                                                      "3"
                                                     );
                                                   },
                                                 ),
