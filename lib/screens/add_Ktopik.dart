@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
+import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/add_Kruang.dart';
 import 'package:powershare/screens/setting_akun.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,31 +68,39 @@ class _KredensialTopikState extends State<KredensialTopik> {
                 const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
             child: Row(
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KredensialRuang()));
-                  },
-                  child: const Text("Batal"),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                // TextButton(
+                //   style: TextButton.styleFrom(foregroundColor: Colors.grey),
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const KredensialRuang()));
+                //   },
+                //   child: const Text("Batal"),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
                 TextButton(
                   onPressed: () async {
                     final _db = DBhelper();
                     var data = await _db.getToken();
                     if (_key.currentState!.validate()) {
                       saveKredensial(topik.text, pengalaman.text);
+                      Fluttertoast.showToast(
+                        msg: "Berhasil menambahkan kredensial",
+                        backgroundColor: Colors.green,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Kredensial()));
                     }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                UserAkun(id_user: data[0].id)));
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -289,6 +299,12 @@ class _KredensialTopikState extends State<KredensialTopik> {
                               ),
                               TextFormField(
                                 controller: topik,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Topik tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
@@ -321,6 +337,12 @@ class _KredensialTopikState extends State<KredensialTopik> {
                               ),
                               TextFormField(
                                 controller: pengalaman,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Pengalaman tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                                 maxLength: 60,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(

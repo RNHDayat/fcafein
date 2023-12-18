@@ -27,7 +27,7 @@ class _EditBioState extends State<EditBio> {
     });
   }
 
-  GetUser getUser = GetUser();
+  GetUser getUser = GetUser(follow_status: 0);
   String descriptions = '';
   String name = '';
   user() async {

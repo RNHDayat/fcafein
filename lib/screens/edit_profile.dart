@@ -54,7 +54,7 @@ class _EditProfileState extends State<EditProfile> {
   // }
 
   // List<GetUser> user = [];
-  GetUser user = GetUser();
+  GetUser user = GetUser(follow_status: 0);
   userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
@@ -357,100 +357,6 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                               ],
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.edit_outlined,
-                              color: Colors.grey,
-                            )
-                          ],
-                        )),
-                  ),
-                  Container(
-                    height: 2,
-                    color: const Color.fromRGBO(217, 217, 217, 100),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 70,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Kredensial()));
-                    },
-                    child: Container(
-                        height: 68,
-                        child: Row(
-                          children: [
-                            Align(
-                              child: Text(
-                                'Edit kredensial profil',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.edit_outlined,
-                              color: Colors.grey,
-                            )
-                          ],
-                        )),
-                  ),
-                  Container(
-                    height: 2,
-                    color: const Color.fromRGBO(217, 217, 217, 100),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 70,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditBio(
-                                    description: user.description,
-                                  )));
-                    },
-                    child: Container(
-                        height: 68,
-                        child: Row(
-                          children: [
-                            Align(
-                              child: Text(
-                                'Edit biografi',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
                             ),
                             const Spacer(),
                             const Icon(

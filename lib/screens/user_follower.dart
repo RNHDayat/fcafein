@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
+import 'package:powershare/screens/user_akun.dart';
 
 import '../components/follow_button.dart';
 
 class UserFollower extends StatefulWidget {
-  const UserFollower({super.key});
+  final int id_user;
+
+  const UserFollower({super.key, required this.id_user});
 
   @override
   _UserFollowerState createState() => _UserFollowerState();
@@ -23,128 +26,107 @@ class _UserFollowerState extends State<UserFollower>
     _tabController = TabController(length: 2, vsync: this);
     fetchFollowers();
     fetchFollowings();
+    fetchFollowingsLogin();
     userLogin();
+    getUserLogin();
   }
 
-  Followers followers = Followers();
+  // Followers followers = Followers();
 
-  Followers getFollowers = Followers();
-  String userId = '';
-  String followingId = '';
-  String status = '';
-  String namefollow = '';
-  String nickfollow = '';
-  String companyfollowers = '';
-  String jobfollowers = '';
+  // Followers getFollowers = Followers();
+  // String userId = '';
+  // String followingId = '';
+  // String status = '';
+  // String namefollow = '';
+  // String nickfollow = '';
+  // String companyfollowers = '';
+  // String jobfollowers = '';
 
-  List<Followers> followerList = [];
+  // List<Followers> followerList = [];
 
-  fetchFollowers() async {
+  // fetchFollowers() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   Followers.followers(data[0].token).then((value) {
+  //     setState(() {
+  //       followerList.add(value);
+  //       getFollowers = value;
+  //       userId = getFollowers.id_user!;
+  //       followingId = getFollowers.following_id!;
+  //       status = getFollowers.follow_status!;
+  //       namefollow = getFollowers.fullname!;
+  //       nickfollow = getFollowers.nickname!;
+  //       companyfollowers = getFollowers.company!;
+  //       jobfollowers = getFollowers.job_position!;
+  //       print(userId);
+  //       print(followingId);
+  //       print(status);
+  //       print(namefollow);
+  //       print(nickfollow);
+  //     });
+  //   });
+  // }
+  String token = '';
+  int idLogin = 0;
+  getUserLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    Followers.followers(data[0].token).then((value) {
-      setState(() {
-        followerList.add(value);
-        getFollowers = value;
-        userId = getFollowers.id_user!;
-        followingId = getFollowers.following_id!;
-        status = getFollowers.follow_status!;
-        namefollow = getFollowers.fullname!;
-        nickfollow = getFollowers.nickname!;
-        companyfollowers = getFollowers.company!;
-        jobfollowers = getFollowers.job_position!;
-        print(userId);
-        print(followingId);
-        print(status);
-        print(namefollow);
-        print(nickfollow);
-      });
+    setState(() {
+      token = data[0].token;
+      idLogin = data[0].id;
     });
   }
 
-  ShowFollowings getFollowings = ShowFollowings();
-  // String useridfollowing = '';
-  // String followingIduser = '';
-  // String statusfollowing = '';
-  // String namefollowing = '';
-  // String nickfollowing = '';
-  // String companyfollowing = '';
-  // String jobfollowing = '';
+  bool checkFollow(int idUser) {
+    return followingListLogin.any((user) => int.parse(user.id_user) == idUser);
+  }
 
-  List<ShowFollowings> followingList = [];
+  ShowFollow getFollowingsLogin = ShowFollow();
+  List<ShowFollow> followingListLogin = [];
+
+  fetchFollowingsLogin() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+
+    followingListLogin =
+        await getFollowings.showfollowings(data[0].token, data[0].id);
+    print("NAHA" + followingListLogin.length.toString());
+    // followingListLogin.map((e) => print(e.id_user))
+
+    setState(() {});
+  }
+
+  ShowFollow getFollowings = ShowFollow();
+  List<ShowFollow> followingList = [];
 
   fetchFollowings() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    print(data[0].token);
-    followingList = await getFollowings.showfollowings(data[0].token);
+
+    followingList =
+        await getFollowings.showfollowings(data[0].token, widget.id_user);
     setState(() {});
-    // ShowFollowings.showfollowings(data[0].token).then((value) {
-    //   setState(() {
-    //     followingList.add(value);
-    //     getFollowings = value;
-    //     useridfollowing = getFollowings.id_user!;
-    //     followingIduser = getFollowings.following_id!;
-    //     statusfollowing = getFollowings.follow_status!;
-    //     namefollowing = getFollowings.fullname!;
-    //     nickfollowing = getFollowings.nickname!;
-    //     companyfollowing = getFollowings.company!;
-    //     jobfollowing = getFollowings.job_position!;
-    //   });
-    // });
   }
 
-  // GetUser getUser = GetUser();
-  // String fullname = '';
-  // String nickname = '';
-  // String address = '';
-  // String job = '';
-  // String company = '';
-  // String start_year = '';
-  // user() async {
-  //   final _db = DBhelper();
-  //   var data = await _db.getToken();
-  //   print(data[0].token);
-  //   GetUser.getUser(data[0].token).then((value) {
-  //     setState(() {
-  //       getUser = value;
-  //       fullname = getUser.fullname!;
-  //       nickname = getUser.nickname!;
-  //       address = getUser.address_house!;
-  //       job = getUser.job_position!;
-  //       company = getUser.company!;
-  //       start_year = getUser.start_year!;
-  //       print(getUser.id);
-  //       print(company);
-  //     });
-  //   });
-  // }
-  // List<GetUser> user = [];
-  GetUser user = GetUser();
+  List<ShowFollow> followerList = [];
+
+  fetchFollowers() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+
+    followerList =
+        await getFollowings.showfollowers(data[0].token, widget.id_user);
+    setState(() {});
+  }
+
+  GetUser user = GetUser(follow_status: 0);
   userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
     // print(data[0].token);
-    user = await GetUser.getUser(data[0].token,data[0].id);
+    user = await GetUser.getUser(data[0].token, widget.id_user);
     setState(() {});
-    // GetUser.getUser(data[0].token).then((value) {
-    //   setState(() {
-    //     getUser = value;
-    //     fullname = getUser.fullname!;
-    //     address = getUser.address_house!;
-    //     job = getUser.job_position!;
-    //     company = getUser.company!;
-    //     description = getUser.description!;
-    //     start_year = getUser.start_year!;
-    //     id_user = data[0].id;
-    //     token = data[0].token;
-    //     // print("nihhhhhhhh : ${getUser.description}");
-    //     // // print(company);
-    //     // print(getUser.id);
-    //     // print(description);
-    //   });
-    // });
   }
 
   @override
@@ -175,53 +157,41 @@ class _UserFollowerState extends State<UserFollower>
                     Navigator.pop(context);
                   },
                 ),
-                ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      side: const BorderSide(color: Colors.transparent),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.account_circle,
-                      color: Colors.grey,
-                    ),
-                    label: Text(user.fullname))
-              ],
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50.0),
-              child: TabBar(
-                controller: _tabController,
-                splashBorderRadius: BorderRadius.circular(5),
-                indicatorColor: Colors.blue,
-                unselectedLabelColor: Colors.grey,
-                indicator: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 3, // Width of the bottom border
-                      color: Colors
-                          .blue, // Color of the bottom border for active tab
-                    ),
+                Text(
+                  user.fullname == null ? "" : user.fullname,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
                   ),
                 ),
-                tabs: const [
-                  SizedBox(
-                    child: Tab(
-                      text: 'Pengikut',
-                    ),
+              ],
+            ),
+            bottom: TabBar(
+              controller: _tabController,
+              splashBorderRadius: BorderRadius.circular(5),
+              indicatorColor: Colors.blue,
+              unselectedLabelColor: Colors.grey,
+              indicator: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 3, // Width of the bottom border
+                    color: Colors
+                        .blue, // Color of the bottom border for active tab
                   ),
-                  SizedBox(
-                    child: Tab(
-                      text: 'Mengikuti',
-                    ),
-                  ),
-                ],
+                ),
               ),
+              tabs: [
+                SizedBox(
+                  child: Tab(
+                    text: 'Pengikut',
+                  ),
+                ),
+                SizedBox(
+                  child: Tab(
+                    text: 'Mengikuti',
+                  ),
+                ),
+              ],
             ),
             backgroundColor: Colors.white,
           ),
@@ -231,500 +201,102 @@ class _UserFollowerState extends State<UserFollower>
               children: [
                 //Followers
                 SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          width: 1,
-                          color: Color.fromRGBO(217, 217, 217, 100),
-                        ))),
-                      ),
-                      // ListView.builder(
-                      //   physics: NeverScrollableScrollPhysics(),
-                      //   shrinkWrap: true,
-                      //   itemCount: followingList.length,
-                      //   itemBuilder: (BuildContext context, int index) {
-                      //     return Container(
-                      //       decoration: const BoxDecoration(
-                      //         border: Border(
-                      //           bottom: BorderSide(
-                      //             width: 1,
-                      //             color: Color.fromRGBO(217, 217, 217, 100),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       child: Column(
-                      //         children: [
-                      //           ElevatedButton(
-                      //             style: ElevatedButton.styleFrom(
-                      //               backgroundColor: Colors.transparent,
-                      //               elevation: 0,
-                      //             ),
-                      //             onPressed: () {},
-                      //             child: Row(
-                      //               children: [
-                      //                 Container(
-                      //                   margin: const EdgeInsets.only(
-                      //                       top: 15, bottom: 15),
-                      //                   decoration: BoxDecoration(
-                      //                     borderRadius:
-                      //                         BorderRadius.circular(5),
-                      //                     color: Colors.grey,
-                      //                   ),
-                      //                   width: 35,
-                      //                   height: 35,
-                      //                 ),
-                      //                 const SizedBox(
-                      //                   width: 10,
-                      //                 ),
-                      //                 Expanded(
-                      //                   child: Padding(
-                      //                     padding: const EdgeInsets.only(
-                      //                         top: 10, bottom: 10),
-                      //                     child: Column(
-                      //                       children: [
-                      //                         RichText(
-                      //                           text: TextSpan(
-                      //                             style: GoogleFonts.poppins(
-                      //                               textStyle: const TextStyle(
-                      //                                 fontSize: 12.0,
-                      //                                 color: Colors.black,
-                      //                               ),
-                      //                             ),
-                      //                             children: <TextSpan>[
-                      //                               TextSpan(
-                      //                                 text: '$namefollow, ',
-                      //                                 style:
-                      //                                     GoogleFonts.poppins(
-                      //                                   textStyle:
-                      //                                       const TextStyle(
-                      //                                     fontWeight:
-                      //                                         FontWeight.w600,
-                      //                                   ),
-                      //                                 ),
-                      //                                 recognizer:
-                      //                                     TapGestureRecognizer()
-                      //                                       ..onTap = () {},
-                      //                               ),
-                      //                               TextSpan(
-                      //                                 text: '$jobfollowers di ',
-                      //                               ),
-                      //                               TextSpan(
-                      //                                 text: companyfollowers,
-                      //                                 recognizer:
-                      //                                     TapGestureRecognizer()
-                      //                                       ..onTap = () {},
-                      //                               ),
-                      //                             ],
-                      //                           ),
-                      //                           textAlign: TextAlign.start,
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //                 FollowButton(),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //       border: Border(
-                      //           bottom: BorderSide(
-                      //     width: 1,
-                      //     color: Color.fromRGBO(217, 217, 217, 100),
-                      //   ))),
-                      //   child: Column(
-                      //     children: [
-                      //       ElevatedButton(
-                      //         style: ElevatedButton.styleFrom(
-                      //           backgroundColor: Colors.transparent,
-                      //           elevation: 0,
-                      //         ),
-                      //         onPressed: () {},
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               margin: const EdgeInsets.only(
-                      //                   top: 15, bottom: 15),
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(5),
-                      //                 color: Colors.grey,
-                      //               ),
-                      //               width: 35,
-                      //               height: 35,
-                      //             ),
-                      //             const SizedBox(
-                      //               width: 10,
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                 padding: const EdgeInsets.only(
-                      //                     top: 10, bottom: 10),
-                      //                 child: Column(
-                      //                   children: [
-                      //                     RichText(
-                      //                       text: TextSpan(
-                      //                         style: GoogleFonts.poppins(
-                      //                           textStyle: const TextStyle(
-                      //                               fontSize: 12.0,
-                      //                               color: Colors.black),
-                      //                         ),
-                      //                         children: <TextSpan>[
-                      //                           TextSpan(
-                      //                             text: '$namefollow, ',
-                      //                             style: GoogleFonts.poppins(
-                      //                               textStyle: const TextStyle(
-                      //                                   fontWeight:
-                      //                                       FontWeight.w600),
-                      //                             ),
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                           const TextSpan(
-                      //                             text: 'S1 di Teknik Fisika, ',
-                      //                           ),
-                      //                           TextSpan(
-                      //                             text:
-                      //                                 'Institut Teknologi Sepuluh November(2023)',
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                       textAlign: TextAlign.start,
-                      //                     ),
-                      //                     Align(
-                      //                       alignment: Alignment.centerLeft,
-                      //                       child: Column(
-                      //                         children: [
-                      //                           Text(
-                      //                             "86 Pengikut",
-                      //                             style: GoogleFonts.poppins(
-                      //                                 textStyle:
-                      //                                     const TextStyle(
-                      //                                         fontSize: 14,
-                      //                                         fontWeight:
-                      //                                             FontWeight
-                      //                                                 .w400,
-                      //                                         color:
-                      //                                             Colors.grey)),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const FollowButton()
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: followerList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 1,
-                                  color: Color.fromRGBO(217, 217, 217, 100),
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: followerList.length,
+                    itemBuilder: (context, index) {
+                      final item = followerList[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserAkun(
+                                  id_user: int.parse(item.id_user),
                                 ),
                               ),
-                            ),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(top: 15, bottom: 15),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey,
+                                ),
+                                width: 35,
+                                height: 35,
                               ),
-                              onPressed: () {},
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 15, bottom: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.grey,
-                                    ),
-                                    width: 35,
-                                    height: 35,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, bottom: 10),
-                                      child: Column(
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              style: GoogleFonts.poppins(
-                                                textStyle: const TextStyle(
-                                                  fontSize: 12.0,
-                                                  color: Colors.black,
-                                                ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        style: GoogleFonts.poppins(
+                                          textStyle: const TextStyle(
+                                            fontSize: 12.0,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: item.fullname,
+                                            style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                fontWeight: FontWeight.w600,
                                               ),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: '$namefollow, ',
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                            ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserAkun(
+                                                      id_user: int.parse(
+                                                          item.id_user),
                                                     ),
                                                   ),
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          // Handle the tap on the name here
-                                                        },
-                                                ),
-                                                TextSpan(
-                                                  text: '$jobfollowers di ',
-                                                ),
-                                                TextSpan(
-                                                  text: companyfollowers,
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          // Handle the tap on the institute here
-                                                        },
-                                                ),
-                                              ],
-                                            ),
-                                            textAlign: TextAlign.start,
+                                                );
+                                              },
                                           ),
                                         ],
                                       ),
+                                      textAlign: TextAlign.start,
                                     ),
-                                  ),
-                                  const FollowButton()
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      )
-
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //       border: Border(
-                      //           bottom: BorderSide(
-                      //     width: 1,
-                      //     color: Color.fromRGBO(217, 217, 217, 100),
-                      //   ))),
-                      //   child: Column(
-                      //     children: [
-                      //       ElevatedButton(
-                      //         style: ElevatedButton.styleFrom(
-                      //           backgroundColor: Colors.transparent,
-                      //           elevation: 0,
-                      //         ),
-                      //         onPressed: () {},
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               margin: const EdgeInsets.only(
-                      //                   top: 15, bottom: 15),
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(5),
-                      //                 color: Colors.grey,
-                      //               ),
-                      //               width: 35,
-                      //               height: 35,
-                      //             ),
-                      //             const SizedBox(
-                      //               width: 10,
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                 padding: const EdgeInsets.only(
-                      //                     top: 10, bottom: 10),
-                      //                 child: Column(
-                      //                   children: [
-                      //                     RichText(
-                      //                       text: TextSpan(
-                      //                         style: GoogleFonts.poppins(
-                      //                           textStyle: const TextStyle(
-                      //                               fontSize: 12.0,
-                      //                               color: Colors.black),
-                      //                         ),
-                      //                         children: <TextSpan>[
-                      //                           TextSpan(
-                      //                             text: '$namefollow, ',
-                      //                             style: GoogleFonts.poppins(
-                      //                               textStyle: const TextStyle(
-                      //                                   fontWeight:
-                      //                                       FontWeight.w600),
-                      //                             ),
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                           const TextSpan(
-                      //                             text: 'S1 di Teknik Fisika, ',
-                      //                           ),
-                      //                           TextSpan(
-                      //                             text:
-                      //                                 'Institut Teknologi Sepuluh November(2023)',
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                       textAlign: TextAlign.start,
-                      //                     ),
-                      //                     Align(
-                      //                       alignment: Alignment.centerLeft,
-                      //                       child: Column(
-                      //                         children: [
-                      //                           Text(
-                      //                             "86 Pengikut",
-                      //                             style: GoogleFonts.poppins(
-                      //                                 textStyle:
-                      //                                     const TextStyle(
-                      //                                         fontSize: 14,
-                      //                                         fontWeight:
-                      //                                             FontWeight
-                      //                                                 .w400,
-                      //                                         color:
-                      //                                             Colors.grey)),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const FollowButton()
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
-                      // Container(
-                      //   decoration: const BoxDecoration(
-                      //       border: Border(
-                      //           bottom: BorderSide(
-                      //     width: 1,
-                      //     color: Color.fromRGBO(217, 217, 217, 100),
-                      //   ))),
-                      //   child: Column(
-                      //     children: [
-                      //       ElevatedButton(
-                      //         style: ElevatedButton.styleFrom(
-                      //           backgroundColor: Colors.transparent,
-                      //           elevation: 0,
-                      //         ),
-                      //         onPressed: () {},
-                      //         child: Row(
-                      //           children: [
-                      //             Container(
-                      //               margin: const EdgeInsets.only(
-                      //                   top: 15, bottom: 15),
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius: BorderRadius.circular(5),
-                      //                 color: Colors.grey,
-                      //               ),
-                      //               width: 35,
-                      //               height: 35,
-                      //             ),
-                      //             const SizedBox(
-                      //               width: 10,
-                      //             ),
-                      //             Expanded(
-                      //               child: Padding(
-                      //                 padding: const EdgeInsets.only(
-                      //                     top: 10, bottom: 10),
-                      //                 child: Column(
-                      //                   children: [
-                      //                     RichText(
-                      //                       text: TextSpan(
-                      //                         style: GoogleFonts.poppins(
-                      //                           textStyle: const TextStyle(
-                      //                               fontSize: 12.0,
-                      //                               color: Colors.black),
-                      //                         ),
-                      //                         children: <TextSpan>[
-                      //                           TextSpan(
-                      //                             text: 'Julyanto Dui, ',
-                      //                             style: GoogleFonts.poppins(
-                      //                               textStyle: const TextStyle(
-                      //                                   fontWeight:
-                      //                                       FontWeight.w600),
-                      //                             ),
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                           const TextSpan(
-                      //                             text:
-                      //                                 'Mekanik alat berat di Pertambangan. ',
-                      //                           ),
-                      //                           TextSpan(
-                      //                             text: ' ',
-                      //                             recognizer:
-                      //                                 TapGestureRecognizer()
-                      //                                   ..onTap = () {},
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                       textAlign: TextAlign.start,
-                      //                     ),
-                      //                     Align(
-                      //                       alignment: Alignment.centerLeft,
-                      //                       child: Column(
-                      //                         children: [
-                      //                           Text(
-                      //                             "203 Pengikut",
-                      //                             style: GoogleFonts.poppins(
-                      //                                 textStyle:
-                      //                                     const TextStyle(
-                      //                                         fontSize: 14,
-                      //                                         fontWeight:
-                      //                                             FontWeight
-                      //                                                 .w400,
-                      //                                         color:
-                      //                                             Colors.grey)),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const FollowButton()
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
+                              int.parse(item.id_user) == idLogin
+                                  ? Container()
+                                  : checkFollow(int.parse(item.id_user)) == true
+                                      ? FollowButton(isFollowing: false)
+                                      : FollowButton(isFollowing: true),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
 
@@ -733,29 +305,20 @@ class _UserFollowerState extends State<UserFollower>
                   child: Column(
                     children: [
                       //Border Top
-                      Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                          width: 1,
-                          color: Color.fromRGBO(217, 217, 217, 100),
-                        ))),
-                      ),
-
                       ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: followingList.length,
                         itemBuilder: (BuildContext context, int index) {
                           // Dapatkan data yang sesuai dari followingList
-                          ShowFollowings followings = followingList[index];
+                          final followings = followingList[index];
 
                           return Container(
                             decoration: const BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
                                   width: 1,
-                                  color: Color.fromRGBO(217, 217, 217, 100),
+                                  color: Colors.grey,
                                 ),
                               ),
                             ),
@@ -766,72 +329,42 @@ class _UserFollowerState extends State<UserFollower>
                                     backgroundColor: Colors.transparent,
                                     elevation: 0,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserAkun(
+                                          id_user:
+                                              int.parse(followings.id_user),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   child: Row(
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.only(
                                             top: 15, bottom: 15),
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
+                                          shape: BoxShape.circle,
                                           color: Colors.grey,
                                         ),
                                         width: 35,
                                         height: 35,
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                         width: 10,
                                       ),
                                       Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          child: Column(
-                                            children: [
-                                              RichText(
-                                                text: TextSpan(
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 12.0,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text:
-                                                          '${followings.fullname}, ',
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                      recognizer:
-                                                          TapGestureRecognizer()
-                                                            ..onTap = () {},
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                          '${followings.job_position} di ',
-                                                    ),
-                                                    TextSpan(
-                                                      text: followings.company,
-                                                      recognizer:
-                                                          TapGestureRecognizer()
-                                                            ..onTap = () {},
-                                                    ),
-                                                  ],
-                                                ),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        child: Text(followings.fullname),
                                       ),
-                                      FollowButton(),
+                                      int.parse(followings.id_user) == idLogin
+                                          ? Container()
+                                          : checkFollow(int.parse(
+                                                      followings.id_user)) ==
+                                                  true
+                                              ? FollowButton(isFollowing: false)
+                                              : FollowButton(isFollowing: true),
                                     ],
                                   ),
                                 ),

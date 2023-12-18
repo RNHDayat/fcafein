@@ -38,7 +38,20 @@ class _RegistrationState extends State<Registration> {
   List<String> genderOptions = ['Laki-Laki', 'Perempuan'];
   // String strUsername = '1462000142';
   // String strPassword = 'dayat';
-  String error = '';
+  String? passwordErrorText;
+  bool _isObscure = true;
+  bool isPasswordValid(String password) {
+    final RegExp uppercaseRegex = RegExp(r'[A-Z]');
+    final RegExp digitRegex = RegExp(r'[0-9]');
+
+    if (password.length < 6 ||
+        !uppercaseRegex.hasMatch(password) ||
+        !digitRegex.hasMatch(password)) {
+      return false;
+    }
+
+    return true;
+  }
 
   bool visiblePassword = false;
   @override
@@ -135,11 +148,12 @@ class _RegistrationState extends State<Registration> {
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Username tidak boleh kosong';
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -156,11 +170,18 @@ class _RegistrationState extends State<Registration> {
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Kata Sandi tidak boleh kosong';
+                              }
+                              if (!RegExp(
+                                      r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                  .hasMatch(value)) {
+                                return 'Format email tidak valid';
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -168,21 +189,52 @@ class _RegistrationState extends State<Registration> {
                           TextFormField(
                             controller: password,
                             style: const TextStyle(color: Colors.black),
-                            obscureText: true,
-                            decoration: const InputDecoration(
+                            obscureText: _isObscure,
+                            decoration: InputDecoration(
                               hintText: "Password",
                               labelText: "Password",
                               labelStyle: TextStyle(color: Colors.black),
+                              suffixIcon: IconButton(
+                                icon: Icon(_isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                              ),
+                              errorText: passwordErrorText,
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                if (value.isEmpty) {
+                                  passwordErrorText = 'Password harus diisi';
+                                } else if (!RegExp(
+                                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+                                    .hasMatch(value)) {
+                                  passwordErrorText =
+                                      'Gunakan kombinasi huruf besar, huruf kecil, dan angka dan minimun 8 huruf.';
+                                } else {
+                                  passwordErrorText = null;
+                                }
+                              });
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Kata Sandi tidak boleh kosong';
+                              }
+                              if (!RegExp(r'^(?=.*[A-Z])(?=.*[0-9])')
+                                  .hasMatch(value)) {
+                                return 'Password harus mengandung setidaknya satu huruf besar dan satu angka';
+                              }
+                              return null;
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -199,11 +251,12 @@ class _RegistrationState extends State<Registration> {
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Nama lengkap tidak boleh kosong';
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -225,6 +278,11 @@ class _RegistrationState extends State<Registration> {
                               //       BorderRadius.all(Radius.circular(10)),
                               // ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Nama panggilan tidak boleh kosong';
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -281,11 +339,12 @@ class _RegistrationState extends State<Registration> {
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Nomor tidak boleh kosong';
+                              }
+                            },
                           ),
                           const SizedBox(
                             height: 10,
@@ -318,90 +377,7 @@ class _RegistrationState extends State<Registration> {
                           const SizedBox(
                             height: 10,
                           ),
-                          // TextFormField(
-                          //   controller: password_,
-                          //   obscureText: !visiblePassword,
-                          //   style: TextStyle(color: Colors.black),
-                          //   decoration: InputDecoration(
-                          //     // errorText: this.error,
-                          //     suffixIcon: GestureDetector(
-                          //       onLongPress: () {
-                          //         setState(() {
-                          //           visiblePassword = true;
-                          //         });
-                          //       },
-                          //       onLongPressUp: () {
-                          //         setState(() {
-                          //           visiblePassword = false;
-                          //         });
-                          //       },
-                          //       child: Icon(
-                          //         visiblePassword
-                          //             ? Icons.visibility
-                          //             : Icons.visibility_off,
-                          //         color: Colors.grey[600],
-                          //         size: 20,
-                          //       ),
-                          //     ),
-                          //     hintText: "Password",
-                          //     hintStyle: TextStyle(color: Colors.black),
-                          //     labelText: "Password",
-                          //     labelStyle: TextStyle(color: Colors.black),
-                          //     enabledBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.black,
-                          //       ),
-                          //     ),
-                          //     // border: OutlineInputBorder(
-                          //     //   borderRadius:
-                          //     //       BorderRadius.all(Radius.circular(10)),
-                          //     // ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
-                          // TextField(
-                          //   controller: password_,
-                          //   obscureText: !visiblePassword,
-                          //   style: TextStyle(color: Colors.black),
-                          //   decoration: InputDecoration(
-                          //     // errorText: this.error,
-                          //     suffixIcon: GestureDetector(
-                          //       onLongPress: () {
-                          //         setState(() {
-                          //           visiblePassword = true;
-                          //         });
-                          //       },
-                          //       onLongPressUp: () {
-                          //         setState(() {
-                          //           visiblePassword = false;
-                          //         });
-                          //       },
-                          //       child: Icon(
-                          //         visiblePassword
-                          //             ? Icons.visibility
-                          //             : Icons.visibility_off,
-                          //         color: Colors.grey[600],
-                          //         size: 20,
-                          //       ),
-                          //     ),
-                          //     hintText: "Konfirmasi Password",
-                          //     hintStyle: TextStyle(color: Colors.black),
-                          //     labelText: "Konfirmasi Password",
-                          //     labelStyle: TextStyle(color: Colors.black),
-                          //     enabledBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(
-                          //         color: Colors.black,
-                          //       ),
-                          //     ),
-                          //     // border: OutlineInputBorder(
-                          //     //   borderRadius:
-                          //     //       BorderRadius.all(Radius.circular(10)),
-                          //     // ),
-                          //   ),
-                          // ),
-                          //
+
                           const SizedBox(
                             height: 20,
                           ),
@@ -419,12 +395,6 @@ class _RegistrationState extends State<Registration> {
                                         phone.text,
                                         gender.text)
                                     .then((value) {
-                                  // if (value != null) {
-                                  //   // print(value);
-                                  // } else {
-                                  //   print("eror guys");
-                                  // }
-                                  // print("LOL:" + value.toString());
                                   if (value == 200 || value == 201) {
                                     username.clear();
                                     email.clear();
@@ -434,7 +404,6 @@ class _RegistrationState extends State<Registration> {
                                     datebirth.clear();
                                     phone.clear();
                                     gender.clear();
-                                    
                                   }
                                 });
                               } else {
@@ -443,8 +412,6 @@ class _RegistrationState extends State<Registration> {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(10),
-                              // width: MediaQuery.of(context).size.width,
-                              // height: MediaQuery.of(context).size.height * 0.05,
                               decoration: BoxDecoration(
                                 color: const Color(0xffd9d9d9),
                                 borderRadius: BorderRadius.circular(10),

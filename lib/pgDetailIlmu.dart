@@ -48,7 +48,7 @@ class _DetailIlmuState extends State<DetailIlmu> {
     });
   }
 
-  GetUser getUser = GetUser();
+  GetUser getUser = GetUser(follow_status: 0);
   // late int id;
   String token = '';
   int id_user = 0;
@@ -209,7 +209,6 @@ class _DetailIlmuState extends State<DetailIlmu> {
                             //second parameter is top to down
                           ),
                         ],
-                        
                       ),
                       width: double.infinity,
                       padding: const EdgeInsets.only(bottom: 10),

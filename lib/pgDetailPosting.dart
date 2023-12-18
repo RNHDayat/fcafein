@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/model/database.dart';
@@ -103,7 +104,7 @@ class _DetailPostingState extends State<DetailPosting> {
   void initState() {
     // fetchData();
     super.initState();
-    print(widget.id);
+    print("APANIHH:" + widget.id.toString());
     user();
     vote(widget.id);
   }
@@ -128,7 +129,7 @@ class _DetailPostingState extends State<DetailPosting> {
     }
   }
 
-  GetUser getUser = GetUser();
+  GetUser getUser = GetUser(follow_status: 0);
   String token = '';
   int idLogin = 0;
   user() async {
@@ -145,7 +146,7 @@ class _DetailPostingState extends State<DetailPosting> {
   ShowVote showVote = ShowVote();
   vote(int id) async {
     showVote = await ShowVote.showVoting(id);
-    print(showVote.id_user);
+    print("LAPO" + showVote.upvote.toString());
     setState(() {});
   }
 
@@ -247,18 +248,18 @@ class _DetailPostingState extends State<DetailPosting> {
                             ),
                           ),
                         ),
-                        const Expanded(
-                          flex: 1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("Diperbarui 2th"),
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        ),
+                        // const Expanded(
+                        //   flex: 1,
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       Text("Diperbarui 2th"),
+                        //       SizedBox(
+                        //         height: 20,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -350,14 +351,13 @@ class _DetailPostingState extends State<DetailPosting> {
                                           selectedVote = 0;
 
                                           print(selectedVote);
-                                          updateVote(showVote.id_postings,
-                                              selectedVote);
+                                          updateVote(widget.id, selectedVote);
                                           vote(widget.id);
                                         } else {
                                           selectedVote = 1;
-                                          print(selectedVote);
-                                          updateVote(showVote.id_postings,
-                                              selectedVote);
+                                          print("CENTANG" +
+                                              selectedVote.toString());
+                                          updateVote(widget.id, selectedVote);
                                           vote(widget.id);
                                         }
                                       });
@@ -366,7 +366,8 @@ class _DetailPostingState extends State<DetailPosting> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(showVote.upvote == 0
+                                  Text(showVote.upvote == 0 ||
+                                          showVote.upvote == null
                                       ? ''
                                       : showVote.upvote.toString()),
                                   Container(
@@ -402,7 +403,8 @@ class _DetailPostingState extends State<DetailPosting> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(showVote.downvote == 0
+                                  Text(showVote.downvote == 0 ||
+                                          showVote.upvote == null
                                       ? ''
                                       : showVote.downvote.toString()),
                                 ],
@@ -428,168 +430,170 @@ class _DetailPostingState extends State<DetailPosting> {
                                 ),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.share),
-                                  // SizedBox(
-                                  //   width: 5,
-                                  // ),
-                                  // Text("120"),
-                                ],
-                              ),
-                            ),
+                            //--share
+                            // Container(
+                            //   padding: const EdgeInsets.all(10),
+                            //   child: const Row(
+                            //     children: [
+                            //       Icon(Icons.share),
+                            //       // SizedBox(
+                            //       //   width: 5,
+                            //       // ),
+                            //       // Text("120"),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      padding: const EdgeInsets.all(15),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Stack(
-                                        alignment: Alignment.centerLeft,
-                                        children: <Widget>[
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Icon(Icons.close,
-                                                color: Colors.red[900]),
-                                          ),
-                                          const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                'Jawab',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child: const Center(
-                                          child: Text("Bagikan melalui.."),
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child: const Center(
-                                          child:
-                                              Text("Tidak tertarik dengan ini"),
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child:
-                                            const Center(child: Text("Simpan")),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child: const Center(
-                                            child: Text(
-                                                "Dorong turun pertamyaan")),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child: const Center(child: Text("Log")),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        padding: const EdgeInsets.all(15),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                                width: 0.5, color: Colors.grey),
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text("Laporkan",
-                                              style: TextStyle(
-                                                color: Colors.red[900],
-                                              )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                        child: const Icon(Icons.more_horiz),
-                      ),
+                      //--horiz
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     showModalBottomSheet(
+                      //         isScrollControlled: true,
+                      //         context: context,
+                      //         builder: (context) {
+                      //           return Column(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: <Widget>[
+                      //               Container(
+                      //                 padding: const EdgeInsets.all(15),
+                      //                 width: MediaQuery.of(context).size.width,
+                      //                 child: Stack(
+                      //                   alignment: Alignment.centerLeft,
+                      //                   children: <Widget>[
+                      //                     GestureDetector(
+                      //                       onTap: () {
+                      //                         Navigator.pop(context);
+                      //                       },
+                      //                       child: Icon(Icons.close,
+                      //                           color: Colors.red[900]),
+                      //                     ),
+                      //                     const Row(
+                      //                       mainAxisAlignment:
+                      //                           MainAxisAlignment.center,
+                      //                       children: <Widget>[
+                      //                         Text(
+                      //                           'Jawab',
+                      //                           style: TextStyle(
+                      //                             color: Colors.grey,
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ],
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child: const Center(
+                      //                     child: Text("Bagikan melalui.."),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child: const Center(
+                      //                     child:
+                      //                         Text("Tidak tertarik dengan ini"),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child:
+                      //                       const Center(child: Text("Simpan")),
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child: const Center(
+                      //                       child: Text(
+                      //                           "Dorong turun pertamyaan")),
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child: const Center(child: Text("Log")),
+                      //                 ),
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {},
+                      //                 child: Container(
+                      //                   padding: const EdgeInsets.all(15),
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width,
+                      //                   decoration: const BoxDecoration(
+                      //                     border: Border(
+                      //                       top: BorderSide(
+                      //                           width: 0.5, color: Colors.grey),
+                      //                     ),
+                      //                   ),
+                      //                   child: Center(
+                      //                     child: Text("Laporkan",
+                      //                         style: TextStyle(
+                      //                           color: Colors.red[900],
+                      //                         )),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           );
+                      //         });
+                      //   },
+                      //   child: const Icon(Icons.more_horiz),
+                      // ),
                     ],
                   ),
                 ),
@@ -793,16 +797,6 @@ Widget _buildCommentItemLvl2(
                         child: Text("Balas"),
                       ),
                       SizedBox(width: 5),
-                      InkWell(
-                        onTap: () {
-                          showReply = !showReply;
-                          print(comment.id);
-                          print(showReply);
-                          _modalBottomSheetComment(context, comment.id,
-                              comment.description, comment.nickname);
-                        },
-                        child: Text("Up"),
-                      ),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -867,14 +861,28 @@ Widget _buildCommentItemLvl2(
 Future deleteComment(id) async {
   final _db = DBhelper();
   var data = await _db.getToken();
-  final response = await http.get(
-    Uri.parse(URL + 'reply/destroy/${id}'),
-    headers: {
-      "Authorization": 'Bearer ${data[0].token}',
-      "Accept": "application/json",
-      "login-type": "0",
-    },
-  );
+  DeletePosting.delete(data[0].token, id.toString()).then((value) {
+    if (value.statusCode == 200) {
+      Fluttertoast.showToast(
+        msg: jsonDecode(value.body)["msg"],
+        backgroundColor: Colors.green,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      // Navigator.pop(context);
+    }
+  });
+  // final response = await http.get(
+  //   Uri.parse(URL + 'reply/destroy/${id}'),
+  //   headers: {
+  //     "Authorization": 'Bearer ${data[0].token}',
+  //     "Accept": "application/json",
+  //     "login-type": "0",
+  //   },
+  // );
 }
 
 Widget _buildReplyHeader(String nickname) {

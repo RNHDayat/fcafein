@@ -525,11 +525,12 @@ class _MediaState extends State<Media> {
                                         ),
                                       ),
                                       SizedBox(width: 5),
-                                      Icon(
-                                        Icons.share,
-                                        color: Colors.blue.shade900,
-                                      ),
-                                      SizedBox(width: 5),
+                                      //--share
+                                      // Icon(
+                                      //   Icons.share,
+                                      //   color: Colors.blue.shade900,
+                                      // ),
+                                      // SizedBox(width: 5),
                                     ],
                                   ),
                                 ],

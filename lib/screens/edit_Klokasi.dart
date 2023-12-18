@@ -11,7 +11,8 @@ import '../components/textfieldTahun.dart';
 class EditKredensialLokasi extends StatefulWidget {
   final lokasi, type, id, hide;
 
-  const EditKredensialLokasi({super.key, this.lokasi, this.type, this.id, this.hide});
+  const EditKredensialLokasi(
+      {super.key, this.lokasi, this.type, this.id, this.hide});
 
   @override
   State<EditKredensialLokasi> createState() => _EditKredensialLokasiState();
@@ -85,32 +86,27 @@ class _EditKredensialLokasiState extends State<EditKredensialLokasi> {
                 const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
             child: Row(
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KredensialPekerjaan()));
-                  },
-                  child: const Text("Batal"),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                // TextButton(
+                //   style: TextButton.styleFrom(foregroundColor: Colors.grey),
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const KredensialPekerjaan()));
+                //   },
+                //   child: const Text("Batal"),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
                       saveKredensial(lokasi.text);
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Kredensial()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EditKredensialLokasi()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -206,7 +202,7 @@ class _EditKredensialLokasiState extends State<EditKredensialLokasi> {
                               onPressed: () {
                                 UpdateCredentials.destroyCredential(
                                     token, widget.id.toString());
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -251,6 +247,12 @@ class _EditKredensialLokasiState extends State<EditKredensialLokasi> {
                               ),
                               TextFormField(
                                 controller: lokasi,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Lokasi tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

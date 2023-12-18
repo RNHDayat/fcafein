@@ -258,6 +258,7 @@ class GetUser {
       email,
       fullname,
       nickname,
+      follow_me,
       level,
       gender,
       description,
@@ -265,12 +266,15 @@ class GetUser {
       company,
       job_position,
       start_year;
+  int follow_status;
   GetUser({
     this.id,
     this.username,
     this.email,
     this.fullname,
     this.nickname,
+    this.follow_me,
+    required this.follow_status,
     this.level,
     this.description,
     this.gender,
@@ -287,6 +291,8 @@ class GetUser {
       email: data["email"],
       fullname: data["employees"]["fullname"],
       nickname: data["employees"]["nickname"],
+      follow_me: data["follow_me"],
+      follow_status: data["follow_status"] ?? 0,
       level: data["level"].toString(),
       gender: data["employees"]["gender"],
       description: data["employees"]["description"],
@@ -403,8 +409,8 @@ class Postings {
   }
 }
 
-class ShowFollowings {
-  String? id,
+class ShowFollow {
+  final id,
       id_user,
       following_id,
       follow_status,
@@ -413,7 +419,7 @@ class ShowFollowings {
       company,
       job_position;
 
-  ShowFollowings(
+  ShowFollow(
       {this.id,
       this.id_user,
       this.following_id,
@@ -423,8 +429,8 @@ class ShowFollowings {
       this.company,
       this.job_position});
 
-  factory ShowFollowings.fromJson(Map<String, dynamic> data) {
-    return ShowFollowings(
+  factory ShowFollow.fromJson(Map<String, dynamic> data) {
+    return ShowFollow(
       id: data["id"].toString(),
       id_user: data["id_user"].toString(),
       following_id: data["following_id"].toString(),
@@ -438,9 +444,8 @@ class ShowFollowings {
 
   get userid => null;
 
-  Future<List<ShowFollowings>> showfollowings(String token) async {
-    // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/showfollowings");
-    Uri url = Uri.parse(URL + "followuser/showfollowings");
+  Future<List<ShowFollow>> showfollowings(String token,id) async {
+    Uri url = Uri.parse(URL + "followuser/showfollowings/$id");
     var response = await http.get(
       url,
       headers: {
@@ -453,55 +458,16 @@ class ShowFollowings {
       var jsonData = json.decode(response.body);
       print(jsonData);
       List<dynamic> data = jsonData;
-      List<ShowFollowings> ilmuList =
-          data.map((json) => ShowFollowings.fromJson(json)).toList();
+      List<ShowFollow> ilmuList =
+          data.map((json) => ShowFollow.fromJson(json)).toList();
       return ilmuList;
     } else {
       print(response.statusCode);
       throw {print("gagal post")};
     }
   }
-}
-
-class Followers {
-  String? id,
-      id_user,
-      following_id,
-      follow_status,
-      fullname,
-      nickname,
-      company,
-      job_position;
-
-  Followers(
-      {this.id,
-      this.id_user,
-      this.following_id,
-      this.follow_status,
-      this.fullname,
-      this.nickname,
-      this.company,
-      this.job_position});
-
-  factory Followers.FollowersResult(Map<String, dynamic> data) {
-    return Followers(
-      id: data["id"].toString(),
-      id_user: data["id_user"].toString(),
-      following_id: data["following_id"].toString(),
-      follow_status: data["follow_status"].toString(),
-      fullname: data["fullname"],
-      nickname: data["nickname"],
-      company: data["company"],
-      job_position: data["job_position"],
-    );
-  }
-
-  get userid => null;
-
-  static Future<Followers> followers(String token) async {
-    // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/followers");
-    Uri url = Uri.parse(URL + "followuser/followers");
-
+  Future<List<ShowFollow>> showfollowers(String token,id) async {
+    Uri url = Uri.parse(URL + "followuser/showfollowers/$id");
     var response = await http.get(
       url,
       headers: {
@@ -513,13 +479,74 @@ class Followers {
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
       print(jsonData);
-      return Followers.FollowersResult(jsonData[0]);
+      List<dynamic> data = jsonData;
+      List<ShowFollow> ilmuList =
+          data.map((json) => ShowFollow.fromJson(json)).toList();
+      return ilmuList;
     } else {
       print(response.statusCode);
       throw {print("gagal post")};
     }
   }
 }
+
+// class Followers {
+//   String? id,
+//       id_user,
+//       following_id,
+//       follow_status,
+//       fullname,
+//       nickname,
+//       company,
+//       job_position;
+// 
+//   Followers(
+//       {this.id,
+//       this.id_user,
+//       this.following_id,
+//       this.follow_status,
+//       this.fullname,
+//       this.nickname,
+//       this.company,
+//       this.job_position});
+
+//   factory Followers.FollowersResult(Map<String, dynamic> data) {
+//     return Followers(
+//       id: data["id"].toString(),
+//       id_user: data["id_user"].toString(),
+//       following_id: data["following_id"].toString(),
+//       follow_status: data["follow_status"].toString(),
+//       fullname: data["fullname"],
+//       nickname: data["nickname"],
+//       company: data["company"],
+//       job_position: data["job_position"],
+//     );
+//   }
+
+//   get userid => null;
+
+//   static Future<Followers> followers(String token) async {
+//     // Uri url = Uri.parse("http://10.0.2.2:8000/api/followuser/followers");
+//     Uri url = Uri.parse(URL + "followuser/followers");
+
+//     var response = await http.get(
+//       url,
+//       headers: {
+//         "Authorization": 'Bearer $token',
+//         "Accept": "application/json",
+//         "login-type": "0",
+//       },
+//     );
+//     if (response.statusCode == 200) {
+//       var jsonData = json.decode(response.body);
+//       print(jsonData);
+//       return Followers.FollowersResult(jsonData[0]);
+//     } else {
+//       print(response.statusCode);
+//       throw {print("gagal post")};
+//     }
+//   }
+// }
 
 class UpdateDescrip {
   final String? description;
@@ -551,56 +578,6 @@ class UpdateDescrip {
       print(jsonData);
       Fluttertoast.showToast(
           msg: "Berhasil memperbarui deskripsi",
-          backgroundColor: Colors.green,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return response;
-    } else {
-      print(response.statusCode);
-      Fluttertoast.showToast(
-          msg: "Gagal memperbarui data",
-          backgroundColor: Colors.red,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return response;
-    }
-  }
-}
-
-class UpdateNama {
-  final String? fullname;
-
-  UpdateNama({
-    this.fullname,
-  });
-
-  factory UpdateNama.fromJson(Map<String, dynamic> json) {
-    return UpdateNama(
-      fullname: json['fullname'],
-    );
-  }
-  static Future<http.Response> updateNama(String token, String fullname) async {
-    Uri url = Uri.parse(
-        "http://10.0.2.2:8000/api/employee/updateFullName"); // Ganti dengan endpoint yang sesuai
-    var response = await http.post(url, headers: {
-      "Authorization": 'Bearer $token',
-      "Accept": "application/json",
-      "login-type": "0",
-    }, body: {
-      "fullname": fullname,
-    });
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var jsonData = json.decode(response.body);
-      // Iterable it = jsonData["data"][0];
-      print(jsonData);
-      Fluttertoast.showToast(
-          msg: "Berhasil memperbarui nama",
           backgroundColor: Colors.green,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
@@ -753,21 +730,21 @@ class UpdateDescript {
   }
 }
 
-class UpdateName {
+class UpdateNama {
   final String? fullname;
 
-  UpdateName({
+  UpdateNama({
     this.fullname,
   });
 
-  factory UpdateName.fromJson(Map<String, dynamic> json) {
-    return UpdateName(
+  factory UpdateNama.fromJson(Map<String, dynamic> json) {
+    return UpdateNama(
       fullname: json['fullname'],
     );
   }
   static Future<http.Response> updateNama(String token, String fullname) async {
     Uri url = Uri.parse(
-        URL + "employee/updateFullName"); // Ganti dengan endpoint yang sesuai
+        URL + "employee/updateFullname"); // Ganti dengan endpoint yang sesuai
     var response = await http.post(url, headers: {
       "Authorization": 'Bearer $token',
       "Accept": "application/json",
@@ -781,7 +758,7 @@ class UpdateName {
       // Iterable it = jsonData["data"][0];
       print(jsonData);
       Fluttertoast.showToast(
-          msg: "Berhasil memperbarui nama",
+          msg: jsonData["msg"],
           backgroundColor: Colors.green,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
@@ -790,9 +767,9 @@ class UpdateName {
           fontSize: 16.0);
       return response;
     } else {
-      print(response.statusCode);
+      var jsonData = json.decode(response.body);
       Fluttertoast.showToast(
-          msg: "Gagal memperbarui data",
+          msg: jsonData['msg'],
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
@@ -1490,14 +1467,14 @@ class ShowCredentials {
       updated_at: json['updated_at'],
     );
   }
-  Future<List<ShowCredentials>> getCredential(String token) async {
+  Future<List<ShowCredentials>> getCredential(String token, String id) async {
     // Uri url = Uri.parse(
     //     "http://10.0.2.2:8000/api/credential/indexUser"); // Ganti dengan endpoint yang sesuai
-    Uri url = Uri.parse(URL + "credential/indexUser");
+    Uri url = Uri.parse(URL + "credential/indexUser/$id");
 
     var response = await http.get(url, headers: {
       "Authorization": 'Bearer $token',
-      "Accept": "application/json",
+      "Accept": "*/*",
       "login-type": "0",
     });
 
@@ -1551,7 +1528,7 @@ class UpdateCredentials {
       // Iterable it = jsonData["data"][0];
       print(response.statusCode);
       Fluttertoast.showToast(
-        msg: "Berhasil memperbarui kredensial",
+        msg: "Berhasil mengubah kredensial",
         backgroundColor: Colors.green,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
@@ -2190,14 +2167,14 @@ class ShowVote {
 
   factory ShowVote.fromJson(Map<String, dynamic> json) {
     return ShowVote(
-      id: json['id'],
+      id: json['id'] ?? '',
       id_user: json['id_user'] ?? '',
-      id_postings: json['id_postings'],
-      vote_status: json['vote_status'],
-      upvote: json['upvote'],
-      downvote: json['downvote'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      id_postings: json['id_postings'] ?? '',
+      vote_status: json['vote_status'] ?? '',
+      upvote: json['upvote'] ?? 0,
+      downvote: json['downvote'] ?? 0,
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
     );
   }
   static Future<ShowVote> showVoting(int id) async {
@@ -2216,6 +2193,12 @@ class ShowVote {
       // List<dynamic> data = jsonData;
       // List<ShowVote> listShowVote =
       //     data.map((json) => ShowVote.fromJson(json)).toList();
+      // if(jsonData==null){
+
+      // return ShowVote.fromJson(jsonData);
+      // }else{
+
+      // }
       return ShowVote.fromJson(jsonData);
     } else {
       print(response.statusCode);
@@ -2336,6 +2319,40 @@ class GetNotif {
 
   static Future<http.Response> read(String token, String id) async {
     Uri url = Uri.parse(URL + "notif/update/$id");
+    var response = await http.post(
+      url,
+      headers: {
+        "Authorization": 'Bearer $token',
+        "Accept": "*/*",
+        "login-type": "0",
+      },
+    );
+    // print(jsonData["data"]["token"]);
+    if (response.statusCode == 200) {
+      // var jsonData = json.decode(response.body);
+      // print(jsonData[0]);
+
+      return response;
+    } else {
+      print(response.statusCode);
+      // throw {print("gagal post")};
+      return response;
+    }
+  }
+}
+
+class DeletePosting {
+  final msg;
+  DeletePosting({
+    this.msg,
+  });
+  factory DeletePosting.fromJson(Map<String, dynamic> json) {
+    return DeletePosting(
+      msg: json['msg'],
+    );
+  }
+  static Future<http.Response> delete(String token, String id) async {
+    Uri url = Uri.parse(URL + "posting/deleteCommentDetailPost/$id");
     var response = await http.post(
       url,
       headers: {

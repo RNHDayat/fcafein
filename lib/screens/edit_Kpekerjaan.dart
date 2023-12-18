@@ -97,30 +97,25 @@ class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
                   left: 15, right: 15, top: 12, bottom: 12),
               child: Row(
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Kredensial()));
-                    },
-                    child: const Text("Batal"),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
+                  // TextButton(
+                  //   style: TextButton.styleFrom(foregroundColor: Colors.grey),
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => const Kredensial()));
+                  //   },
+                  //   child: const Text("Batal"),
+                  // ),
+                  // const SizedBox(
+                  //   width: 5,
+                  // ),
                   TextButton(
                     onPressed: () {
                       // AddCredential(token: token, type: type, description: description);
                       if (_key.currentState!.validate()) {
                         saveKredensial(jabatan.text, perusahaan.text);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Kredensial()));
-                      } else {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Kredensial()));
@@ -219,7 +214,7 @@ class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
                             onPressed: () {
                               UpdateCredentials.destroyCredential(
                                   token, widget.id.toString());
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -264,9 +259,9 @@ class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
                             ),
                             TextFormField(
                               controller: jabatan,
-                              validator: (text) {
-                                if (text == null || text.isEmpty) {
-                                  return 'Tidak Boleh kosong';
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Jabatan tidak boleh kosong';
                                 }
                                 return null;
                               },
@@ -302,9 +297,9 @@ class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
                             ),
                             TextFormField(
                               controller: perusahaan,
-                              validator: (text) {
-                                if (text == null || text.isEmpty) {
-                                  return 'Tidak Boleh kosong';
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Perusahaan tidak boleh kosong';
                                 }
                                 return null;
                               },
@@ -320,69 +315,69 @@ class _EditKredensialPekerjaanState extends State<EditKredensialPekerjaan> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 15),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Tahun Mulai",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            YearDropdownFormField(),
-                          ],
-                        ),
-                      ),
-                      Visibility(
-                        visible: !isChecked,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 0, bottom: 0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Tahun Selesai",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const YearPickerTextField()
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 0, right: 0, top: 0, bottom: 5),
-                        child: CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          title: const Text("Saya masih bekerja disini"),
-                          checkColor: Colors.white,
-                          // fillColor: MaterialStateProperty.resolveWith(getColor),
-                          value: isChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isChecked = value!;
-                            });
-                          },
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: 15, right: 15, top: 0, bottom: 15),
+                      //   child: Column(
+                      //     children: [
+                      //       Align(
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Text(
+                      //           "Tahun Mulai",
+                      //           style: GoogleFonts.poppins(
+                      //               textStyle: const TextStyle(
+                      //                   fontSize: 14,
+                      //                   fontWeight: FontWeight.w500)),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         height: 10,
+                      //       ),
+                      //       YearDropdownFormField(),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Visibility(
+                      //   visible: !isChecked,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         left: 15, right: 15, top: 0, bottom: 0),
+                      //     child: Column(
+                      //       children: [
+                      //         Align(
+                      //           alignment: Alignment.centerLeft,
+                      //           child: Text(
+                      //             "Tahun Selesai",
+                      //             style: GoogleFonts.poppins(
+                      //                 textStyle: const TextStyle(
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w500)),
+                      //           ),
+                      //         ),
+                      //         const SizedBox(
+                      //           height: 10,
+                      //         ),
+                      //         const YearPickerTextField()
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: 0, right: 0, top: 0, bottom: 5),
+                      //   child: CheckboxListTile(
+                      //     controlAffinity: ListTileControlAffinity.leading,
+                      //     title: const Text("Saya masih bekerja disini"),
+                      //     checkColor: Colors.white,
+                      //     // fillColor: MaterialStateProperty.resolveWith(getColor),
+                      //     value: isChecked,
+                      //     onChanged: (bool? value) {
+                      //       setState(() {
+                      //         isChecked = value!;
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   )),
                 ),

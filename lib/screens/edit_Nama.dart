@@ -42,7 +42,7 @@ class _EditNamaState extends State<EditNama> {
   //   });
   // }
   // List<GetUser> user = [];
-  GetUser user = GetUser();
+  GetUser user = GetUser(follow_status: 0);
   userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
@@ -105,16 +105,13 @@ class _EditNamaState extends State<EditNama> {
                     final _db = DBhelper();
                     var data = await _db.getToken();
                     if (formKey.currentState!.validate()) {
-                      saveNama(fullname.text);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserAkun(id_user:data[0].id)));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserAkun(id_user:data[0].id)));
+                      // saveNama(fullname.text);
+                      UpdateNama.updateNama(data[0].token, fullname.text)
+                          .then((value) {
+                        if (value.statusCode == 200) {
+                          Navigator.pop(context);
+                        }
+                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(

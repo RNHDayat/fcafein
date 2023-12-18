@@ -41,7 +41,7 @@ class _SettingAkunState extends State<SettingAkun> {
   //   });
   // }
   // List<GetUser> user = [];
-  GetUser user = GetUser();
+  GetUser user = GetUser(follow_status: 0);
   userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
@@ -141,7 +141,7 @@ class _SettingAkunState extends State<SettingAkun> {
                       child: Column(
                         children: [
                           Text(
-                            user.email ==null? "" : user.email,
+                            user.email == null ? "" : user.email,
                             style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600)),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/pgRegistration.dart';
 import 'package:pointycastle/export.dart' as pc;
@@ -169,8 +170,8 @@ class _LoginState extends State<Login> {
                             controller: username_,
                             style: const TextStyle(color: Colors.black),
                             decoration: const InputDecoration(
-                              hintText: "Alamat Email",
-                              labelText: "Alamat Email",
+                              hintText: "Username / Alamat Email",
+                              labelText: "Username / Alamat Email",
                               labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -184,7 +185,7 @@ class _LoginState extends State<Login> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter username';
+                                return 'Username wajib diisi';
                               }
                               return null;
                             },
@@ -199,16 +200,16 @@ class _LoginState extends State<Login> {
                             decoration: InputDecoration(
                               // errorText: this.error,
                               suffixIcon: GestureDetector(
-                                onLongPress: () {
+                                onTap: () {
                                   setState(() {
-                                    visiblePassword = true;
+                                    visiblePassword = !visiblePassword;
                                   });
                                 },
-                                onLongPressUp: () {
-                                  setState(() {
-                                    visiblePassword = false;
-                                  });
-                                },
+                                // onLongPressUp: () {
+                                //   setState(() {
+                                //     visiblePassword = false;
+                                //   });
+                                // },
                                 child: Icon(
                                   visiblePassword
                                       ? Icons.visibility
@@ -226,14 +227,10 @@ class _LoginState extends State<Login> {
                                   color: Colors.black,
                                 ),
                               ),
-                              // border: OutlineInputBorder(
-                              //   borderRadius:
-                              //       BorderRadius.all(Radius.circular(10)),
-                              // ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter password';
+                                return 'Password wajib diisi';
                               }
                               return null;
                             },
@@ -332,7 +329,15 @@ class _LoginState extends State<Login> {
                                     print("token : " + value.id.toString());
                                     print("token : " + value.token.toString());
                                     saveToken(value.id, value.token);
-
+                                    Fluttertoast.showToast(
+                                      msg: "Login berhasil",
+                                      backgroundColor: Colors.green,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(

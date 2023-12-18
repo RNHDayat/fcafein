@@ -106,7 +106,7 @@ class _PageFollowingState extends State<PageFollowing> {
     }
   }
 
-  GetUser getUser = GetUser();
+  GetUser getUser = GetUser(follow_status: 0);
   // late int id;
   String token = '';
   user() async {

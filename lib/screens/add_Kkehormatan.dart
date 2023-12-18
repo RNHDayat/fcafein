@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/screens/add_Klokasi.dart';
@@ -79,32 +80,36 @@ class _KredensialKehormatanState extends State<KredensialKehormatan> {
                 const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
             child: Row(
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KredensialPekerjaan()));
-                  },
-                  child: const Text("Batal"),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                // TextButton(
+                //   style: TextButton.styleFrom(foregroundColor: Colors.grey),
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const KredensialPekerjaan()));
+                //   },
+                //   child: const Text("Batal"),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
                       saveKredensial(kehormatan.text);
-                      Navigator.push(
+                      Fluttertoast.showToast(
+                        msg: "Berhasil menambahkan kredensial",
+                        backgroundColor: Colors.green,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Kredensial()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const KredensialKehormatan()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -211,6 +216,12 @@ class _KredensialKehormatanState extends State<KredensialKehormatan> {
                               ),
                               TextFormField(
                                 controller: kehormatan,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Gelar kehormatan tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

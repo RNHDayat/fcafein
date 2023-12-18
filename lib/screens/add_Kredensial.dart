@@ -39,7 +39,8 @@ class _KredensialState extends State<Kredensial> {
   getCredential() async {
     final _db = DBhelper();
     var data = await _db.getToken();
-    credentials = await showCredentials.getCredential(data[0].token);
+    credentials = await showCredentials.getCredential(
+        data[0].token, data[0].id.toString());
     setState(() {});
     print(credentials[0].description);
   }
@@ -67,7 +68,7 @@ class _KredensialState extends State<Kredensial> {
     int desc = description.length;
     if (type == 0) {
       var keahlian = description.substring(23, desc);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => EditKredensialKeahlian(
@@ -98,7 +99,7 @@ class _KredensialState extends State<Kredensial> {
       String kalimatsekolah = sekolah.join(' ');
       String kalimatgelar = gelar.join(' ');
 
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => EditKredensialPendidikan(
@@ -115,7 +116,7 @@ class _KredensialState extends State<Kredensial> {
       print("Bagian 3: $kalimatgelar");
     } else if (type == 2) {
       var lokasi = description.substring(11, desc);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => EditKredensialLokasi(
@@ -136,7 +137,7 @@ class _KredensialState extends State<Kredensial> {
       String kalimatjurusan = pekerjaan.join(' ');
       String kalimatsekolah = lokasiKerja.join(' ');
 
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => EditKredensialPekerjaan(
@@ -146,11 +147,11 @@ class _KredensialState extends State<Kredensial> {
                 perusahaan: kalimatsekolah,
                 type: type),
           ));
-      print("Bagian 1: $pekerjaan");
-      print("Bagian 2: $lokasiKerja");
+      // print("Bagian 1: $pekerjaan");
+      // print("Bagian 2: $lokasiKerja");
     } else if (type == 4) {
       var gelar = description.substring(15, desc);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => EditKredensialKehormatan(
@@ -176,42 +177,42 @@ class _KredensialState extends State<Kredensial> {
           ),
         ),
         toolbarHeight: 55,
-        actions: <Widget>[
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
-            child: Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KredensialPekerjaan()));
-                  },
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue,
-                    fixedSize: const Size(71, 0),
-                    side: const BorderSide(color: Colors.blue),
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Simpan',
-                    style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        // actions: <Widget>[
+        //   Padding(
+        //     padding:
+        //         const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
+        //     child: Row(
+        //       children: [
+        //         TextButton(
+        //           onPressed: () {
+        //             Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                     builder: (context) => const KredensialPekerjaan()));
+        //           },
+        //           style: TextButton.styleFrom(
+        //             foregroundColor: Colors.white,
+        //             backgroundColor: Colors.blue,
+        //             fixedSize: const Size(71, 0),
+        //             side: const BorderSide(color: Colors.blue),
+        //             shape: RoundedRectangleBorder(
+        //               side: const BorderSide(color: Colors.black),
+        //               borderRadius: BorderRadius.circular(18.0),
+        //             ),
+        //           ),
+        //           child: Text(
+        //             'Simpan',
+        //             style: GoogleFonts.poppins(
+        //                 textStyle: const TextStyle(
+        //                     fontSize: 12,
+        //                     fontWeight: FontWeight.w600,
+        //                     color: Colors.white)),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ],
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -302,7 +303,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -344,7 +345,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -386,7 +387,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -428,7 +429,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -512,7 +513,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -554,7 +555,7 @@ class _KredensialState extends State<Kredensial> {
                                 elevation: 0,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>

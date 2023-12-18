@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/pgDetailPosting.dart';
@@ -24,19 +27,12 @@ class UserAkun extends StatefulWidget {
 }
 
 class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  Followers followers = Followers();
+  TabController? _tabController;
+  // Followers followers = Followers();
 
   final List<String> _tabTitles = [
     'Profil',
     'Jawaban',
-    // 'Pertanyaan',
-    // 'Kiriman',
-    // 'Pengikut',
-    // 'Mengikuti',
-    // 'Tahu Tentang',
-    // 'Histori',
-    // 'Aktivitas',
   ];
   final List<String> _tabTitle = [
     'Profil',
@@ -47,12 +43,43 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
   void initState() {
     // _tabController = TabController(length: _tabTitle.length, vsync: this);
     super.initState();
+    userLogin();
     setId();
     fetchFollowers();
     fetchFollowings();
-    userLogin();
+    getCredential();
     getPostingProfile();
     getPostingProfileAnswer();
+  }
+
+  List<ShowCredentials> credentials = [];
+  ShowCredentials showCredentials = ShowCredentials();
+
+  getCredential() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    credentials = await showCredentials.getCredential(
+        data[0].token, widget.id_user.toString());
+    setState(() {});
+    print(credentials[0].description);
+  }
+
+  Widget getIcon(int type) {
+    IconData iconData;
+    if (type == 0) {
+      iconData = Icons.construction;
+    } else if (type == 1) {
+      iconData = Icons.school;
+    } else if (type == 2) {
+      iconData = Icons.location_on_outlined;
+    } else if (type == 3) {
+      iconData = Icons.work;
+    } else if (type == 4) {
+      iconData = Icons.military_tech;
+    } else {
+      iconData = Icons.error;
+    }
+    return Icon(iconData);
   }
 
   setId() async {
@@ -68,113 +95,68 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
     });
   }
 
-  Followers getFollowers = Followers();
-  String userId = '';
-  String followingId = '';
-  String status = '';
-  String namefollow = '';
-  String nickfollow = '';
-  String companyfollowers = '';
-  String jobfollowers = '';
+  // Followers getFollowers = Followers();
+  // String userId = '';
+  // String followingId = '';
+  // String status = '';
+  // String namefollow = '';
+  // String nickfollow = '';
+  // String companyfollowers = '';
+  // String jobfollowers = '';
 
-  List<Followers> followerList = [];
+  // List<Followers> followerList = [];
 
-  fetchFollowers() async {
-    final _db = DBhelper();
-    var data = await _db.getToken();
-    print(data[0].token);
-    Followers.followers(data[0].token).then((value) {
-      setState(() {
-        followerList.add(value);
-        getFollowers = value;
-        userId = getFollowers.id_user!;
-        followingId = getFollowers.following_id!;
-        status = getFollowers.follow_status!;
-        namefollow = getFollowers.fullname!;
-        nickfollow = getFollowers.nickname!;
-        companyfollowers = getFollowers.company!;
-        jobfollowers = getFollowers.job_position!;
-        print(userId);
-        print(followingId);
-        print(status);
-        print(namefollow);
-        print(nickfollow);
-      });
-    });
-  }
+  // fetchFollowers() async {
+  //   final _db = DBhelper();
+  //   var data = await _db.getToken();
+  //   print(data[0].token);
+  //   Followers.followers(data[0].token).then((value) {
+  //     setState(() {
+  //       followerList.add(value);
+  //       getFollowers = value;
+  //       userId = getFollowers.id_user!;
+  //       followingId = getFollowers.following_id!;
+  //       status = getFollowers.follow_status!;
+  //       namefollow = getFollowers.fullname!;
+  //       nickfollow = getFollowers.nickname!;
+  //       companyfollowers = getFollowers.company!;
+  //       jobfollowers = getFollowers.job_position!;
+  //       print(userId);
+  //       print(followingId);
+  //       print(status);
+  //       print(namefollow);
+  //       print(nickfollow);
+  //     });
+  //   });
+  // }
 
-  ShowFollowings getFollowings = ShowFollowings();
-  // String useridfollowing = '';
-  // String followingIduser = '';
-  // String statusfollowing = '';
-  // String namefollowing = '';
-  // String nickfollowing = '';
-  // String companyfollowing = '';
-  // String jobfollowing = '';
-
-  List<ShowFollowings> followingList = [];
+  ShowFollow getFollowings = ShowFollow();
+  List<ShowFollow> followingList = [];
 
   fetchFollowings() async {
     final _db = DBhelper();
     var data = await _db.getToken();
     print(data[0].token);
-    followingList = await getFollowings.showfollowings(data[0].token);
+    followingList =
+        await getFollowings.showfollowings(data[0].token, widget.id_user);
     setState(() {});
-    // ShowFollowings.showfollowings(data[0].token).then((value) {
-    //   setState(() {
-    //     followingList.add(value);
-    //     // getFollowings = value;
-    //     // useridfollowing = getFollowings.id_user!;
-    //     // followingIduser = getFollowings.following_id!;
-    //     // statusfollowing = getFollowings.follow_status!;
-    //     // namefollowing = getFollowings.fullname!;
-    //     // nickfollowing = getFollowings.nickname!;
-    //     // companyfollowing = getFollowings.company!;
-    //     // jobfollowing = getFollowings.job_position!;
-    //     // print(useridfollowing);
-    //     // print(followingIduser);
-    //   });
-    // });
   }
 
-  // void fetchFollowers() async {
-  //   final _db = DBhelper();
-  //   var data = await _db.getToken();
-  //   String token = data[0].token;
-  //   String id = ""; // Isi dengan ID yang sesuai
-  //   String idUser = ""; // Isi dengan ID user yang sesuai
-  //   String followingId = ""; // Isi dengan ID pengikut yang sesuai
-  //   String followStatus = ""; // Isi dengan status follow yang sesuai
+  List<ShowFollow> followerList = [];
 
-  //   try {
-  //     Followers result = await Followers.getFollower(
-  //       token,
-  //       id,
-  //       idUser,
-  //       followingId,
-  //       followStatus,
-  //     );
+  fetchFollowers() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    print(data[0].token);
+    followerList =
+        await getFollowings.showfollowers(data[0].token, widget.id_user);
+    setState(() {});
+  }
 
-  //     setState(() {
-  //       followers = result;
-  //     });
-  //   } catch (e) {
-  //     print("Error: $e");
-  //   }
-  // }
-
-  GetUser getUser = GetUser();
-  String fullname = '';
-  String address = '';
-  String job = '';
-  String company = '';
-  String description = '';
-  String start_year = '';
-  int id_user = 0;
   String token = '';
 
   // List<GetUser> user = [];
-  GetUser user = GetUser();
+  GetUser user = GetUser(follow_status: 0);
   userLogin() async {
     final _db = DBhelper();
     var data = await _db.getToken();
@@ -332,7 +314,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -344,184 +326,184 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
       return Container(
         child: Column(
           children: [
-            Container(
-              height: 50,
-              decoration: const BoxDecoration(
-                // color: Colors.red,
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromRGBO(217, 217, 217, 100),
-                    width: 1.0,
-                  ),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Text(
-                      "Profil",
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15.0),
-                                  topRight: Radius.circular(15.0),
-                                ),
-                              ),
-                              height: 150.0,
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  217, 217, 217, 100),
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                        ),
-                                        height: 50,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              child: Text(
-                                                'Diurutkan berdasarkan',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.grey),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                      ),
-                                      onPressed: () {},
-                                      child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 100),
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 50,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  'Terbaru',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                      ),
-                                      onPressed: () {},
-                                      child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 100),
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 50,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  'Semua',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Terbaru",
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: Colors.grey,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 50,
+            //   decoration: const BoxDecoration(
+            //     // color: Colors.red,
+            //     border: Border(
+            //       bottom: BorderSide(
+            //         color: Color.fromRGBO(217, 217, 217, 100),
+            //         width: 1.0,
+            //       ),
+            //     ),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 15, right: 15),
+            //     child: Row(
+            //       children: [
+            //         Text(
+            //           "Profil",
+            //           style: GoogleFonts.poppins(
+            //             textStyle: const TextStyle(
+            //                 fontSize: 12, fontWeight: FontWeight.w500),
+            //           ),
+            //         ),
+            //         const Spacer(),
+            //         GestureDetector(
+            //           onTap: () {
+            //             showModalBottomSheet(
+            //               context: context,
+            //               builder: (BuildContext context) {
+            //                 return Container(
+            //                   decoration: const BoxDecoration(
+            //                     color: Colors.white,
+            //                     borderRadius: BorderRadius.only(
+            //                       topLeft: Radius.circular(15.0),
+            //                       topRight: Radius.circular(15.0),
+            //                     ),
+            //                   ),
+            //                   height: 150.0,
+            //                   child: Center(
+            //                     child: Column(
+            //                       children: [
+            //                         Container(
+            //                             decoration: const BoxDecoration(
+            //                               border: Border(
+            //                                 bottom: BorderSide(
+            //                                   color: Color.fromRGBO(
+            //                                       217, 217, 217, 100),
+            //                                   width: 1.0,
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                             height: 50,
+            //                             child: Row(
+            //                               mainAxisAlignment:
+            //                                   MainAxisAlignment.center,
+            //                               children: [
+            //                                 SizedBox(
+            //                                   child: Text(
+            //                                     'Diurutkan berdasarkan',
+            //                                     textAlign: TextAlign.center,
+            //                                     style: GoogleFonts.poppins(
+            //                                       textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                           color: Colors.grey),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ],
+            //                             )),
+            //                         ElevatedButton(
+            //                           style: ElevatedButton.styleFrom(
+            //                             alignment: Alignment.centerLeft,
+            //                             backgroundColor: Colors.transparent,
+            //                             elevation: 0,
+            //                           ),
+            //                           onPressed: () {},
+            //                           child: Container(
+            //                               decoration: const BoxDecoration(
+            //                                 border: Border(
+            //                                   bottom: BorderSide(
+            //                                     color: Color.fromRGBO(
+            //                                         217, 217, 217, 100),
+            //                                     width: 1.0,
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               height: 50,
+            //                               child: Row(
+            //                                 mainAxisAlignment:
+            //                                     MainAxisAlignment.center,
+            //                                 children: [
+            //                                   SizedBox(
+            //                                     child: Text(
+            //                                       'Terbaru',
+            //                                       textAlign: TextAlign.center,
+            //                                       style: GoogleFonts.poppins(
+            //                                         textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               )),
+            //                         ),
+            //                         ElevatedButton(
+            //                           style: ElevatedButton.styleFrom(
+            //                             alignment: Alignment.centerLeft,
+            //                             backgroundColor: Colors.transparent,
+            //                             elevation: 0,
+            //                           ),
+            //                           onPressed: () {},
+            //                           child: Container(
+            //                               decoration: const BoxDecoration(
+            //                                 border: Border(
+            //                                   bottom: BorderSide(
+            //                                     color: Color.fromRGBO(
+            //                                         217, 217, 217, 100),
+            //                                     width: 1.0,
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               height: 50,
+            //                               child: Row(
+            //                                 mainAxisAlignment:
+            //                                     MainAxisAlignment.center,
+            //                                 children: [
+            //                                   SizedBox(
+            //                                     child: Text(
+            //                                       'Semua',
+            //                                       textAlign: TextAlign.center,
+            //                                       style: GoogleFonts.poppins(
+            //                                         textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               )),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //             );
+            //           },
+            //           child: Row(
+            //             children: [
+            //               Text(
+            //                 "Terbaru",
+            //                 style: GoogleFonts.poppins(
+            //                   textStyle: const TextStyle(
+            //                       fontSize: 12,
+            //                       fontWeight: FontWeight.w500,
+            //                       color: Colors.grey),
+            //                 ),
+            //               ),
+            //               const SizedBox(
+            //                 width: 10,
+            //               ),
+            //               const Icon(
+            //                 Icons.keyboard_arrow_down_rounded,
+            //                 color: Colors.grey,
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             postingProfile.isEmpty
                 ? Padding(
                     padding: const EdgeInsets.only(top: 20.0),
@@ -934,52 +916,53 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                 ],
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                // print(item.id);
-                                                // commentVisible[item.id] =
-                                                //     !(commentVisible[
-                                                //             item.id] ??
-                                                //         true);
-                                                // print('lohe:' +
-                                                //     commentVisible
-                                                //         .toString());
-                                              },
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(Icons.chat_bubble),
-                                                    // SizedBox(
-                                                    //   width: 5,
-                                                    // ),
-                                                    // Text("345"),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                const urlPreview =
-                                                    'https://docs.google.com/spreadsheets/d/1FsG3d2vkTGiFbNP3LkjdAmBh66CcL40B3s-pupd1GQU/edit#gid=2068281591';
+                                            // GestureDetector(
+                                            //   onTap: () {
+                                            //     // print(item.id);
+                                            //     // commentVisible[item.id] =
+                                            //     //     !(commentVisible[
+                                            //     //             item.id] ??
+                                            //     //         true);
+                                            //     // print('lohe:' +
+                                            //     //     commentVisible
+                                            //     //         .toString());
+                                            //   },
+                                            //   child: Container(
+                                            //     padding:
+                                            //         const EdgeInsets.all(10),
+                                            //     child: const Row(
+                                            //       children: [
+                                            //         Icon(Icons.chat_bubble),
+                                            //         // SizedBox(
+                                            //         //   width: 5,
+                                            //         // ),
+                                            //         // Text("345"),
+                                            //       ],
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            //-share
+                                            // GestureDetector(
+                                            //   onTap: () async {
+                                            //     const urlPreview =
+                                            //         'https://docs.google.com/spreadsheets/d/1FsG3d2vkTGiFbNP3LkjdAmBh66CcL40B3s-pupd1GQU/edit#gid=2068281591';
 
-                                                await Share.share(
-                                                    'Check out this great video\n\n$urlPreview');
-                                              },
-                                              child: Container(
-                                                // padding: const EdgeInsets.all(5),
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(Icons.share),
-                                                    // SizedBox(
-                                                    //   width: 5,
-                                                    // ),
-                                                    // Text("120"),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                            //     await Share.share(
+                                            //         'Check out this great video\n\n$urlPreview');
+                                            //   },
+                                            //   child: Container(
+                                            //     // padding: const EdgeInsets.all(5),
+                                            //     child: const Row(
+                                            //       children: [
+                                            //         Icon(Icons.share),
+                                            //         // SizedBox(
+                                            //         //   width: 5,
+                                            //         // ),
+                                            //         // Text("120"),
+                                            //       ],
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             // Container(
                                             //   padding: EdgeInsets.all(10),
                                             //   child: Row(
@@ -998,17 +981,85 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                       GestureDetector(
                                         onTap: () {
                                           showModalBottomSheet(
-                                              isScrollControlled: true,
-                                              context: context,
-                                              builder: (context) {
-                                                return Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      // width: double.infinity,
+                                            isScrollControlled: true,
+                                            context: context,
+                                            builder: (context) {
+                                              return Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                    // width: double.infinity,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: Stack(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      children: <Widget>[
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Icon(
+                                                              Icons.close,
+                                                              color: Colors
+                                                                  .red[900]),
+                                                        ),
+                                                        const Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              'Pilih',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      DeletePosting.delete(
+                                                              token, item.id)
+                                                          .then((value) {
+                                                        if (value.statusCode ==
+                                                            200) {
+                                                          Fluttertoast
+                                                              .showToast(
+                                                            msg: jsonDecode(
+                                                                    value.body)[
+                                                                "msg"],
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                            toastLength: Toast
+                                                                .LENGTH_SHORT,
+                                                            gravity:
+                                                                ToastGravity
+                                                                    .BOTTOM,
+                                                            timeInSecForIosWeb:
+                                                                1,
+                                                            textColor:
+                                                                Colors.white,
+                                                            fontSize: 16.0,
+                                                          );
+                                                          Navigator.pop(
+                                                              context);
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
                                                       padding:
                                                           const EdgeInsets.all(
                                                               15),
@@ -1016,191 +1067,28 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      child: Stack(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        children: <Widget>[
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Icon(
-                                                                Icons.close,
-                                                                color: Colors
-                                                                    .red[900]),
-                                                          ),
-                                                          const Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: <Widget>[
-                                                              Text(
-                                                                'Jawab',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: const Center(
-                                                          child: Text(
-                                                              "Bagikan melalui.."),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        border: Border(
+                                                          top: BorderSide(
+                                                              width: 0.5,
+                                                              color:
+                                                                  Colors.grey),
                                                         ),
                                                       ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: const Center(
-                                                          child: Text(
-                                                              "Tidak tertarik dengan ini"),
-                                                        ),
+                                                      child: Center(
+                                                        child: Text("Hapus",
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .red[900],
+                                                            )),
                                                       ),
                                                     ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: const Center(
-                                                            child:
-                                                                Text("Simpan")),
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: const Center(
-                                                            child: Text(
-                                                                "Dorong turun pertamyaan")),
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: const Center(
-                                                            child: Text("Log")),
-                                                      ),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {},
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          border: Border(
-                                                            top: BorderSide(
-                                                                width: 0.5,
-                                                                color: Colors
-                                                                    .grey),
-                                                          ),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                              "Laporkan",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .red[900],
-                                                              )),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              });
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                         },
                                         child: const Icon(Icons.more_horiz),
                                       ),
@@ -1223,184 +1111,184 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
       return Container(
         child: Column(
           children: [
-            Container(
-              height: 50,
-              decoration: const BoxDecoration(
-                // color: Colors.red,
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromRGBO(217, 217, 217, 100),
-                    width: 1.0,
-                  ),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Text(
-                      "Jawaban",
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15.0),
-                                  topRight: Radius.circular(15.0),
-                                ),
-                              ),
-                              height: 150.0,
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Color.fromRGBO(
-                                                  217, 217, 217, 100),
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                        ),
-                                        height: 50,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              child: Text(
-                                                'Diurutkan berdasarkan',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.grey),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                      ),
-                                      onPressed: () {},
-                                      child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 100),
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 50,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  'Terbaru',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        backgroundColor: Colors.transparent,
-                                        elevation: 0,
-                                      ),
-                                      onPressed: () {},
-                                      child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color.fromRGBO(
-                                                    217, 217, 217, 100),
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 50,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  'Semua',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
-                                                    textStyle: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Terbaru",
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: Colors.grey,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 50,
+            //   decoration: const BoxDecoration(
+            //     // color: Colors.red,
+            //     border: Border(
+            //       bottom: BorderSide(
+            //         color: Color.fromRGBO(217, 217, 217, 100),
+            //         width: 1.0,
+            //       ),
+            //     ),
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 15, right: 15),
+            //     child: Row(
+            //       children: [
+            //         Text(
+            //           "Jawaban",
+            //           style: GoogleFonts.poppins(
+            //             textStyle: const TextStyle(
+            //                 fontSize: 12, fontWeight: FontWeight.w500),
+            //           ),
+            //         ),
+            //         const Spacer(),
+            //         GestureDetector(
+            //           onTap: () {
+            //             showModalBottomSheet(
+            //               context: context,
+            //               builder: (BuildContext context) {
+            //                 return Container(
+            //                   decoration: const BoxDecoration(
+            //                     color: Colors.white,
+            //                     borderRadius: BorderRadius.only(
+            //                       topLeft: Radius.circular(15.0),
+            //                       topRight: Radius.circular(15.0),
+            //                     ),
+            //                   ),
+            //                   height: 150.0,
+            //                   child: Center(
+            //                     child: Column(
+            //                       children: [
+            //                         Container(
+            //                             decoration: const BoxDecoration(
+            //                               border: Border(
+            //                                 bottom: BorderSide(
+            //                                   color: Color.fromRGBO(
+            //                                       217, 217, 217, 100),
+            //                                   width: 1.0,
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                             height: 50,
+            //                             child: Row(
+            //                               mainAxisAlignment:
+            //                                   MainAxisAlignment.center,
+            //                               children: [
+            //                                 SizedBox(
+            //                                   child: Text(
+            //                                     'Diurutkan berdasarkan',
+            //                                     textAlign: TextAlign.center,
+            //                                     style: GoogleFonts.poppins(
+            //                                       textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                           color: Colors.grey),
+            //                                     ),
+            //                                   ),
+            //                                 ),
+            //                               ],
+            //                             )),
+            //                         ElevatedButton(
+            //                           style: ElevatedButton.styleFrom(
+            //                             alignment: Alignment.centerLeft,
+            //                             backgroundColor: Colors.transparent,
+            //                             elevation: 0,
+            //                           ),
+            //                           onPressed: () {},
+            //                           child: Container(
+            //                               decoration: const BoxDecoration(
+            //                                 border: Border(
+            //                                   bottom: BorderSide(
+            //                                     color: Color.fromRGBO(
+            //                                         217, 217, 217, 100),
+            //                                     width: 1.0,
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               height: 50,
+            //                               child: Row(
+            //                                 mainAxisAlignment:
+            //                                     MainAxisAlignment.center,
+            //                                 children: [
+            //                                   SizedBox(
+            //                                     child: Text(
+            //                                       'Terbaru',
+            //                                       textAlign: TextAlign.center,
+            //                                       style: GoogleFonts.poppins(
+            //                                         textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               )),
+            //                         ),
+            //                         ElevatedButton(
+            //                           style: ElevatedButton.styleFrom(
+            //                             alignment: Alignment.centerLeft,
+            //                             backgroundColor: Colors.transparent,
+            //                             elevation: 0,
+            //                           ),
+            //                           onPressed: () {},
+            //                           child: Container(
+            //                               decoration: const BoxDecoration(
+            //                                 border: Border(
+            //                                   bottom: BorderSide(
+            //                                     color: Color.fromRGBO(
+            //                                         217, 217, 217, 100),
+            //                                     width: 1.0,
+            //                                   ),
+            //                                 ),
+            //                               ),
+            //                               height: 50,
+            //                               child: Row(
+            //                                 mainAxisAlignment:
+            //                                     MainAxisAlignment.center,
+            //                                 children: [
+            //                                   SizedBox(
+            //                                     child: Text(
+            //                                       'Semua',
+            //                                       textAlign: TextAlign.center,
+            //                                       style: GoogleFonts.poppins(
+            //                                         textStyle: const TextStyle(
+            //                                           fontSize: 12,
+            //                                           fontWeight:
+            //                                               FontWeight.w500,
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                 ],
+            //                               )),
+            //                         ),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                 );
+            //               },
+            //             );
+            //           },
+            //           child: Row(
+            //             children: [
+            //               Text(
+            //                 "Terbaru",
+            //                 style: GoogleFonts.poppins(
+            //                   textStyle: const TextStyle(
+            //                       fontSize: 12,
+            //                       fontWeight: FontWeight.w500,
+            //                       color: Colors.grey),
+            //                 ),
+            //               ),
+            //               const SizedBox(
+            //                 width: 10,
+            //               ),
+            //               const Icon(
+            //                 Icons.keyboard_arrow_down_rounded,
+            //                 color: Colors.grey,
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             postingAnswer.isEmpty
                 ? Text("Data Tidak Ditemukan")
                 : ListView.builder(
@@ -1789,20 +1677,53 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Container(
-                                                      // width: double.infinity,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: Center(
-                                                        child: Text(
-                                                          "Hapus",
-                                                          style: TextStyle(
-                                                            color: Colors.red,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        DeletePosting.delete(
+                                                                token, item.id)
+                                                            .then((value) {
+                                                          if (value
+                                                                  .statusCode ==
+                                                              200) {
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              msg: jsonDecode(
+                                                                      value
+                                                                          .body)[
+                                                                  "msg"],
+                                                              backgroundColor:
+                                                                  Colors.green,
+                                                              toastLength: Toast
+                                                                  .LENGTH_SHORT,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .BOTTOM,
+                                                              timeInSecForIosWeb:
+                                                                  1,
+                                                              textColor:
+                                                                  Colors.white,
+                                                              fontSize: 16.0,
+                                                            );
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        // width: double.infinity,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(15),
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Hapus",
+                                                            style: TextStyle(
+                                                              color: Colors.red,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -1913,7 +1834,8 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  const UserFollower(),
+                                                  UserFollower(
+                                                      id_user: widget.id_user),
                                             ),
                                           );
                                         },
@@ -1938,7 +1860,9 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const UserFollower()),
+                                                    UserFollower(
+                                                      id_user: widget.id_user,
+                                                    )),
                                           );
                                         },
                                     ),
@@ -1971,60 +1895,109 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                     child: Row(
                       children: [
                         idUserLogin == widget.id_user
-                            ? Expanded(
-                                flex: 9,
-                                child: SizedBox(
-                                  width: 300,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EditProfile(
-                                              name: user.fullname == null
-                                                  ? ''
-                                                  : user.fullname),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,
-                                      foregroundColor: Colors.black,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 7),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color: Color.fromRGBO(
-                                              217, 217, 217, 100),
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
+                            ? ProfileButton(
+                                follow: true,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditProfile(
+                                        name: user.fullname == null
+                                            ? ''
+                                            : user.fullname,
                                       ),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.edit,
-                                          color: Colors.grey,
-                                        ),
-                                        const SizedBox(width: 15),
-                                        Text(
-                                          'Edit Profil',
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.grey)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                  );
+                                },
+                                buttonText: 'Edit Profil',
                               )
-                            : Container(),
+                            : user.follow_me == 0
+                                ? user.follow_status == 1
+                                    ? ProfileButton(
+                                        follow: true,
+                                        onPressed: () {
+                                          Following.follow(
+                                            token,
+                                            user.id.toString(),
+                                            // following_id.toString(),
+                                            "3",
+                                          );
+                                          // .then((value) {
+                                          //   if (value != null) {
+                                          //     setState(() {
+                                          //       user.follow_status = 3;
+                                          //     });
+                                          //   }
+                                          // });
+                                           user.follow_status = 3;
+                                          setState(() {});
+                                        },
+                                        buttonText: 'Following',
+                                      )
+                                    : ProfileButton(
+                                        follow: false,
+                                        onPressed: () {
+                                          Following.follow(
+                                            token,
+                                            user.id.toString(),
+                                            // following_id.toString(),
+                                            "1",
+                                          );
+                                          // .then((value) {
+                                          //   if (value != null) {
+                                          //     setState(() {
+                                          //       user.follow_status = 1;
+                                          //     });
+                                          //   }
+                                          // });
+                                           user.follow_status = 1;
+                                          setState(() {});
+                                        },
+                                        buttonText: 'Follow',
+                                      )
+                                : user.follow_status == 1
+                                    ? ProfileButton(
+                                        follow: true,
+                                        onPressed: () {
+                                          Following.follow(
+                                            token,
+                                            user.id.toString(),
+                                            // following_id.toString(),
+                                            "3",
+                                          );
+                                          // .then((value) {
+                                          //   if (value != null) {
+                                          //     setState(() {
+                                          //       user.follow_status = 3;
+                                          //     });
+                                          //   }
+                                          // });
+                                          user.follow_status = 3;
+                                          setState(() {});
+                                        },
+                                        buttonText: 'Following',
+                                      )
+                                    : ProfileButton(
+                                        follow: false,
+                                        onPressed: () {
+                                          Following.follow(
+                                            token,
+                                            user.id.toString(),
+                                            // following_id.toString(),
+                                            "1",
+                                          );
+                                          // .then((value) {
+                                          //   if (value != null) {
+                                          //     setState(() {
+                                          //       user.follow_status = 1;
+                                          //     });
+                                          //   }
+                                          // });
+                                          user.follow_status = 1;
+                                          setState(() {});
+                                        },
+                                        buttonText: 'Follow back',
+                                      ),
                         // Expanded(
                         //     flex: 1,
                         //     child: IconButton(
@@ -2444,125 +2417,169 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         idUserLogin == widget.id_user
-                            ? Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.cases_outlined),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    Column(
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text:
-                                                    'Tambahkan kredensial pekerjaan',
-                                                style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 14.0,
-                                                      color: Colors.blue,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const Kredensial()));
-                                                      },
+                            ? Row(
+                                children: [
+                                  const Icon(Icons.cases_outlined),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: 'Edit kredensial pekerjaan',
+                                              style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.blue,
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
-                                            ],
-                                          ),
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Kredensial()));
+                                                },
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               )
                             : Container(),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.school_outlined),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
+                        // Padding(
+                        //   padding: const EdgeInsets.only(bottom: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(Icons.school_outlined),
+                        //       const SizedBox(
+                        //         width: 15,
+                        //       ),
+                        //       Expanded(
+                        //           child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           Text(
+                        //             user.company == null ? '' : user.company,
+                        //             style: GoogleFonts.poppins(
+                        //                 textStyle: const TextStyle(
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w400,
+                        //             )),
+                        //           ),
+                        //         ],
+                        //       ))
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(bottom: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(Icons.location_on_outlined),
+                        //       const SizedBox(
+                        //         width: 15,
+                        //       ),
+                        //       Expanded(
+                        //           child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           Text(
+                        //             user.address_house == null
+                        //                 ? ''
+                        //                 : user.address_house,
+                        //             style: GoogleFonts.poppins(
+                        //                 textStyle: const TextStyle(
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w400,
+                        //             )),
+                        //           ),
+                        //         ],
+                        //       ))
+                        //     ],
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(bottom: 15),
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(Icons.calendar_month_outlined),
+                        //       const SizedBox(
+                        //         width: 15,
+                        //       ),
+                        //       Expanded(
+                        //           child: Column(
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           Text(
+                        //             'Bergabung November 2022',
+                        //             style: GoogleFonts.poppins(
+                        //                 textStyle: const TextStyle(
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w400,
+                        //             )),
+                        //           ),
+                        //         ],
+                        //       ))
+                        //     ],
+                        //   ),
+                        // ),
+
+                        ListView.builder(
+                          itemCount: credentials.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                getIcon(credentials[index].type),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
                                   child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    user.company == null ? '' : user.company,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    )),
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          credentials[index].description,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400)),
+                                        ),
+                                      ),
+                                      // Align(
+                                      //   alignment: Alignment.centerLeft,
+                                      //   child: Column(
+                                      //     children: [
+                                      //       Text(
+                                      //         "Utama",
+                                      //         style: GoogleFonts.poppins(
+                                      //             textStyle: const TextStyle(
+                                      //                 fontSize: 14,
+                                      //                 fontWeight:
+                                      //                     FontWeight.w400,
+                                      //                 color: Colors.grey)),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+                                    ],
                                   ),
-                                ],
-                              ))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.location_on_outlined),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    user.address_house == null
-                                        ? ''
-                                        : user.address_house,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                                  ),
-                                ],
-                              ))
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.calendar_month_outlined),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Bergabung November 2022',
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                                  ),
-                                ],
-                              ))
-                            ],
-                          ),
+                                )),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -2570,22 +2587,22 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                 ]),
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromRGBO(217, 217, 217, 100),
-                      width: 1.0,
-                    ),
-                  ),
-                ),
+                // width: MediaQuery.of(context).size.width,
+                // padding: const EdgeInsets.symmetric(horizontal: 15),
+                // decoration: const BoxDecoration(
+                //   border: Border(
+                //     bottom: BorderSide(
+                //       color: Color.fromRGBO(217, 217, 217, 100),
+                //       width: 1.0,
+                //     ),
+                //   ),
+                // ),
                 child: TabBar(
                   tabAlignment: TabAlignment.start,
                   controller: _tabController,
                   isScrollable: true,
                   onTap: (index) {
-                    _tabController.animateTo(
+                    _tabController!.animateTo(
                       index,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
@@ -2760,6 +2777,59 @@ class CommentButton extends StatelessWidget {
             ),
             Text("345"),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String buttonText;
+  final bool follow;
+
+  const ProfileButton({
+    Key? key,
+    required this.onPressed,
+    required this.buttonText,
+    required this.follow,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 9,
+      child: SizedBox(
+        width: 300,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: follow ? Colors.transparent : Colors.blue,
+            foregroundColor: Colors.black,
+            padding: const EdgeInsets.symmetric(vertical: 7),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                color: Color.fromRGBO(217, 217, 217, 100),
+              ),
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                buttonText,
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: follow ? Colors.grey : Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

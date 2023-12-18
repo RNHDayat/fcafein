@@ -16,7 +16,8 @@ class EditKredensialKehormatan extends StatefulWidget {
       {super.key, this.kehormatan, this.type, this.id, this.hide});
 
   @override
-  State<EditKredensialKehormatan> createState() => _EditKredensialKehormatanState();
+  State<EditKredensialKehormatan> createState() =>
+      _EditKredensialKehormatanState();
 }
 
 class _EditKredensialKehormatanState extends State<EditKredensialKehormatan> {
@@ -87,33 +88,27 @@ class _EditKredensialKehormatanState extends State<EditKredensialKehormatan> {
                 const EdgeInsets.only(left: 15, right: 15, top: 12, bottom: 12),
             child: Row(
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KredensialPekerjaan()));
-                  },
-                  child: const Text("Batal"),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                // TextButton(
+                //   style: TextButton.styleFrom(foregroundColor: Colors.grey),
+                //   onPressed: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const KredensialPekerjaan()));
+                //   },
+                //   child: const Text("Batal"),
+                // ),
+                // const SizedBox(
+                //   width: 5,
+                // ),
                 TextButton(
                   onPressed: () {
                     if (_key.currentState!.validate()) {
                       saveKredensial(kehormatan.text);
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Kredensial()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const EditKredensialKehormatan()));
                     }
                   },
                   style: TextButton.styleFrom(
@@ -209,7 +204,7 @@ class _EditKredensialKehormatanState extends State<EditKredensialKehormatan> {
                               onPressed: () {
                                 UpdateCredentials.destroyCredential(
                                     token, widget.id.toString());
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -254,6 +249,12 @@ class _EditKredensialKehormatanState extends State<EditKredensialKehormatan> {
                               ),
                               TextFormField(
                                 controller: kehormatan,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Gelar kehormatan tidak boleh kosong';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

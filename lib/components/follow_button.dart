@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FollowButton extends StatefulWidget {
-  const FollowButton({Key? key}) : super(key: key);
+  final bool isFollowing;
+  const FollowButton({super.key, required this.isFollowing});
 
   @override
   _FollowButtonState createState() => _FollowButtonState();
@@ -10,12 +11,18 @@ class FollowButton extends StatefulWidget {
 
 class _FollowButtonState extends State<FollowButton> {
   bool _isFollowing = true;
-
-  void _toggleFollowing() {
-    setState(() {
-      _isFollowing = !_isFollowing;
-    });
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isFollowing = widget.isFollowing;
   }
+
+  // void _toggleFollowing() {
+  //   setState(() {
+  //     _isFollowing = !_isFollowing;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +37,33 @@ class _FollowButtonState extends State<FollowButton> {
             Icons.no_accounts,
             color: buttonColor,
           );
-    return OutlinedButton.icon(
-      onPressed: _toggleFollowing,
-      style: TextButton.styleFrom(
-        side: BorderSide(color: buttonColor),
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(),
-          borderRadius: BorderRadius.circular(30.0),
+    return Container(
+      // onPressed: _toggleFollowing,
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: buttonColor,
         ),
+        // side: BorderSide(color: buttonColor),
+        borderRadius: BorderRadius.circular(10.0),
       ),
-      icon: buttonIcon,
-      label: Text(
-        buttonLabel,
-        style: GoogleFonts.poppins(
-            color: buttonColor,
-            textStyle: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            )),
+      child: Row(
+        children: [
+          buttonIcon,
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            buttonLabel,
+            style: GoogleFonts.poppins(
+              color: buttonColor,
+              textStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -27,7 +27,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     // user();
   }
 
-  GetUser getUser = GetUser();
+  GetUser getUser = GetUser(follow_status: 0);
   String fullname = '';
   String nickname = '';
   String address = '';
@@ -123,10 +123,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    // Navigator.of(context)
+                                    //     .push(MaterialPageRoute(
+                                    //   builder: (context) =>
+                                    //       const SettingScreen(),
+                                    // ));
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SettingScreen(),
+                                      builder: (context) => const SettingAkun(),
                                     ));
                                   },
                                   child: const Row(
@@ -287,7 +291,7 @@ Widget _drawerHeader(context, String nickname) {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>  UserAkun(id_user: data[0].id),
+              builder: (context) => UserAkun(id_user: data[0].id),
             ));
       },
       child: Container(

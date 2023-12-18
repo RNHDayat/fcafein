@@ -286,14 +286,7 @@ class _UbahSandi2State extends State<UbahSandi2> {
                         }
                       });
                     },
-                    // (r'^(?=.*[A-Z])(?=.*\d).+$')
-                    // r'^
-                    //   (?=.*[A-Z])       // should contain at least one upper case
-                    //   (?=.*[a-z])       // should contain at least one lower case
-                    //   (?=.*?[0-9])      // should contain at least one digit
-                    //   (?=.*?[!@#\$&*~]) // should contain at least one Special character
-                    //   .{8,}             // Must be at least 8 characters in length
-                    //$
+                    
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Kata Sandi Baru tidak boleh kosong';
