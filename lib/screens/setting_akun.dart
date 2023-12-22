@@ -169,63 +169,63 @@ class _SettingAkunState extends State<SettingAkun> {
               height: 2,
               color: const Color.fromRGBO(217, 217, 217, 100),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15, right: 15, top: 15, bottom: 0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 140,
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Tambahkan Surel",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        hintText: 'nama@contoh.id',
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 7, horizontal: 15),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: [
-                          TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 20),
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.blue,
-                                  shape: const StadiumBorder()),
-                              child: const Text("Tambah Surel")),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: 2,
-              color: const Color.fromRGBO(217, 217, 217, 100),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //       left: 15, right: 15, top: 15, bottom: 0),
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     height: 140,
+            //     child: Column(
+            //       children: [
+            //         Align(
+            //           alignment: Alignment.centerLeft,
+            //           child: Text(
+            //             "Tambahkan Surel",
+            //             style: GoogleFonts.poppins(
+            //                 textStyle: const TextStyle(
+            //                     fontSize: 14, fontWeight: FontWeight.w600)),
+            //           ),
+            //         ),
+            //         const SizedBox(
+            //           height: 5,
+            //         ),
+            //         TextField(
+            //           decoration: InputDecoration(
+            //             border: OutlineInputBorder(
+            //               borderRadius: BorderRadius.circular(10.0),
+            //             ),
+            //             hintText: 'nama@contoh.id',
+            //             contentPadding: const EdgeInsets.symmetric(
+            //                 vertical: 7, horizontal: 15),
+            //           ),
+            //         ),
+            //         const SizedBox(
+            //           height: 10,
+            //         ),
+            //         Align(
+            //           alignment: Alignment.centerLeft,
+            //           child: Row(
+            //             children: [
+            //               TextButton(
+            //                   onPressed: () {},
+            //                   style: TextButton.styleFrom(
+            //                       padding: const EdgeInsets.symmetric(
+            //                           vertical: 10, horizontal: 20),
+            //                       foregroundColor: Colors.white,
+            //                       backgroundColor: Colors.blue,
+            //                       shape: const StadiumBorder()),
+            //                   child: const Text("Tambah Surel")),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   height: 2,
+            //   color: const Color.fromRGBO(217, 217, 217, 100),
+            // ),
             Padding(
               padding:
                   const EdgeInsets.only(left: 15, right: 0, top: 15, bottom: 0),

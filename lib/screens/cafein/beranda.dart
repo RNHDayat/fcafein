@@ -155,17 +155,11 @@ class _HomeCafeinState extends State<HomeCafein> {
                       onPressed: () async {
                         final _db = DBhelper();
                         var data = await _db.getToken();
-                        Logout.logout(data[0].token).then((value) async {
-                          if (value == 200) {
-                            await _db.deleteToken();
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                                (route) => false);
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        });
+                        Logout.logout(data[0].token);
+                        await _db.deleteToken();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => Login()),
+                            (route) => false);
                       },
                       child: Text(
                         "Keluar",

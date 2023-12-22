@@ -104,17 +104,6 @@ class Logout {
       );
       return response.statusCode;
     } else {
-      toastMessage = "Logout failed. Status Code: ${response.statusCode}";
-      toastColor = Colors.red;
-      Fluttertoast.showToast(
-        msg: toastMessage,
-        backgroundColor: toastColor,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
       return response.statusCode;
     }
   }
@@ -407,6 +396,81 @@ class Postings {
       );
     }
   }
+
+  static Future<Postings?> update(String id, String title, String description,
+      String token, String id_knowField, File? image, File? doc) async {
+    Uri url = Uri.parse(URL + "posting/update/$id");
+
+    var request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = 'Bearer $token'
+      ..headers['Accept'] = 'application/json'
+      ..headers['login-type'] = '0';
+    // request.fields['id'] = id;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['id_knowField'] = id_knowField;
+
+    if (image != null) {
+      var stream = new http.ByteStream(image.openRead());
+      stream.cast();
+      var length = await image.length();
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',
+          image.path, // Adjust the content type accordingly
+        ),
+      );
+    }
+    if (doc != null) {
+      var stream = new http.ByteStream(doc.openRead());
+      stream.cast();
+      var length = await doc.length();
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'doc',
+          doc.path, // Adjust the content type accordingly
+        ),
+      );
+    }
+
+    final response = await request.send();
+    try {
+      if (response.statusCode == 200) {
+        print("berhasil");
+        Fluttertoast.showToast(
+          msg: "Berhasil mengubah postingan",
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        print(response.statusCode);
+        Fluttertoast.showToast(
+          msg: "Gagal melakukan postingan",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print("Gagal posting: $e");
+      Fluttertoast.showToast(
+        msg: "Gagal melakukan postingan",
+        backgroundColor: Colors.red,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
 }
 
 class ShowFollow {
@@ -444,7 +508,7 @@ class ShowFollow {
 
   get userid => null;
 
-  Future<List<ShowFollow>> showfollowings(String token,id) async {
+  Future<List<ShowFollow>> showfollowings(String token, id) async {
     Uri url = Uri.parse(URL + "followuser/showfollowings/$id");
     var response = await http.get(
       url,
@@ -466,7 +530,8 @@ class ShowFollow {
       throw {print("gagal post")};
     }
   }
-  Future<List<ShowFollow>> showfollowers(String token,id) async {
+
+  Future<List<ShowFollow>> showfollowers(String token, id) async {
     Uri url = Uri.parse(URL + "followuser/showfollowers/$id");
     var response = await http.get(
       url,
@@ -499,7 +564,7 @@ class ShowFollow {
 //       nickname,
 //       company,
 //       job_position;
-// 
+//
 //   Followers(
 //       {this.id,
 //       this.id_user,

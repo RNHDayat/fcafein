@@ -16,7 +16,7 @@ import 'package:powershare/screens/add_Klokasi.dart';
 import 'package:powershare/screens/add_Kpekerjaan.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/add_Kruang.dart';
-import 'package:powershare/screens/add_Ktopik.dart';
+import 'package:powershare/screens/add_Ktopik.dart'; 
 import 'package:powershare/screens/add_question.dart';
 import 'package:powershare/screens/add_tahutentang.dart';
 import 'package:powershare/screens/audiens.dart';

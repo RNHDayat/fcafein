@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/pgHome.dart';
+import 'package:powershare/screens/user_akun.dart';
 import 'package:powershare/services/global.dart';
 
 import 'model/dbhelper.dart';
@@ -218,49 +219,52 @@ class _DetailPostingState extends State<DetailPosting> {
                   15 * fem,
                   0,
                 ),
-                child: Container(
-                  child: IntrinsicHeight(
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            color: Colors.grey[200],
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 28,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: ListTile(
-                            title: Row(
-                              children: [
-                                Text(widget.nickname),
-                              ],
+                child: GestureDetector(
+                  // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserAkun(id_user: widget.),)),
+                  child: Container(
+                    child: IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              color: Colors.grey[200],
                             ),
-                            subtitle: Text(
-                              widget.company,
-                              overflow: TextOverflow.ellipsis,
+                            child: const Icon(
+                              Icons.person,
+                              size: 28,
                             ),
                           ),
-                        ),
-                        // const Expanded(
-                        //   flex: 1,
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Text("Diperbarui 2th"),
-                        //       SizedBox(
-                        //         height: 20,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
+                          Expanded(
+                            flex: 3,
+                            child: ListTile(
+                              title: Row(
+                                children: [
+                                  Text(widget.nickname),
+                                ],
+                              ),
+                              subtitle: Text(
+                                widget.company,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          // const Expanded(
+                          //   flex: 1,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       Text("Diperbarui 2th"),
+                          //       SizedBox(
+                          //         height: 20,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -825,26 +829,26 @@ Widget _buildCommentItemLvl2(
                 ],
               ),
             ),
-            Visibility(
-              visible: idLogin == comment.id_user,
-              child: PopupMenuButton(
-                icon: Icon(Icons.more_vert),
-                onSelected: (value) {
-                  deleteComment(comment.id_postings);
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: 'item1',
-                    child: Text(
-                      'Hapus',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Visibility(
+            //   visible: idLogin == comment.id_user,
+            //   child: PopupMenuButton(
+            //     icon: Icon(Icons.more_vert),
+            //     onSelected: (value) {
+            //       deleteComment(comment.id_postings);
+            //     },
+            //     itemBuilder: (context) => [
+            //       PopupMenuItem(
+            //         value: 'item1',
+            //         child: Text(
+            //           'Hapus',
+            //           style: TextStyle(
+            //             color: Colors.red,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
         if (comment.repliedData.isNotEmpty) ...[

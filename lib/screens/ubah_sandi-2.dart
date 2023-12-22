@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/components/showToast.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
@@ -168,10 +169,12 @@ class _UbahSandi2State extends State<UbahSandi2> {
                           confirmPasswordController.text) {
                         if (isPasswordValid(newPasswordController.text)) {
                           _changePassword(newPasswordController.text);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const SettingScreen()),
+                              builder: (context) =>
+                                  const BottomNavBar(currentIndex: 0),
+                            ),
                           );
                         } else {
                           ShowToast.showErrorSnackbar(
@@ -286,7 +289,6 @@ class _UbahSandi2State extends State<UbahSandi2> {
                         }
                       });
                     },
-                    
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Kata Sandi Baru tidak boleh kosong';

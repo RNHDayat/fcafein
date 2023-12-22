@@ -146,8 +146,8 @@ class _PgFollowingState extends State<PgFollowing> {
   final _scrollController = ScrollController();
   bool _showBackToTopButton = false;
   bool isExpanded = false;
-  String title =
-      "Satu kata yang muncul di pikiranku ketika melihat foto ini, PEDIH! Bagaimana dengan kalian?Halo para Quorawan, ini tulisan pertamaku so m";
+  // String title =
+      // "Satu kata yang muncul di pikiranku ketika melihat foto ini, PEDIH! Bagaimana dengan kalian?Halo para Quorawan, ini tulisan pertamaku so m";
 
   final _perPage = 3;
   final controller = ScrollController();

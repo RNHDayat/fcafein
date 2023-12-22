@@ -71,15 +71,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   List pages = [
-    const Home(),
+     Home(),
     // PageFollowing(),
     PgFollowing(),
     // const Following(),
     // Answer(),
     // Comment(),
     PgComment(),
-    const ScreenRuang(),
-    const PageNotification(),
+     ScreenRuang(),
+     PageNotification(),
   ];
 
   final scaffoldKey = GlobalKey<ScaffoldState>();

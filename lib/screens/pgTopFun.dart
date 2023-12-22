@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:powershare/model/database.dart';
+import 'package:powershare/screens/user_akun.dart';
 
 class PageTopFun extends StatefulWidget {
   const PageTopFun({super.key});
@@ -94,45 +95,55 @@ Widget buildList(BuildContext ctxt, int index, List<TopFun> leaderBoardList) {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
         boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5.0)]),
-    child: Row(
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            // color: Colors.red,
-            // alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                crown,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0, top: 3),
-                      child: Text(
-                        leaderBoardList[index].fullname,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
+    child: GestureDetector(
+      onTap: () => Navigator.push(
+          ctxt,
+          MaterialPageRoute(
+            builder: (context) =>
+                UserAkun(id_user: leaderBoardList[index].id_user),
+          )),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              // color: Colors.red,
+              // alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  crown,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 3),
+                        child: Text(
+                          leaderBoardList[index].fullname,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            leaderBoardList[index].point.toString() + " pts ",
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-        )
-      ],
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              leaderBoardList[index].point.toString() + " pts ",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
+          )
+        ],
+      ),
     ),
   );
 }

@@ -10,6 +10,7 @@ import 'package:powershare/pgDetailPosting.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
 import 'package:powershare/screens/add_tahutentang.dart';
 import 'package:powershare/screens/edit_profile.dart';
+import 'package:powershare/screens/edit_question.dart';
 import 'package:powershare/screens/screen_ruang.dart';
 import 'package:powershare/screens/user_follower.dart';
 import 'package:share_plus/share_plus.dart';
@@ -978,120 +979,191 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            context: context,
-                                            builder: (context) {
-                                              return Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Container(
-                                                    // width: double.infinity,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            15),
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Stack(
-                                                      alignment:
-                                                          Alignment.centerLeft,
+                                      idUserLogin != widget.id_user
+                                          ? Container()
+                                          : GestureDetector(
+                                              onTap: () {
+                                                showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: <Widget>[
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Icon(
-                                                              Icons.close,
-                                                              color: Colors
-                                                                  .red[900]),
-                                                        ),
-                                                        const Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            Text(
-                                                              'Pilih',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      DeletePosting.delete(
-                                                              token, item.id)
-                                                          .then((value) {
-                                                        if (value.statusCode ==
-                                                            200) {
-                                                          Fluttertoast
-                                                              .showToast(
-                                                            msg: jsonDecode(
-                                                                    value.body)[
-                                                                "msg"],
-                                                            backgroundColor:
-                                                                Colors.green,
-                                                            toastLength: Toast
-                                                                .LENGTH_SHORT,
-                                                            gravity:
-                                                                ToastGravity
-                                                                    .BOTTOM,
-                                                            timeInSecForIosWeb:
-                                                                1,
-                                                            textColor:
-                                                                Colors.white,
-                                                            fontSize: 16.0,
-                                                          );
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      width:
-                                                          MediaQuery.of(context)
+                                                        Container(
+                                                          // width: double.infinity,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(15),
+                                                          width: MediaQuery.of(
+                                                                  context)
                                                               .size
                                                               .width,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        border: Border(
-                                                          top: BorderSide(
-                                                              width: 0.5,
-                                                              color:
-                                                                  Colors.grey),
+                                                          child: Stack(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            children: <Widget>[
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Icon(
+                                                                    Icons.close,
+                                                                    color: Colors
+                                                                            .red[
+                                                                        900]),
+                                                              ),
+                                                              const Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: <Widget>[
+                                                                  Text(
+                                                                    'Pilih',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text("Hapus",
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .red[900],
-                                                            )),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: const Icon(Icons.more_horiz),
-                                      ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) {
+                                                                  return EditPertanyaan(
+                                                                    initialIndex:
+                                                                        0,
+                                                                    id: item.id,
+                                                                    title: item
+                                                                        .title,
+                                                                    description:
+                                                                        item.description,
+                                                                    image: item
+                                                                        .image,
+                                                                  );
+                                                                },
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              border: Border(
+                                                                top: BorderSide(
+                                                                    width: 0.5,
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                  "Edit",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                            .green[
+                                                                        900],
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            DeletePosting.delete(
+                                                                    token,
+                                                                    item.id
+                                                                        .toString())
+                                                                .then((value) {
+                                                              if (value
+                                                                      .statusCode ==
+                                                                  200) {
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                  msg: jsonDecode(
+                                                                          value
+                                                                              .body)[
+                                                                      "msg"],
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .green,
+                                                                  toastLength: Toast
+                                                                      .LENGTH_SHORT,
+                                                                  gravity:
+                                                                      ToastGravity
+                                                                          .BOTTOM,
+                                                                  timeInSecForIosWeb:
+                                                                      1,
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  fontSize:
+                                                                      16.0,
+                                                                );
+                                                                Navigator.pop(
+                                                                    context);
+                                                                getPostingProfile();
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              border: Border(
+                                                                top: BorderSide(
+                                                                    width: 0.5,
+                                                                    color: Colors
+                                                                        .grey),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                  "Hapus",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                            .red[
+                                                                        900],
+                                                                  )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child:
+                                                  const Icon(Icons.more_horiz),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -1794,13 +1866,13 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                     padding: const EdgeInsets.all(15.0),
                     child: Row(
                       children: [
-                        PhotoZoomIconButton(
-                          imageUrl:
-                              'https://i.pinimg.com/originals/cf/03/2f/cf032f1176f42bbeb000c53fdace7f40.jpg',
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
+                        // PhotoZoomIconButton(
+                        //   imageUrl:
+                        //       'https://i.pinimg.com/originals/cf/03/2f/cf032f1176f42bbeb000c53fdace7f40.jpg',
+                        // ),
+                        // const SizedBox(
+                        //   width: 15,
+                        // ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1929,7 +2001,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                           //     });
                                           //   }
                                           // });
-                                           user.follow_status = 3;
+                                          user.follow_status = 3;
                                           setState(() {});
                                         },
                                         buttonText: 'Following',
@@ -1950,7 +2022,7 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                           //     });
                                           //   }
                                           // });
-                                           user.follow_status = 1;
+                                          user.follow_status = 1;
                                           setState(() {});
                                         },
                                         buttonText: 'Follow',
@@ -2532,55 +2604,58 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                         //   ),
                         // ),
 
-                        ListView.builder(
-                          itemCount: credentials.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                getIcon(credentials[index].type),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
+                        credentials.isEmpty
+                            ? Text('-')
+                            : ListView.builder(
+                                itemCount: credentials.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return Row(
                                     children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          credentials[index].description,
-                                          style: GoogleFonts.poppins(
-                                              textStyle: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400)),
-                                        ),
+                                      getIcon(credentials[index].type),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
-                                      // Align(
-                                      //   alignment: Alignment.centerLeft,
-                                      //   child: Column(
-                                      //     children: [
-                                      //       Text(
-                                      //         "Utama",
-                                      //         style: GoogleFonts.poppins(
-                                      //             textStyle: const TextStyle(
-                                      //                 fontSize: 14,
-                                      //                 fontWeight:
-                                      //                     FontWeight.w400,
-                                      //                 color: Colors.grey)),
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
+                                      Expanded(
+                                          child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                credentials[index].description,
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400)),
+                                              ),
+                                            ),
+                                            // Align(
+                                            //   alignment: Alignment.centerLeft,
+                                            //   child: Column(
+                                            //     children: [
+                                            //       Text(
+                                            //         "Utama",
+                                            //         style: GoogleFonts.poppins(
+                                            //             textStyle: const TextStyle(
+                                            //                 fontSize: 14,
+                                            //                 fontWeight:
+                                            //                     FontWeight.w400,
+                                            //                 color: Colors.grey)),
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
+                                      )),
                                     ],
-                                  ),
-                                )),
-                              ],
-                            );
-                          },
-                        ),
+                                  );
+                                },
+                              ),
                       ],
                     ),
                   ),
