@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:powershare/bottomNavBar.dart';
 import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/pgLogin.dart';
@@ -114,91 +115,29 @@ class _HomeCafeinState extends State<HomeCafein> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Image.asset("assets/logo/ic_cafein.png"),
         backgroundColor: Colors.white,
-        elevation: 2,
+        elevation: 0,
         title: Text(
           "CafeIN",
           style: TextStyle(color: Colors.blue),
         ),
         centerTitle: true,
-        actions: [
-          PopupMenuButton(
-            icon: Icon(Icons.more_vert),
-            onSelected: (value) {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  content:
-                      StatefulBuilder(builder: (BuildContext context, state) {
-                    return Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 5),
-                          Text(
-                            'Anda yakin ingin keluar?',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Batal"),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        final _db = DBhelper();
-                        var data = await _db.getToken();
-                        Logout.logout(data[0].token);
-                        await _db.deleteToken();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => Login()),
-                            (route) => false);
-                      },
-                      child: Text(
-                        "Keluar",
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'item1',
-                child: Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
       body: Container(
         padding: EdgeInsets.all(15),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Colors.blue.shade200,
-            ],
-          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          //   colors: [
+          //     Colors.white,
+          //     Colors.blue.shade200,
+          //   ],
+          // ),
+          color: Colors.grey[200],
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -214,47 +153,49 @@ class _HomeCafeinState extends State<HomeCafein> {
                               builder: (context) => Regulasi(),
                             ),
                           )),
-                      child: AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(
-                                    0.2), // Warna dan opasitas bayangan
-                                offset: Offset(0, 2), // Geser bayangan
-                                blurRadius: 4, // Radius blur
-                                spreadRadius: 1, // Radius penyebaran
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/icon/reg.png",
-                                height: 75,
-                                width: 75,
-                                fit: BoxFit.fitWidth,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Regulasi",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            ],
-                          ),
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0),
+                          // // boxShadow: [
+                          // //   BoxShadow(
+                          // //     color: Colors.black.withOpacity(
+                          // //         0.2), // Warna dan opasitas bayangan
+                          // //     offset: Offset(0, 2), // Geser bayangan
+                          // //     blurRadius: 4, // Radius blur
+                          // //     spreadRadius: 1, // Radius penyebaran
+                          // //   ),
+                          // ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Regulasi",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            SizedBox(height: 10),
+                            Image.asset(
+                              "assets/icon/reg.png",
+                              height: 75,
+                              width: 75,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
                   Expanded(
                       child: GestureDetector(
                     onTap: () => Navigator.push(
@@ -263,40 +204,37 @@ class _HomeCafeinState extends State<HomeCafein> {
                         builder: (context) => Media(),
                       ),
                     ),
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(
-                                  0.2), // Warna dan opasitas bayangan
-                              offset: Offset(0, 2), // Geser bayangan
-                              blurRadius: 4, // Radius blur
-                              spreadRadius: 1, // Radius penyebaran
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/icon/folder.png",
-                              height: 75,
-                              width: 75,
-                              fit: BoxFit.fitWidth,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Media",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                          ],
-                        ),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(
+                        //         0.2), // Warna dan opasitas bayangan
+                        //     offset: Offset(0, 2), // Geser bayangan
+                        //     blurRadius: 4, // Radius blur
+                        //     spreadRadius: 1, // Radius penyebaran
+                        //   ),
+                        // ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Media",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          SizedBox(height: 10),
+                          Image.asset(
+                            "assets/icon/folder.png",
+                            height: 75,
+                            width: 75,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ],
                       ),
                     ),
                   )),
@@ -312,7 +250,7 @@ class _HomeCafeinState extends State<HomeCafein> {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SplashScreen(),
+                          builder: (context) => BottomNavBar(currentIndex: 0),
                         ),
                       ),
                       child: Container(
@@ -320,15 +258,15 @@ class _HomeCafeinState extends State<HomeCafein> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(
-                                  0.2), // Warna dan opasitas bayangan
-                              offset: Offset(0, 2), // Geser bayangan
-                              blurRadius: 4, // Radius blur
-                              spreadRadius: 1, // Radius penyebaran
-                            ),
-                          ],
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Colors.black.withOpacity(
+                          //         0.2), // Warna dan opasitas bayangan
+                          //     offset: Offset(0, 2), // Geser bayangan
+                          //     blurRadius: 4, // Radius blur
+                          //     spreadRadius: 1, // Radius penyebaran
+                          //   ),
+                          // ],
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -343,7 +281,7 @@ class _HomeCafeinState extends State<HomeCafein> {
                               width: 15,
                             ),
                             Image.asset(
-                              "assets/logo/logoss.png",
+                              "assets/logo/logos.png",
                               height: 50,
                               width: 50,
                               fit: BoxFit.fitWidth,

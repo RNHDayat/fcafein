@@ -214,11 +214,11 @@ class _BookRegulasiState extends State<BookRegulasi> {
                                 ),
                               ),
                               SizedBox(width: 5),
-                              Icon(
-                                Icons.share,
-                                color: Colors.blue.shade900,
-                              ),
-                              SizedBox(width: 5),
+                              // Icon(
+                              //   Icons.share,
+                              //   color: Colors.blue.shade900,
+                              // ),
+                              // SizedBox(width: 5),
                             ],
                           ),
                         ],

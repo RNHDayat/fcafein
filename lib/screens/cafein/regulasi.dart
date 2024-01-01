@@ -269,10 +269,10 @@ class _RegulasiState extends State<Regulasi> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.blue.shade900,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
-                ),
+                // borderRadius: BorderRadius.only(
+                //   bottomLeft: Radius.circular(50),
+                //   bottomRight: Radius.circular(50),
+                // ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -449,15 +449,15 @@ class _RegulasiState extends State<Regulasi> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(
-                                        0.2), // Warna dan opasitas bayangan
-                                    offset: Offset(0, 2), // Geser bayangan
-                                    blurRadius: 4, // Radius blur
-                                    spreadRadius: 1, // Radius penyebaran
-                                  ),
-                                ],
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Colors.black.withOpacity(
+                                //         0.2), // Warna dan opasitas bayangan
+                                //     offset: Offset(0, 2), // Geser bayangan
+                                //     blurRadius: 4, // Radius blur
+                                //     spreadRadius: 1, // Radius penyebaran
+                                //   ),
+                                // ],
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,

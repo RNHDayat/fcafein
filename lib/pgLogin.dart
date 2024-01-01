@@ -113,7 +113,7 @@ class _LoginState extends State<Login> {
               margin: const EdgeInsets.only(top: 100),
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Image.asset("assets/logo/logo.png",
+                child: Image.asset("assets/logo/ic_cafein.png",
                     width: MediaQuery.of(context).size.width),
               ),
             ),

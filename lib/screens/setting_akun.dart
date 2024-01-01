@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import 'package:powershare/pgHome.dart';
+import 'package:powershare/pgLogin.dart';
 import 'package:powershare/screens/setting_screen.dart';
 import 'package:powershare/screens/ubah_sandi-1.dart';
 
@@ -99,6 +100,70 @@ class _SettingAkunState extends State<SettingAkun> {
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            onSelected: (value) {
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  content:
+                      StatefulBuilder(builder: (BuildContext context, state) {
+                    return Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 5),
+                          Text(
+                            'Anda yakin ingin keluar?',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Batal"),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        final _db = DBhelper();
+                        var data = await _db.getToken();
+                        Logout.logout(data[0].token);
+                        await _db.deleteToken();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => Login()),
+                            (route) => false);
+                      },
+                      child: Text(
+                        "Keluar",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'item1',
+                child: Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

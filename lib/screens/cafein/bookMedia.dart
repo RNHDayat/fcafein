@@ -279,11 +279,11 @@ class _BookMediaState extends State<BookMedia> {
                                 ),
                               ),
                               SizedBox(width: 5),
-                              Icon(
-                                Icons.share,
-                                color: Colors.blue.shade900,
-                              ),
-                              SizedBox(width: 5),
+                              // Icon(
+                              //   Icons.share,
+                              //   color: Colors.blue.shade900,
+                              // ),
+                              // SizedBox(width: 5),
                             ],
                           ),
                         ],
