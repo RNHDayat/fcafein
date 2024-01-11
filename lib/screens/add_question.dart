@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:powershare/add_ilmu.dart';
 import 'package:powershare/screens/add_Kredensial.dart';
@@ -30,11 +32,22 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
     const Tab(text: 'Tambahkan Pertanyaan'),
     // const Tab(text: 'Buat kiriman Informasi'),
   ];
+  PageIlmu? ruang;
+  List<String> ruangs = [];
+  String? selectedValue;
+  final TextEditingController textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
 
   bool isChecked = true;
   bool hastag = false;
   int? tabIndex;
 
+  List<PageIlmu?> ilmu = [];
   List<PageIlmu> listIlmu = [];
   List<PageIlmu> _searchTag = [];
   List<PageIlmu> viewSelected = [];
@@ -45,6 +58,8 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
     final _db = DBhelper();
     var data = await _db.getToken();
     listIlmu = await pageIlmu.get(data[0].token);
+    ilmu = await pageIlmu.get(data[0].token);
+    ruangs = listIlmu.map((e) => e.codeIlmu).toList().cast<String>();
     setState(() {});
   }
 
@@ -54,6 +69,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
       setState(() {});
       return;
     }
+
     listIlmu.forEach((element) {
       if (element.name.toLowerCase().contains(text.toLowerCase())) {
         _searchTag.add(element);
@@ -79,13 +95,30 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
   }
 
   File? imageFile;
+  var maxFileSizeInBytes = 2 * 1048576;
   final _picker = ImagePicker();
   Future getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    var imagePath = await pickedFile!.readAsBytes();
+    var fileSize = imagePath.length; // Get the file size in bytes
     if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
+      if (fileSize <= maxFileSizeInBytes) {
+        // File is the right size, upload/use it
+        setState(() {
+          imageFile = File(pickedFile.path);
+        });
+      } else {
+        // File is too large, ask user to upload a smaller file, or compress the file/image
+        Fluttertoast.showToast(
+          msg: "Ukuran gambar terlalu besar",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
     }
   }
 
@@ -97,11 +130,27 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc'],
     );
+    var fileSize = File(pickedFile!.files.single.path!)
+        .lengthSync(); // Get the file size in bytes
+    double sizeInMb = fileSize / (1024 * 1024);
     if (pickedFile != null) {
-      setState(() {
-        docFile = File(pickedFile!.files.single.path!);
-        fileName = pickedFile!.files.single.name;
-      });
+      if (sizeInMb < 10) {
+        setState(() {
+          docFile = File(pickedFile!.files.single.path!);
+          fileName = pickedFile!.files.single.name;
+        });
+      } else {
+        // File is too large, ask user to upload a smaller file, or compress the file/image
+        Fluttertoast.showToast(
+          msg: "Ukuran file terlalu besar",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
     }
   }
   // String? getStringImage(File? file) {
@@ -109,7 +158,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
   //   return base64Encode(file.readAsBytesSync());
   // }
 
-  GlobalKey<FormState> key = GlobalKey<FormState>();
+  final key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +268,8 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                         title.text,
                         description.text,
                         data[0].token,
-                        selected.isEmpty ? '' : jsonEncode(selected),
+                        // selected.isEmpty ? '' : jsonEncode(selected),
+                        ruang!.codeIlmu,
                         imageFile,
                         docFile);
                     setState(() {
@@ -505,10 +555,43 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                                         hastag
                                             ? onSearch(x.split('#')[1])
                                             : onSearch('');
-                                        // print(_searchTag);
                                       });
                                     },
                                   ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 0,
+                          bottom: 15,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: 'Ruang',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: ' *',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -522,86 +605,33 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
                           top: 0,
                           bottom: 0,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                text: 'Tag',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                        // decoration: BoxDecoration(
+                        //   border: Border.all(color: Colors.black),
+                        //   borderRadius: BorderRadius.all(
+                        //     Radius.circular(10),
+                        //   ),
+                        // ),
+                        child: DropdownButtonFormField<PageIlmu?>(
+                          validator: (value) =>
+                              value == null ? 'field required' : null,
+                          value: ruang,
+                          onChanged: (value) {
+                            setState(() {
+                              ruang = value;
+                            });
+                          },
+                          hint: Text("Pilih ruang"),
+                          isExpanded: true,
+                          items: ilmu
+                              .map<DropdownMenuItem<PageIlmu>>(
+                                (e) => DropdownMenuItem(
+                                  child: Text(
+                                    (e?.name ?? '').toString(),
+                                  ),
+                                  value: e,
                                 ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: ' (Optional)',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 0, bottom: 0),
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller: tag,
-                              maxLines: null,
-                              decoration: InputDecoration(
-                                hintText: 'Tag ilmu sesuai postingan anda',
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                prefixIcon: selected.length < 1
-                                    ? null
-                                    : Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: Wrap(
-                                            spacing: 5,
-                                            runSpacing: 5,
-                                            children: viewSelected.map((s) {
-                                              return Chip(
-                                                  backgroundColor:
-                                                      Colors.blue[100],
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            7),
-                                                  ),
-                                                  label: Text(s.name,
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .blue[900])),
-                                                  onDeleted: () {
-                                                    setState(() {
-                                                      selected.remove(s);
-                                                    });
-                                                  });
-                                            }).toList()),
-                                      ),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  hastag = value.contains('#');
-                                  var x = value;
-                                  // print(x.split('#')[1]);
-                                  hastag
-                                      ? onSearch(x.split('#')[1])
-                                      : onSearch('');
-                                  // print(_searchTag);
-                                });
-                              },
-                            ),
-                          ],
+                              )
+                              .toList(),
                         ),
                       ),
                       //add image

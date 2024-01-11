@@ -1752,7 +1752,9 @@ class _UserAkun extends State<UserAkun> with SingleTickerProviderStateMixin {
                                                     GestureDetector(
                                                       onTap: () {
                                                         DeletePosting.delete(
-                                                                token, item.id)
+                                                                token,
+                                                                item.id
+                                                                    .toString())
                                                             .then((value) {
                                                           if (value
                                                                   .statusCode ==

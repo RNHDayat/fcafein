@@ -29,7 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   bool search = true;
   bool addQuestion = true;
   // int _currentIndex = 0;
-  String _currentMenu = 'Home';
+  String _currentMenu = 'Powershare';
   int? getIndex;
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       getIndex = index;
       if (index == 0) {
-        _currentMenu = 'Beranda';
+        _currentMenu = 'Powershare';
         search = true;
         addQuestion = true;
       } else if (index == 1) {
@@ -71,15 +71,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
   }
 
   List pages = [
-     Home(),
+    Home(),
     // PageFollowing(),
     PgFollowing(),
     // const Following(),
     // Answer(),
     // Comment(),
     PgComment(),
-     ScreenRuang(),
-     PageNotification(),
+    ScreenRuang(),
+    PageNotification(),
   ];
 
   final scaffoldKey = GlobalKey<ScaffoldState>();

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:powershare/OnBoard/onBoard.dart';
+import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/pgFollowingBACKUP.dart';
 import 'package:powershare/pgHome.dart';
 import 'package:powershare/bottomNavBar.dart';
@@ -21,6 +22,7 @@ import 'package:powershare/screens/add_question.dart';
 import 'package:powershare/screens/add_tahutentang.dart';
 import 'package:powershare/screens/audiens.dart';
 import 'package:powershare/screens/audiens_post.dart';
+import 'package:powershare/screens/cafein/beranda.dart';
 import 'package:powershare/screens/edit_Nama.dart';
 import 'package:powershare/screens/edit_biografi.dart';
 import 'package:powershare/screens/edit_profile.dart';
@@ -44,25 +46,6 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   // announcement: false,
-  //   badge: true,
-  //   // carPlay: false,
-  //   // criticalAlert: false,
-  //   // provisional: false,
-  //   sound: true,
-  // );
-
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  //Ketika Terminated
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await FlutterDownloader.initialize(
       debug:
@@ -84,6 +67,23 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  String token = '';
+  getToken() async {
+    final _db = DBhelper();
+    var data = await _db.getToken();
+    setState(() {
+      token = data[0].token;
+    });
+    print(data);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getToken();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
           themeMode: currentMode,
           theme: ThemeData(primarySwatch: Colors.lightBlue),
           // home: const SplashScreen(),
-          home: Login(),
+          home: token.isEmpty ? Login() : HomeCafein(),
         );
       },
     );
@@ -146,18 +146,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(

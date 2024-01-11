@@ -167,24 +167,24 @@ class _ScreenRuangState extends State<ScreenRuang> {
                     left: 15, right: 15, top: 15, bottom: 0),
                 child: Row(
                   children: [
-                    OutlinedButton.icon(
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Add_ilmu())),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.blue),
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(18.0),
-                        ),
-                      ),
-                      icon: const Icon(Icons.add_circle_outline),
-                      label: const Text("Buat"),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    // OutlinedButton.icon(
+                    //   onPressed: () => Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => const Add_ilmu())),
+                    //   style: OutlinedButton.styleFrom(
+                    //     side: const BorderSide(color: Colors.blue),
+                    //     shape: RoundedRectangleBorder(
+                    //       side: const BorderSide(color: Colors.black),
+                    //       borderRadius: BorderRadius.circular(18.0),
+                    //     ),
+                    //   ),
+                    //   icon: const Icon(Icons.add_circle_outline),
+                    //   label: const Text("Buat"),
+                    // ),
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
                     // OutlinedButton.icon(
                     //   onPressed: () => scrollToIndex(),
                     //   style: OutlinedButton.styleFrom(
@@ -256,8 +256,7 @@ class _ScreenRuangState extends State<ScreenRuang> {
                 // color: const Color(0x30726D6D),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 0
-                      , bottom: 4),
+                      left: 15, right: 15, top: 0, bottom: 4),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

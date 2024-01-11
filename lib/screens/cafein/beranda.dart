@@ -137,7 +137,7 @@ class _HomeCafeinState extends State<HomeCafein> {
           //     Colors.blue.shade200,
           //   ],
           // ),
-          color: Colors.grey[200],
+          color: Colors.grey[300],
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -179,7 +179,7 @@ class _HomeCafeinState extends State<HomeCafein> {
                             ),
                             SizedBox(height: 10),
                             Image.asset(
-                              "assets/icon/reg.png",
+                              "assets/logo/reg.png",
                               height: 75,
                               width: 75,
                               fit: BoxFit.fitWidth,
@@ -229,7 +229,7 @@ class _HomeCafeinState extends State<HomeCafein> {
                           ),
                           SizedBox(height: 10),
                           Image.asset(
-                            "assets/icon/folder.png",
+                            "assets/logo/media.png",
                             height: 75,
                             width: 75,
                             fit: BoxFit.fitWidth,

@@ -333,7 +333,7 @@ class Postings {
       ..headers['login-type'] = '0';
     request.fields['title'] = title;
     request.fields['description'] = description;
-    request.fields['id_knowField'] = id_knowField;
+    request.fields['id_knowField'] = "[\"$id_knowField\"]";
 
     if (image != null) {
       var stream = new http.ByteStream(image.openRead());
