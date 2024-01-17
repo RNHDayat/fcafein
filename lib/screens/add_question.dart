@@ -134,7 +134,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
         .lengthSync(); // Get the file size in bytes
     double sizeInMb = fileSize / (1024 * 1024);
     if (pickedFile != null) {
-      if (sizeInMb < 10) {
+      if (sizeInMb <= 2) {
         setState(() {
           docFile = File(pickedFile!.files.single.path!);
           fileName = pickedFile!.files.single.name;

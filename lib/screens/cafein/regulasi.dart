@@ -285,9 +285,9 @@ class _RegulasiState extends State<Regulasi> {
                         color: Colors.white),
                   ),
                   Image.asset(
-                    "assets/icon/reg.png",
-                    height: 75,
-                    width: 75,
+                    "assets/logo/ic_reg.png",
+                    height: 80,
+                    width: 80,
                     fit: BoxFit.fitWidth,
                   ),
                   Padding(

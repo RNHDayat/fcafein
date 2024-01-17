@@ -240,9 +240,9 @@ class _MediaState extends State<Media> {
                         color: Colors.white),
                   ),
                   Image.asset(
-                    "assets/icon/folder.png",
-                    height: 75,
-                    width: 75,
+                    "assets/logo/ic_media.png",
+                    height: 100,
+                    width: 100,
                     fit: BoxFit.fitWidth,
                   ),
                   Padding(

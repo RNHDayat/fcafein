@@ -4,6 +4,7 @@ import 'package:powershare/model/database.dart';
 import 'package:powershare/model/dbhelper.dart';
 import 'package:powershare/pgDetailIlmu.dart';
 import 'package:powershare/screens/setting_screen.dart';
+import 'dart:math' as math;
 
 class listItem extends StatefulWidget {
   @override
@@ -81,6 +82,8 @@ class _listItemState extends State<listItem> {
             margin: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: Colors.grey,
+              // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+              //     .withOpacity(1.0),
               borderRadius: BorderRadius.circular(15),
             ),
             child: GestureDetector(

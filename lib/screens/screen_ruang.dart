@@ -242,7 +242,7 @@ class _ScreenRuangState extends State<ScreenRuang> {
                             Icon(Icons.keyboard_arrow_right),
                           ],
                         ),
-                        icon: const Icon(Icons.account_circle_outlined),
+                        icon: const Icon(Icons.group),
                       ),
                     ),
                   );

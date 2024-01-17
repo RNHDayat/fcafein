@@ -179,9 +179,9 @@ class _HomeCafeinState extends State<HomeCafein> {
                             ),
                             SizedBox(height: 10),
                             Image.asset(
-                              "assets/logo/reg.png",
-                              height: 75,
-                              width: 75,
+                              "assets/logo/ic_reg.png",
+                              height: 50,
+                              width: 50,
                               fit: BoxFit.fitWidth,
                             ),
                           ],
@@ -229,7 +229,7 @@ class _HomeCafeinState extends State<HomeCafein> {
                           ),
                           SizedBox(height: 10),
                           Image.asset(
-                            "assets/logo/media.png",
+                            "assets/logo/ic_media.png",
                             height: 75,
                             width: 75,
                             fit: BoxFit.fitWidth,
