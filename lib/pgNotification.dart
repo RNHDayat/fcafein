@@ -89,7 +89,6 @@ class _NotificationState extends State<PageNotification> {
                         }
                         formattedTime =
                             "${difference.inDays > 0 ? '${difference.inDays} hari, ' : ''}${difference.inHours} jam ${difference.inMinutes.remainder(60)} menit";
-
                         print(formattedTime);
 
                         return GestureDetector(
