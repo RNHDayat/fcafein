@@ -70,27 +70,34 @@ class _NotificationState extends State<PageNotification> {
                         List<String> words = item.body.split(' ');
                         // Mengambil elemen pertama dari array (nama)
                         String name = words.isNotEmpty ? words[0] : '';
-                        String targetTimeString =
-                            item.created_at.toString(); // Waktu yang ditentukan
+                        // Waktu yang ditentukan
+                        String targetTimeString = item.created_at.toString();
                         DateTime targetTime = DateTime.parse(targetTimeString);
+                        // Selisih waktu
                         Duration difference =
                             targetTime.toLocal().difference(DateTime.now());
+                        // Tanda negatif
                         bool isNegative = difference.isNegative;
-
-                        if (isNegative) {
-                          difference = -difference;
+                        // Jika lebih dari 7 hari
+                        String formattedTime = '';
+                        if (difference.inDays <= 7) {
+                          // Jika lebih dari 30 hari
+                          if (difference.inDays <= 30) {
+                            formattedTime = '${difference.inDays ~/ 30} bulan';
+                          } else {
+                            formattedTime = '${difference.inDays} minggu';
+                          }
+                        } else {
+                          // Format normal
+                          formattedTime =
+                              "${difference.inDays > 0 ? '${difference.inDays} hari, ' : ''}${difference.inHours} jam ${difference.inMinutes.remainder(60)} menit";
                         }
-
-                        String formattedTime =
-                            "${difference.inDays > 0 ? '${difference.inDays} hari, ' : ''}${difference.inHours} jam ${difference.inMinutes.remainder(60)} menit";
-
-                        if (isNegative) {
-                          formattedTime = "-$formattedTime";
-                        }
-                        formattedTime =
-                            "${difference.inDays > 0 ? '${difference.inDays} hari, ' : ''}${difference.inHours} jam ${difference.inMinutes.remainder(60)} menit";
+                        formattedTime = formattedTime.replaceAll('-', '');
+                        // Tanda negatif
+                        // if (isNegative) {
+                        //   formattedTime = "-$formattedTime";
+                        // }
                         print(formattedTime);
-
                         return GestureDetector(
                           onTap: () async {
                             final _db = DBhelper();
@@ -139,7 +146,7 @@ class _NotificationState extends State<PageNotification> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${name}· ${formattedTime} yang lalu",
+                                          "${formattedTime} yang lalu",
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Text(item.body == null ? "" : item.body,
