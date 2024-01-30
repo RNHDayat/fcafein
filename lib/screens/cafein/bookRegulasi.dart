@@ -72,7 +72,7 @@ class _BookRegulasiState extends State<BookRegulasi> {
     originalListRegulasi = await showRegulasi.showReg();
     listRegulasi = listRegulasi.where((item) {
       if (bookmark != null) {
-        return bookmark!.any((bm) => item.id.toString() == bm);
+        return bookmark!.any((bm) => item.id == int.parse(bm));
       }
       return false;
     }).toList();

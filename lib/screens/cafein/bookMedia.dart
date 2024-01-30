@@ -82,12 +82,16 @@ class _BookMediaState extends State<BookMedia> {
     originalListMedia = await showMedia.showMedia();
     listMedia = listMedia.where((item) {
       if (bookmark != null) {
-        return bookmark!.any((bm) => item.id.toString().contains(bm));
+        return bookmark!.any((bm) => item.id == int.parse(bm));
       }
       return false;
     }).toList();
 
     setState(() {});
+    print(bookmark);
+    for (int i = 0; i < listMedia.length; i++) {
+      print(listMedia[i].id);
+    }
   }
 
   deleteBookmark(String id) async {

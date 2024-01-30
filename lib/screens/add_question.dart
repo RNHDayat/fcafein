@@ -95,7 +95,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
   }
 
   File? imageFile;
-  var maxFileSizeInBytes = 2 * 1048576;
+  var maxFileSizeInBytes = 300 * 1024; 
   final _picker = ImagePicker();
   Future getImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -110,7 +110,7 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
       } else {
         // File is too large, ask user to upload a smaller file, or compress the file/image
         Fluttertoast.showToast(
-          msg: "Ukuran gambar terlalu besar",
+          msg: "Ukuran gambar terlalu besar, max 300kb",
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
@@ -123,36 +123,39 @@ class _TambahPertanyaanState extends State<TambahPertanyaan> {
   }
 
   File? docFile;
-  String? fileName;
-  FilePickerResult? pickedFile;
-  Future getFile() async {
-    pickedFile = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc'],
-    );
-    var fileSize = File(pickedFile!.files.single.path!)
-        .lengthSync(); // Get the file size in bytes
-    double sizeInMb = fileSize / (1024 * 1024);
-    if (pickedFile != null) {
-      if (sizeInMb <= 2) {
-        setState(() {
-          docFile = File(pickedFile!.files.single.path!);
-          fileName = pickedFile!.files.single.name;
-        });
-      } else {
-        // File is too large, ask user to upload a smaller file, or compress the file/image
-        Fluttertoast.showToast(
-          msg: "Ukuran file terlalu besar",
-          backgroundColor: Colors.red,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
-      }
+String? fileName;
+FilePickerResult? pickedFile;
+
+Future getFile() async {
+  pickedFile = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['pdf', 'doc'],
+  );
+
+  if (pickedFile != null) {
+    var fileSize = File(pickedFile!.files.single.path!).lengthSync(); // Get the file size in bytes
+    double sizeInKb = fileSize / 1024; // Convert bytes to KB
+
+    if (sizeInKb <= 300) { // Check if file size is less than or equal to 300KB
+      setState(() {
+        docFile = File(pickedFile!.files.single.path!);
+        fileName = pickedFile!.files.single.name;
+      });
+    } else {
+      // File is too large, ask user to upload a smaller file, or compress the file/image
+      Fluttertoast.showToast(
+        msg: "Ukuran file terlalu besar, max 300kb",
+        backgroundColor: Colors.red,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
+}
+
   // String? getStringImage(File? file) {
   //   if (file == null) return null;
   //   return base64Encode(file.readAsBytesSync());
